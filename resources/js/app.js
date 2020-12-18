@@ -1,4 +1,8 @@
 import Vue from 'vue';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+import UserAuthForm from './components/UserAuthForm.vue';
+
 
 const {default: Axios} = require('axios');
 
@@ -6,6 +10,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 Vue.config.devtools = true;
+Vue.use(VueToast, {
+    position: "bottom"
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -19,6 +26,7 @@ Vue.config.devtools = true;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('VueToast', require('vue-toast-notification').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,4 +36,12 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    data(){
+        return{
+
+        }
+    },
+
+    components:{UserAuthForm},
+
 });
