@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
 
-class AuthController extends Controller
+class AuthController
 {
     //
     /**
@@ -55,7 +57,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'email' => 'required|string|email|exists:users,email',
             'password' => 'required|string',
              'remember_me' => 'boolean'
         ]);
@@ -116,7 +118,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $ex->getMessage()
-            ]);
+            ], 500);
         }
     }
 }

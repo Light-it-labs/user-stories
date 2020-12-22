@@ -27,6 +27,7 @@
         "autoprefixer": "^10.1.0",
         "postcss": "^8.2.1",
         "tailwindcss": "^2.0.2",
+        "vue-router": "^3.4.9",
         "vue-toast-notification": "^0.6.0"
     }
 }

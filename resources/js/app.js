@@ -1,7 +1,9 @@
 import Vue from 'vue';
+import router from './routes';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 import UserAuthForm from './components/UserAuthForm.vue';
+import ForgotPassword from './components/ForgotPassword.vue';
 
 
 const {default: Axios} = require('axios');
@@ -36,12 +38,15 @@ Vue.component('VueToast', require('vue-toast-notification').default);
 
 const app = new Vue({
     el: '#app',
+
+    router,
+    
     data(){
         return{
 
         }
     },
 
-    components:{UserAuthForm},
+    components:{UserAuthForm, ForgotPassword},
 
 });
