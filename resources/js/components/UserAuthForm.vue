@@ -90,6 +90,29 @@
             </div>
           </div>
 
+          <div v-if="isSignup">
+            <label
+              for="rePassword"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Confirm Password
+            </label>
+            <div class="mt-1">
+              <input
+                id="rePassword"
+                name="rePassword"
+                type="password"
+                v-model="rePassword"
+                autocomplete="re-password"
+                
+                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+            <div v-if="error.rePassword" class="mt-2">
+                <span class="error-text">{{error.rePassword}}</span>
+            </div>
+          </div>
+
           <div v-if="!isSignup" class="flex items-center justify-between">
             <div class="flex items-center">
               <input
@@ -142,6 +165,8 @@ export default {
         image: null,
         remember_me: false
       },
+
+      rePassword: "",
 
       error: {},
     };
@@ -216,6 +241,10 @@ export default {
 
       if (!this.userInfo.password) {
         this.error.password = "The password is required";
+      }
+
+      if(this.isSignup && this.rePassword != this.userInfo.password){
+        this.error.rePassword = "Confirmation password does not match"
       }
 
       if (Object.keys(this.error).length === 0) {

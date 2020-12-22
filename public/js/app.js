@@ -2107,6 +2107,29 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2119,6 +2142,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         image: null,
         remember_me: false
       },
+      rePassword: "",
       error: {}
     };
   },
@@ -2242,6 +2266,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
       if (!this.userInfo.password) {
         this.error.password = "The password is required";
+      }
+
+      if (this.isSignup && this.rePassword != this.userInfo.password) {
+        this.error.rePassword = "Confirmation password does not match";
       }
 
       if (Object.keys(this.error).length === 0) {
@@ -39473,6 +39501,57 @@ var render = function() {
                     ])
                   : _vm._e()
               ]),
+              _vm._v(" "),
+              _vm.isSignup
+                ? _c("div", [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-sm font-medium text-gray-700",
+                        attrs: { for: "rePassword" }
+                      },
+                      [_vm._v("\n            Confirm Password\n          ")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mt-1" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.rePassword,
+                            expression: "rePassword"
+                          }
+                        ],
+                        staticClass:
+                          "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                        attrs: {
+                          id: "rePassword",
+                          name: "rePassword",
+                          type: "password",
+                          autocomplete: "re-password"
+                        },
+                        domProps: { value: _vm.rePassword },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.rePassword = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm.error.rePassword
+                      ? _c("div", { staticClass: "mt-2" }, [
+                          _c("span", { staticClass: "error-text" }, [
+                            _vm._v(_vm._s(_vm.error.rePassword))
+                          ])
+                        ])
+                      : _vm._e()
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               !_vm.isSignup
                 ? _c(
