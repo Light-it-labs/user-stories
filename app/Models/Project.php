@@ -29,12 +29,6 @@ class Project extends Model
         return $this->hasMany(Epic::class);
     }
 
-    public function userStories()
-    {
-        return $this->hasMany(UserStory::class);
-    }
-
-
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

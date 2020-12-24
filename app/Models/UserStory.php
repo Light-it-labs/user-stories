@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class UserStory extends Model
 {
@@ -14,7 +15,6 @@ class UserStory extends Model
 
     protected $table = 'user_stories';
     protected $primaryKey = 'id';
-    public $timestamps = true;
     protected $guarded = ['id'];
 
     /*
@@ -33,9 +33,14 @@ class UserStory extends Model
         return $this->belongsTo(Epic::class);
     }
 
+    public function user()
+    {
+        return $this->belongTo(User::class);
+    }
+
     public function dependencies()
     {
-        return $this->belongsToMany(UserStory::class)->withPivot('user_story_predecessor_id');
+        return $this->belongsToMany(UserStory::class, 'user_stories_dependencies', 'user_story_id', 'user_story_predeccessor_id');
     }
 
 

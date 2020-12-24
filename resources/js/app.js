@@ -1,8 +1,10 @@
 import Vue from 'vue';
+import ProjectForm from './components/ProjectForm.vue';
 
 const {default: Axios} = require('axios');
 
 require('./bootstrap');
+
 
 window.Vue = require('vue');
 Vue.config.devtools = true;
@@ -28,4 +30,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+
+    components:{ProjectForm}
 });

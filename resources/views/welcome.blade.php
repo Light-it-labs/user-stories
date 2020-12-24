@@ -16,18 +16,8 @@
         
     </head>
     <body>
-     
-        <div class="dark:bg-gray-800 bg-green-400">
-            <h1 class="text-4xl text-center font-bolder text-white">Welcome to Laravel with Tailwindcss!!</h1>
-        </div>
-        <div class="grid grid-cols-6 bg-white dark:bg-gray-800">
-            <h1 class="text-gray-900 dark:text-white">Dark mode is here!</h1>
-            <p class="text-gray-600 dark:text-gray-300">
-              Lorem ipsum...
-            </p>
-          </div>
         <div id="app">
-            
+          @yield('content')  
         </div>
         <script src="/js/app.js"></script>
     </body>
