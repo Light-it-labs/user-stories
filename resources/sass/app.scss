@@ -13,3 +13,8 @@
 @import 'tailwindcss/components';
 
 @import 'tailwindcss/utilities';
+
+.error-text{
+  color: rgba(127, 29, 29);
+  font-size: 0.8rem;
+}
