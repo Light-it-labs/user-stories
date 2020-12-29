@@ -6,7 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use App\Models\Project;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use App\Notifications\ResetPasswordNotification;
+//use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class User extends Authenticatable
 {
@@ -41,12 +45,51 @@ class User extends Authenticatable
 
     /*
     |--------------------------------------------------------------------------
-    | RELATIONS
+    | FUNCTIONS
     |--------------------------------------------------------------------------
     */
 
-    public function projects()
+    public function sendPasswordResetNotification($token)
     {
-        return $this->hasMany(Project::class);
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function setImageAttribute($value)
+    {
+        $attribute_name = "image";
+        
+        $disk = 'public'; 
+        
+        $destination_path = "uploads/user_image"; 
+        
+        if ($value==null) {
+        
+            \Storage::disk($disk)->delete($this->{$attribute_name});
+        
+            $this->attributes[$attribute_name] = null;
+        }
+
+        if (Str::startsWith($value, 'data:image'))
+        {        
+            $image = Image::make($value)->encode('jpg', 90);
+        
+            $filename = md5($value.time()).'.jpg';
+        
+            \Storage::disk($disk)->put($destination_path.'/'.$filename, $image->stream());
+        
+            \Storage::disk($disk)->delete($this->{$attribute_name});
+
+            $public_destination_path = Str::replaceFirst('public/', '', $destination_path);
+            $this->attributes[$attribute_name] = $public_destination_path.'/'.$filename;
+        }
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($model)
+        {  
+            \Storage::disk('public')->delete($model->image); 
+        });
     }
 }

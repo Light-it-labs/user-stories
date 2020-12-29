@@ -1,9 +1,14 @@
 import Vue from 'vue';
+import VueRouter from 'vue-router';
 import axios from 'axios';
 
 window._ = require('lodash');
 window.Vue = Vue;
 window.axios = axios;
+
+Vue.use(VueRouter);
+
+
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
