@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserPasswordResetRequest;
 use App\User;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +13,7 @@ use Illuminate\Http\JsonResponse;
 
 class ForgotPasswordController
 {
-    public function forgoPasswordSendToken(Request $request) 
+    public function forgotPasswordSendToken(Request $request) 
     {
         try
         {
@@ -44,27 +45,14 @@ class ForgotPasswordController
         }
     }
 
-    public function passwordReset(Request $request)
+    public function passwordReset(UserPasswordResetRequest $request)
     {
         try
         {
-            $credentials = Validator::make($request->all(),[
-                'email' => 'required|email|exists:users,email',
-                'password' => 'required|string',
-                // 'rePassword' => 'required|string|same:password',
-                'token' => 'required|string'
-            ]);
+            $credentials = $request->all();
 
-            if($credentials->fails()){
-                return response()->json([
-                    'success' => false,
-                    'errors' => $credentials->errors()
-                ]);
-            }
-
-            $reset_password_status = Password::reset($request->all(), function($user, $password){
-                $user->password = bcrypt($password);
-                $user->save();
+            $reset_password_status = Password::reset($credentials, function($user, $password){
+                $this->setupNewPassword($user, $password);
             });
 
             if($reset_password_status == Password::INVALID_TOKEN){
@@ -86,5 +74,10 @@ class ForgotPasswordController
                 'errors' => $ex->getMessage()
             ], 500);
         }
+    }
+
+    protected function setupNewPassword($user, $password){
+        $user->password = bcrypt($password);
+        $user->save();
     }
 }

@@ -2,9 +2,11 @@ import Vue from 'vue';
 import router from './routes';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import { ValidationObserver, ValidationProvider, extend, localize } from 'vee-validate';
+import en from 'vee-validate/dist/locale/en.json';
+import * as rules from 'vee-validate/dist/rules';
 import UserAuthForm from './components/UserAuthForm.vue';
 import ForgotPassword from './components/ForgotPassword.vue';
-
 
 const {default: Axios} = require('axios');
 
@@ -16,25 +18,15 @@ Vue.use(VueToast, {
     position: "bottom"
 });
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+Object.keys(rules).forEach(rule => {
+    extend(rule, rules[rule]);
+});
+  
+localize('en', en);
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('VueToast', require('vue-toast-notification').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+Vue.component('ValidationObserver', ValidationObserver).default;
+Vue.component('ValidationProvider', ValidationProvider).default;
 
 const app = new Vue({
     el: '#app',

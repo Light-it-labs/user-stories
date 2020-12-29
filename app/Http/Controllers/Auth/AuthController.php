@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 
 use Exception;
+use App\Http\Requests\UserSignUpRequest;
+use App\Http\Requests\UserLogInRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -22,14 +24,8 @@ class AuthController
      * @param  [string] image
      * @return [string] message
      */
-    public function signup(Request $request)
+    public function signup(UserSignUpRequest $request)
     {
-         $request->validate([
-             'name' => 'required|string',
-             'email' => 'required|string|email|unique:users',
-             'password' => 'required|string',
-             'image' => 'required|string',
-         ]);
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
@@ -54,14 +50,8 @@ class AuthController
      * @return [string] token_type
      * @return [string] expires_at
      */
-    public function login(Request $request)
+    public function login(UserLogInRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email|exists:users,email',
-            'password' => 'required|string',
-             'remember_me' => 'boolean'
-        ]);
-
         $credentials = request(['email', 'password']); 
 
         if(!Auth::attempt($credentials))

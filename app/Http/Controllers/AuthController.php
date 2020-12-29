@@ -19,14 +19,9 @@ class AuthController extends Controller
      * @param  [string] image
      * @return [string] message
      */
-    public function signup(Request $request)
+    public function signup(UserSignUpRequest $request)
     {
-         $request->validate([
-             'name' => 'required|string',
-             'email' => 'required|string|email|unique:users',
-             'password' => 'required|string',
-             'image' => 'required|string',
-         ]);
+
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
@@ -50,14 +45,11 @@ class AuthController extends Controller
      * @return [string] token_type
      * @return [string] expires_at
      */
-    public function login(Request $request)
+    public function login(UserLogInRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-            // 'remember_me' => 'boolean'
-        ]);
-        $credentials = request(['email', 'password']); 
+        
+        $credentials = $request->all();
+        
         if(!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
@@ -68,13 +60,13 @@ class AuthController extends Controller
         // if ($request->remember_me)
         //     $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
+        $expires_at = Carbon::parse($tokenResult->token->expires_at)->toDateTimeString();
+
         return response()->json([
             'data' => [
                 'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
-                'expires_at' => Carbon::parse(
-                    $tokenResult->token->expires_at
-                )->toDateTimeString(),
+                'expires_at' => $expires_at,
                 'user' => $user
             ]
         ]);
