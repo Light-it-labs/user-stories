@@ -59,6 +59,9 @@ class ProjectController
     {
         $project->delete();
 
-        return redirect('/projects');
+        return response()->json([
+            'success' => true,
+            'message' => 'Project deleted successfully'
+        ]);
     }
 }

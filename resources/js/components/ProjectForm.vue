@@ -12,54 +12,60 @@
 
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
     <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <form 
-        class="space-y-6" 
-        action="" 
-        method="POST"
-        @submit.prevent="checkForm"
-        >
-        <div>
-          <label for="name" class="block text-sm font-medium text-gray-700">
-            Name
-          </label>
-          <div class="mt-1">
-            <input
-              id="name" 
-              name="name" 
-              type="text"
-              v-model="project.name"
-              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <form 
+          class="space-y-6" 
+          action="" 
+          method="POST"
+          @submit.prevent="handleSubmit(checkForm)"
+          >
+          <div>
+            <ValidationProvider name="Name" rules="required" v-slot="{errors}">
+              <label for="name" class="block text-sm font-medium text-gray-700">
+                Name
+              </label>
+              <div class="mt-1">
+                <input
+                  id="name" 
+                  name="name" 
+                  type="text"
+                  v-model="project.name"
+                  class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              </div>
+              <div v-if="errors[0]" class="mt-2">
+                    <span class="error-text">{{errors[0]}}</span>
+              </div>
+            </ValidationProvider>
           </div>
-          <div v-if="error.name">
-            <span class="error-text">{{error.name}}</span>
-          </div>
-        </div>
 
-        <div>
-          <label for="description" class="block text-sm font-medium text-gray-700">
-            Description
-          </label>
-          <div class="mt-1">
-            <textarea
-              id="description" 
-              name="description"  
-              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              rows="10"
-              v-model="project.description"
-              >
-            </textarea>
+          <div>
+            <ValidationProvider name="Description" rules="required" v-slot="{errors}">
+              <label for="description" class="block text-sm font-medium text-gray-700">
+                Description
+              </label>
+              <div class="mt-1">
+                <textarea
+                  id="description" 
+                  name="description"  
+                  class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  rows="10"
+                  v-model="project.description"
+                  >
+                </textarea>
+              </div>
+              <div v-if="errors[0]" class="mt-2">
+                  <span class="error-text">{{errors[0]}}</span>
+              </div>
+            </ValidationProvider>
           </div>
-          <div v-if="error.description">
-            <span class="error-text">{{error.description}}</span>
-          </div>
-        </div>
 
-        <div>
-          <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            {{buttonText}}
-          </button>
-        </div>
-      </form>
+          <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              {{buttonText}}
+            </button>
+          </div>
+        </form>
+      </ValidationObserver>
 
     </div>
   </div>
@@ -67,6 +73,7 @@
 </template>
 
 <script>
+import VueToast from 'vue-toast-notification';
   export default {
     data(){
       return{
@@ -76,8 +83,6 @@
           name: "",
           description: ""
         },
-
-        error:{},
 
       }
     },
@@ -89,19 +94,16 @@
       projectToEdit: Object,
     },
 
-    computed:{
-
-    },
-
     methods:{
 
       async crateProject(){
 
         try{
           const response = await axios.post('/api/projects', this.project);
-          console.log(repsonse);
+          Vue.$toast.success(response.data.message);
+          window.location.href = '/projects';
         }catch(e){
-
+          Vue.$toast.error(e);
         }
 
       },
@@ -110,35 +112,25 @@
 
         try{
           const response = await axios.put('/api/projects/' + this.projectToEdit.id, this.project);
-          console.log(repsonse);
+          Vue.$toast.success(response.data.message);
+          window.location.href = '/projects';
         }catch(e){
-
+          Vue.$toast.error(e);
         }
 
       },
 
       checkForm: function(e){
-        this.error = {};
 
-        if(!this.project.name){
-          this.error.name = "The name is required";
-        }
-
-        if(!this.project.description){
-          this.error.description = "The description is required"
-        }
-
-        if(Object.keys(this.error).length === 0){
-          if(this.isNew){
-            this.crateProject();
-          }else{
-            this.editProject();
-          }
-          
-          return true;
+        if(this.isNew){
+          this.crateProject();
+        }else{
+          this.editProject();
         }
         
-      e.preventDefault();
+        return true;
+        
+        e.preventDefault();
       }
     },
 

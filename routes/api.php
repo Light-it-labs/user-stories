@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('projects', 'ProjectController@store');
 Route::put('projects/{project}', 'ProjectController@update');
+Route::get('projects/{project}/delete', 'ProjectController@delete');
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Auth\AuthController@login');
