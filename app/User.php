@@ -11,10 +11,11 @@ use App\Notifications\ResetPasswordNotification;
 //use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasRoles, HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
