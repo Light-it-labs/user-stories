@@ -11,7 +11,7 @@ class ProjectController
     //
     public function index()
     {
-        return view('Projects.index', [
+        return view('projects.index', [
             'projects' => Project::all()
         ]);
     }
@@ -23,7 +23,7 @@ class ProjectController
 
     public function create()
     {
-        return view('Projects.create');
+        return view('projects.create');
     }
 
     public function store(ProjectRequest $request)
@@ -40,7 +40,7 @@ class ProjectController
 
     public function edit(Project $project)
     {
-        return view('Projects.edit', [
+        return view('projects.edit', [
             'project' => $project
         ]);
     }

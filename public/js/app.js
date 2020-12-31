@@ -2492,6 +2492,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43518,69 +43524,81 @@ var render = function() {
         _c("div", { staticClass: "overflow-x-auto mt-6" }, [
           _vm._m(1),
           _vm._v(" "),
-          _c("table", { staticClass: "table-auto border-collapse w-full" }, [
-            _vm._m(2),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              { staticClass: "text-sm font-normal text-gray-700" },
-              _vm._l(_vm.projects, function(project) {
-                return _c(
-                  "tr",
-                  {
-                    key: project.id,
-                    staticClass:
-                      "hover:bg-gray-100 border-b border-gray-200 py-10"
-                  },
-                  [
-                    _c("td", { staticClass: "px-4 py-4" }, [
-                      _vm._v(_vm._s(project.name))
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      { staticClass: "px-4 py-4 hidden md:table-cell" },
-                      [_vm._v(_vm._s(project.description))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass:
-                          "px-6 py-4 text-right text-sm font-medium flex flex-col flex-end"
-                      },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass:
-                              "text-indigo-600 hover:text-indigo-900 mb-2",
-                            attrs: { href: "/projects/" + project.id + "/edit" }
-                          },
-                          [_vm._v("Edit")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass:
-                              "text-indigo-600 hover:text-indigo-900",
-                            on: {
-                              click: function($event) {
-                                return _vm.showDeleteModal(project.id)
-                              }
-                            }
-                          },
-                          [_vm._v("Delete")]
-                        )
-                      ]
-                    )
-                  ]
-                )
-              }),
-              0
-            )
-          ])
+          _vm.projects.length > 0
+            ? _c(
+                "table",
+                { staticClass: "table-auto border-collapse w-full" },
+                [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    { staticClass: "text-sm font-normal text-gray-700" },
+                    _vm._l(_vm.projects, function(project) {
+                      return _c(
+                        "tr",
+                        {
+                          key: project.id,
+                          staticClass:
+                            "hover:bg-gray-100 border-b border-gray-200 py-10"
+                        },
+                        [
+                          _c("td", { staticClass: "px-4 py-4" }, [
+                            _vm._v(_vm._s(project.name))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "px-4 py-4 hidden md:table-cell" },
+                            [_vm._v(_vm._s(project.description))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass:
+                                "px-6 py-4 text-right text-sm font-medium flex flex-col flex-end"
+                            },
+                            [
+                              _c(
+                                "a",
+                                {
+                                  staticClass:
+                                    "text-indigo-600 hover:text-indigo-900 mb-2",
+                                  attrs: {
+                                    href: "/projects/" + project.id + "/edit"
+                                  }
+                                },
+                                [_vm._v("Edit")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass:
+                                    "text-indigo-600 hover:text-indigo-900",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.showDeleteModal(project.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Delete")]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ]
+              )
+            : _c("div", [
+                _c("p", { staticClass: "text-center" }, [
+                  _vm._v("No projects at the moment")
+                ])
+              ])
         ]),
         _vm._v(" "),
         _vm.deleteModal

@@ -35,7 +35,9 @@
           </div>
         </div>
 
-        <table class="table-auto border-collapse w-full">
+        <table 
+          v-if="projects.length > 0"
+          class="table-auto border-collapse w-full">
           <thead>
             <tr class="rounded-lg text-sm font-medium text-gray-700 text-left" style="font-size: 0.9674rem">
               <th class="px-4 py-2 bg-gray-200 " style="background-color:#f8f8f8">Name</th>
@@ -56,6 +58,10 @@
 
           </tbody>
         </table>
+
+        <div v-else>
+          <p class="text-center">No projects at the moment</p>
+        </div>
       </div>
 
       <Delete-Modal v-if="deleteModal"
