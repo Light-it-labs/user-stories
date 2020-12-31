@@ -12,6 +12,7 @@ use App\Notifications\ResetPasswordNotification;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Spatie\Permission\Traits\HasRoles;
+// use App\Models\Project;
 
 class User extends Authenticatable
 {
@@ -43,6 +44,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    // public function projects()
+    // {
+    //     return $this->belongsToMany(Project::class)->withPivot('role_id');
+    // }
 
     /*
     |--------------------------------------------------------------------------
