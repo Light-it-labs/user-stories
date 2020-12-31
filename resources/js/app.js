@@ -8,10 +8,14 @@ import * as rules from 'vee-validate/dist/rules';
 import UserAuthForm from './components/UserAuthForm.vue';
 import ForgotPassword from './components/ForgotPassword.vue';
 import InviteUserForm from './components/InviteUserForm.vue';
+import ProjectForm from './components/ProjectForm.vue';
+import ProjectIndex from './components/ProjectIndex.vue';
+import DeleteModal from './components/DeleteModal.vue';
 
 const {default: Axios} = require('axios');
 
 require('./bootstrap');
+
 
 window.Vue = require('vue');
 Vue.config.devtools = true;
@@ -40,6 +44,6 @@ const app = new Vue({
         }
     },
 
-    components:{UserAuthForm, ForgotPassword, InviteUserForm},
+    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, DeleteModal, InviteUserForm},
 
 });

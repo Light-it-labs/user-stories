@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('layouts.layout');
 });
 
+Route::get('/projects', 'ProjectController@index');
+Route::get('projects/{project}/edit', 'ProjectController@edit');
+
+Route::get('/projects/create', 'ProjectController@create');
 Route::get('/signup', function(){
     return view('auth.signup');
 });
