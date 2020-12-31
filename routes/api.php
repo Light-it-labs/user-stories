@@ -23,6 +23,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('signup', 'Auth\AuthController@signup');
     Route::post('password/email', 'Auth\ForgotPasswordController@forgotPasswordSendToken');
     Route::post('password/reset', 'Auth\ForgotPasswordController@passwordReset');
+    Route::post('invite', 'Auth\InviteController@sendInvitationLink');
+    Route::post('users/signup/invitation', 'Auth\InviteController@signUpInvitedUser');
+
+    
   
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('logout', 'Auth\AuthController@logout');

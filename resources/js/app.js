@@ -7,6 +7,7 @@ import en from 'vee-validate/dist/locale/en.json';
 import * as rules from 'vee-validate/dist/rules';
 import UserAuthForm from './components/UserAuthForm.vue';
 import ForgotPassword from './components/ForgotPassword.vue';
+import InviteUserForm from './components/InviteUserForm.vue';
 
 const {default: Axios} = require('axios');
 
@@ -39,6 +40,6 @@ const app = new Vue({
         }
     },
 
-    components:{UserAuthForm, ForgotPassword},
+    components:{UserAuthForm, ForgotPassword, InviteUserForm},
 
 });

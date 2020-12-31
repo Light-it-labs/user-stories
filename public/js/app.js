@@ -2150,6 +2150,343 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InviteUserForm.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/InviteUserForm.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_toast_notification__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-toast-notification */ "./node_modules/vue-toast-notification/dist/index.min.js");
+/* harmony import */ var vue_toast_notification__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      userInfo: {
+        name: "",
+        email: this.$route.query.email,
+        password: "",
+        image: null,
+        remember_me: false,
+        token: this.$route.query.token,
+        projectIdToInvite: null
+      },
+      rePassword: ""
+    };
+  },
+  props: {
+    buttonText: String,
+    hasToken: Boolean,
+    project: Object
+  },
+  methods: {
+    getBase64: function getBase64(file) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = function () {
+          return resolve(reader.result);
+        };
+
+        reader.onerror = function (error) {
+          return reject(error);
+        };
+      });
+    },
+    setFile: function setFile(_ref) {
+      var _this = this;
+
+      var _ref2 = _slicedToArray(_ref, 1),
+          file = _ref2[0];
+
+      this.getBase64(file).then(function (data) {
+        return _this.userInfo.image = data;
+      });
+    },
+    signUpInvitedUser: function signUpInvitedUser() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/auth/users/signup/invitation', _this2.userInfo);
+
+              case 3:
+                response = _context.sent;
+                Vue.$toast.success(response.data.message); // window.location.href = '/';
+
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                Vue.$toast.error(_context.t0);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 7]]);
+      }))();
+    },
+    sentInvitationLink: function sentInvitationLink() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/auth/invite', {
+                  email: _this3.userInfo.email
+                });
+
+              case 3:
+                response = _context2.sent;
+                Vue.$toast.success(response.data.message);
+                _context2.next = 10;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](0);
+                Vue.$toast.error(_context2.t0);
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 7]]);
+      }))();
+    },
+    checkForm: function checkForm(e) {
+      if (!this.hasToken) {
+        this.sentInvitationLink();
+      } else {
+        this.signUpInvitedUser();
+      }
+
+      return true;
+      e.preventDefault();
+    }
+  },
+  mounted: function mounted() {//this.userInfo.projectIdToInvite = this.project.id;
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserAuthForm.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UserAuthForm.vue?vue&type=script&lang=js& ***!
@@ -42634,6 +42971,637 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InviteUserForm.vue?vue&type=template&id=a3bdeefa&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/InviteUserForm.vue?vue&type=template&id=a3bdeefa&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "mt-8 sm:mx-auto sm:w-full sm:max-w-md" }, [
+    _c(
+      "div",
+      { staticClass: "bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" },
+      [
+        _c("ValidationObserver", {
+          scopedSlots: _vm._u([
+            {
+              key: "default",
+              fn: function(ref) {
+                var handleSubmit = ref.handleSubmit
+                return [
+                  _c(
+                    "form",
+                    {
+                      staticClass: "space-y-6",
+                      attrs: { action: "", method: "POST" },
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return handleSubmit(_vm.checkForm)
+                        }
+                      }
+                    },
+                    [
+                      !_vm.hasToken
+                        ? _c("div", [
+                            _c(
+                              "h2",
+                              {
+                                staticClass:
+                                  "mt-6 text-center text-3xl font-extrabold text-gray-600"
+                              },
+                              [
+                                _vm._v(
+                                  "\n              Invite User\n            "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "mt-2 font-medium text-center text-sm text-gray-700 max-w"
+                              },
+                              [
+                                _vm._v(
+                                  "\n              Just enter an email address below and we'll send an invitation link to your friend!\n            "
+                                )
+                              ]
+                            )
+                          ])
+                        : _c("div", [
+                            _c(
+                              "h2",
+                              {
+                                staticClass:
+                                  "mt-6 text-center text-3xl font-extrabold text-gray-600"
+                              },
+                              [
+                                _vm._v(
+                                  "\n              We are excited to have you join us! \n            "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "mt-2 font-medium text-center text-sm text-gray-700 max-w"
+                              },
+                              [
+                                _vm._v(
+                                  "              \n              Just enter your information below and start using User-Stories!\n            "
+                                )
+                              ]
+                            )
+                          ]),
+                      _vm._v(" "),
+                      _vm.hasToken
+                        ? _c(
+                            "div",
+                            [
+                              _c("ValidationProvider", {
+                                attrs: { name: "Name", rules: "required" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var errors = ref.errors
+                                        return [
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "block text-sm font-medium text-gray-700",
+                                              attrs: { for: "name" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                Name\n              "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "mt-1" }, [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.userInfo.name,
+                                                  expression: "userInfo.name"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                              attrs: {
+                                                id: "name",
+                                                name: "name",
+                                                type: "text",
+                                                autocomplete: "name"
+                                              },
+                                              domProps: {
+                                                value: _vm.userInfo.name
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    _vm.userInfo,
+                                                    "name",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ]),
+                                          _vm._v(" "),
+                                          errors[0]
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "mt-2" },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "error-text"
+                                                    },
+                                                    [_vm._v(_vm._s(errors[0]))]
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.hasToken
+                        ? _c(
+                            "div",
+                            [
+                              _c("ValidationProvider", {
+                                attrs: {
+                                  name: "Email",
+                                  rules: "required|email"
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var errors = ref.errors
+                                        return [
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "block text-sm font-medium text-gray-700",
+                                              attrs: { for: "email" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                Email address\n              "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "mt-1" }, [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.userInfo.email,
+                                                  expression: "userInfo.email"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                              attrs: {
+                                                id: "email",
+                                                name: "email",
+                                                type: "email",
+                                                autocomplete: "email"
+                                              },
+                                              domProps: {
+                                                value: _vm.userInfo.email
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    _vm.userInfo,
+                                                    "email",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ]),
+                                          _vm._v(" "),
+                                          errors[0]
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "mt-2" },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "error-text"
+                                                    },
+                                                    [_vm._v(_vm._s(errors[0]))]
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.hasToken
+                        ? _c("div", [
+                            _c(
+                              "label",
+                              {
+                                staticClass:
+                                  "block text-sm font-medium text-gray-700",
+                                attrs: { for: "email" }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                Email address\n              "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "mt-1" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.userInfo.email,
+                                    expression: "userInfo.email"
+                                  }
+                                ],
+                                staticClass:
+                                  "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                attrs: {
+                                  id: "email",
+                                  name: "email",
+                                  type: "email",
+                                  disabled: "",
+                                  autocomplete: "email"
+                                },
+                                domProps: { value: _vm.userInfo.email },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.userInfo,
+                                      "email",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.hasToken
+                        ? _c(
+                            "div",
+                            [
+                              _c("ValidationProvider", {
+                                attrs: { name: "Image", rules: "image" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var errors = ref.errors
+                                        return [
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "block text-sm font-medium text-gray-700",
+                                              attrs: { for: "image" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                Profile image\n              "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "mt-1" }, [
+                                            _c("input", {
+                                              staticClass:
+                                                "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                              attrs: {
+                                                id: "image",
+                                                name: "image",
+                                                type: "file"
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.setFile(
+                                                    $event.target.files
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ]),
+                                          _vm._v(" "),
+                                          errors[0]
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "mt-2" },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "error-text"
+                                                    },
+                                                    [_vm._v(_vm._s(errors[0]))]
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.hasToken
+                        ? _c(
+                            "div",
+                            [
+                              _c("ValidationProvider", {
+                                attrs: {
+                                  name: "Password",
+                                  rules: "required",
+                                  vid: "confirmation"
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var errors = ref.errors
+                                        return [
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "block text-sm font-medium text-gray-700",
+                                              attrs: { for: "password" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                Password\n              "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "mt-1" }, [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.userInfo.password,
+                                                  expression:
+                                                    "userInfo.password"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                              attrs: {
+                                                id: "password",
+                                                name: "password",
+                                                type: "password",
+                                                autocomplete: "current-password"
+                                              },
+                                              domProps: {
+                                                value: _vm.userInfo.password
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    _vm.userInfo,
+                                                    "password",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ]),
+                                          _vm._v(" "),
+                                          errors[0]
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "mt-2" },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "error-text"
+                                                    },
+                                                    [_vm._v(_vm._s(errors[0]))]
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.hasToken
+                        ? _c(
+                            "div",
+                            [
+                              _c("ValidationProvider", {
+                                attrs: {
+                                  name: "Confirm-Password",
+                                  rules: "required|confirmed:confirmation"
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var errors = ref.errors
+                                        return [
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "block text-sm font-medium text-gray-700",
+                                              attrs: { for: "rePassword" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                Confirm Password\n              "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "mt-1" }, [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.rePassword,
+                                                  expression: "rePassword"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                              attrs: {
+                                                id: "rePassword",
+                                                name: "rePassword",
+                                                type: "password",
+                                                autocomplete: "re-password"
+                                              },
+                                              domProps: {
+                                                value: _vm.rePassword
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.rePassword =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]),
+                                          _vm._v(" "),
+                                          errors[0]
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "mt-2" },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "error-text"
+                                                    },
+                                                    [_vm._v(_vm._s(errors[0]))]
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(_vm.buttonText) +
+                                "\n            "
+                            )
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ]
+              }
+            }
+          ])
+        })
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserAuthForm.vue?vue&type=template&id=40ab7fe2&scoped=true&":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UserAuthForm.vue?vue&type=template&id=40ab7fe2&scoped=true& ***!
@@ -58569,6 +59537,8 @@ var vee_validate_dist_locale_en_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*
 /* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
 /* harmony import */ var _components_UserAuthForm_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/UserAuthForm.vue */ "./resources/js/components/UserAuthForm.vue");
 /* harmony import */ var _components_ForgotPassword_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/ForgotPassword.vue */ "./resources/js/components/ForgotPassword.vue");
+/* harmony import */ var _components_InviteUserForm_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/InviteUserForm.vue */ "./resources/js/components/InviteUserForm.vue");
+
 
 
 
@@ -58604,7 +59574,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   },
   components: {
     UserAuthForm: _components_UserAuthForm_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
-    ForgotPassword: _components_ForgotPassword_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
+    ForgotPassword: _components_ForgotPassword_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    InviteUserForm: _components_InviteUserForm_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
   }
 });
 
@@ -58732,6 +59703,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ForgotPassword_vue_vue_type_template_id_3ac5fb09_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ForgotPassword_vue_vue_type_template_id_3ac5fb09_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/InviteUserForm.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/InviteUserForm.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _InviteUserForm_vue_vue_type_template_id_a3bdeefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InviteUserForm.vue?vue&type=template&id=a3bdeefa&scoped=true& */ "./resources/js/components/InviteUserForm.vue?vue&type=template&id=a3bdeefa&scoped=true&");
+/* harmony import */ var _InviteUserForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InviteUserForm.vue?vue&type=script&lang=js& */ "./resources/js/components/InviteUserForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _InviteUserForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _InviteUserForm_vue_vue_type_template_id_a3bdeefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _InviteUserForm_vue_vue_type_template_id_a3bdeefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "a3bdeefa",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/InviteUserForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/InviteUserForm.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/InviteUserForm.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InviteUserForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./InviteUserForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InviteUserForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InviteUserForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/InviteUserForm.vue?vue&type=template&id=a3bdeefa&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/InviteUserForm.vue?vue&type=template&id=a3bdeefa&scoped=true& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InviteUserForm_vue_vue_type_template_id_a3bdeefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./InviteUserForm.vue?vue&type=template&id=a3bdeefa&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InviteUserForm.vue?vue&type=template&id=a3bdeefa&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InviteUserForm_vue_vue_type_template_id_a3bdeefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InviteUserForm_vue_vue_type_template_id_a3bdeefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
