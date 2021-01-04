@@ -12,34 +12,15 @@ use App\Models\Invite;
 use App\Notifications\InviteNotification;
 use Illuminate\Support\Str;
 use App\Http\Requests\InvitedUserSignUpRequest;
+use App\Http\Requests\InvitationLinkRequest;
 use App\User;
 
 class InviteController
 {
-    public function sendInvitationLink(Request $request)
+    public function sendInvitationLink(InvitationLinkRequest $request)
     {
         try
         {
-            $validator = Validator::make($request->all(),[
-                'email' => 'required|email|unique:users,email',
-                'project_id' => 'required|exists:projects,id',
-            ]);
-    
-            $validator->after(function ($validator) use ($request){
-                if(Invite::where('email', $request->input('email'))->exists())
-                {
-                    $validator->errors()->add('email', 'A invitation for this email already exists!');
-                }
-            });
-    
-            if($validator->fails())
-            {
-                return response()->json([
-                    'success' => false,
-                    'errors' => $validator->errors()
-                ], 422);
-            }
-    
             $token = Str::random(32);
     
             Invite::create([
