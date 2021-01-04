@@ -81,7 +81,8 @@ import VueToast from 'vue-toast-notification';
         project:{
           id: null,
           name: "",
-          description: ""
+          description: "",
+          userId: null
         },
 
       }
@@ -135,6 +136,8 @@ import VueToast from 'vue-toast-notification';
     },
 
     mounted(){
+      let user = JSON.parse(localStorage.user);
+      this.project.userId = user.id;
 
       if(!this.isNew){
         this.project.name = this.projectToEdit.name;

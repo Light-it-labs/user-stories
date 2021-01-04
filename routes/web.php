@@ -33,7 +33,7 @@ Route::get('/password/reset', function(){
     return view('auth.passwords.forgotPassword');
 });
 
-Route::get('/users/invite', function(){
+Route::get('/users/invite/', function(){
     return view('auth.invitations.inviteUser');
 });
 

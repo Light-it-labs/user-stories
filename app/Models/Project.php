@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Project extends Model
 {
@@ -27,6 +28,11 @@ class Project extends Model
     public function epics()
     {
         return $this->hasMany(Epic::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_project_role')->withPivot('role_id')->withTimestamps();
     }
 
     /*

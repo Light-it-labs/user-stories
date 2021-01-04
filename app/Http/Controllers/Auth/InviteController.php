@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\URL;
 use App\Models\Invite;
 use App\Notifications\InviteNotification;
 use Illuminate\Support\Str;
-use App\Http\Requests\UserSignUpRequest;
+use App\Http\Requests\InvitedUserSignUpRequest;
 use App\User;
 
 class InviteController
@@ -21,7 +21,8 @@ class InviteController
         try
         {
             $validator = Validator::make($request->all(),[
-                'email' => 'required|email|unique:users,email'
+                'email' => 'required|email|unique:users,email',
+                'project_id' => 'required|exists:projects,id',
             ]);
     
             $validator->after(function ($validator) use ($request){
@@ -36,7 +37,7 @@ class InviteController
                 return response()->json([
                     'success' => false,
                     'errors' => $validator->errors()
-                ]);
+                ], 422);
             }
     
             $token = Str::random(32);
@@ -49,7 +50,8 @@ class InviteController
             $url = URL::temporarySignedRoute(
                 'invitation', now()->addMinutes(300), [
                     'token' => $token,
-                    'email' => $request->input('email')
+                    'email' => $request->input('email'),
+                    'project_id' => $request->input('project_id'),
                 ]
             );
     
@@ -70,12 +72,13 @@ class InviteController
         
     }
 
-    public function signUpInvitedUser(UserSignUpRequest $request)
+    public function signUpInvitedUser(InvitedUserSignUpRequest $request)
     {
         try
         {
             $credentials = $request->all();
             $token = $request->token;
+            $project_id = $request->project_id;
 
             $invitation = Invite::where('token', $token)->firstOrFail();
             $invitation->delete();
@@ -88,8 +91,9 @@ class InviteController
             ]);
             $user->setImageAttribute($request->image);
             $user->save();
-            $user->assignRole('invited');
-            
+
+            $user->projects()->attach($project_id, array('role_id' => 2));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Successfully created user!'

@@ -185,7 +185,7 @@ import VueToast from 'vue-toast-notification';
             image: null,
             remember_me: false,
             token: this.$route.query.token,
-            projectIdToInvite: null,
+            project_id: this.$route.query.project_id,
         },
 
         rePassword: "",
@@ -194,8 +194,7 @@ import VueToast from 'vue-toast-notification';
 
     props: {
       buttonText: String,
-      hasToken: Boolean,
-      project: Object
+      hasToken: String,
     },
 
     methods:{
@@ -217,7 +216,7 @@ import VueToast from 'vue-toast-notification';
         try{
           const response = await axios.post('/api/auth/users/signup/invitation',this.userInfo);
           Vue.$toast.success(response.data.message);
-          // window.location.href = '/';
+          window.location.href = '/login';
 
         }catch(e){
           Vue.$toast.error(e);
@@ -228,7 +227,8 @@ import VueToast from 'vue-toast-notification';
       async sentInvitationLink(){
         try{
           const response = await axios.post('/api/auth/invite', {
-            email: this.userInfo.email
+            email: this.userInfo.email,
+            project_id: this.userInfo.project_id
           });
           Vue.$toast.success(response.data.message);
 
@@ -250,10 +250,6 @@ import VueToast from 'vue-toast-notification';
         e.preventDefault();
       }
     },
-
-    mounted(){
-      //this.userInfo.projectIdToInvite = this.project.id;
-    }
     
   }
 </script>

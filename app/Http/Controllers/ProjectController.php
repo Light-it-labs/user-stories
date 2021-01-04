@@ -31,6 +31,9 @@ class ProjectController
         $project = new Project($request->all());
         $project->save();
 
+        
+        $project->users()->attach($request->userId , array('role_id' => 1));
+
         return response()->json([
             'success' => true,
             'message' => 'Project created successfully'

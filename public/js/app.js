@@ -2419,15 +2419,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         image: null,
         remember_me: false,
         token: this.$route.query.token,
-        projectIdToInvite: null
+        project_id: this.$route.query.project_id
       },
       rePassword: ""
     };
   },
   props: {
     buttonText: String,
-    hasToken: Boolean,
-    project: Object
+    hasToken: String
   },
   methods: {
     getBase64: function getBase64(file) {
@@ -2469,22 +2468,22 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
               case 3:
                 response = _context.sent;
-                Vue.$toast.success(response.data.message); // window.location.href = '/';
-
-                _context.next = 10;
+                Vue.$toast.success(response.data.message);
+                window.location.href = '/login';
+                _context.next = 11;
                 break;
 
-              case 7:
-                _context.prev = 7;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 Vue.$toast.error(_context.t0);
 
-              case 10:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     },
     sentInvitationLink: function sentInvitationLink() {
@@ -2499,7 +2498,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
                 _context2.prev = 0;
                 _context2.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/auth/invite', {
-                  email: _this3.userInfo.email
+                  email: _this3.userInfo.email,
+                  project_id: _this3.userInfo.project_id
                 });
 
               case 3:
@@ -2531,8 +2531,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       return true;
       e.preventDefault();
     }
-  },
-  mounted: function mounted() {//this.userInfo.projectIdToInvite = this.project.id;
   }
 });
 
@@ -2638,7 +2636,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       project: {
         id: null,
         name: "",
-        description: ""
+        description: "",
+        userId: null
       }
     };
   },
@@ -2727,6 +2726,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
+    var user = JSON.parse(localStorage.user);
+    this.project.userId = user.id;
+
     if (!this.isNew) {
       this.project.name = this.projectToEdit.name;
       this.project.description = this.projectToEdit.description;
@@ -2755,6 +2757,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -44538,6 +44541,19 @@ var render = function() {
                                   }
                                 },
                                 [_vm._v("Edit")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass:
+                                    "text-indigo-600 hover:text-indigo-900 mb-2",
+                                  attrs: {
+                                    href:
+                                      "/users/invite/?project_id=" + project.id
+                                  }
+                                },
+                                [_vm._v("Invite")]
                               ),
                               _vm._v(" "),
                               _c(

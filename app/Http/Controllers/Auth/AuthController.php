@@ -34,7 +34,7 @@ class AuthController
         ]);
         $user->setImageAttribute($request->image);
         $user->save();
-        $user->assignRole('owner');
+        
         return response()->json([
             'success' => true,
             'message' => 'Successfully created user!'

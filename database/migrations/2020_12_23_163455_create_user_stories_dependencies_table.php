@@ -22,11 +22,13 @@ class CreateUserStoriesDependenciesTable extends Migration
 
             $table->foreign('user_story_id')
                 ->references('id')
-                ->on('user_stories');
+                ->on('user_stories')
+                ->onDelete('cascade');
 
             $table->foreign('user_story_predecessor_id')
                 ->references('id')
-                ->on('user_stories');
+                ->on('user_stories')
+                ->onDelete('cascade');
 
         });
     }

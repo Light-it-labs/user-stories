@@ -52,6 +52,7 @@
               <td class="px-4 py-4 hidden md:table-cell">{{project.description}}</td>
               <td class="px-6 py-4 text-right text-sm font-medium flex flex-col flex-end">
                 <a :href="'/projects/' + project.id + '/edit'" class="text-indigo-600 hover:text-indigo-900 mb-2">Edit</a>
+                <a :href="'/users/invite/?project_id=' + project.id" class="text-indigo-600 hover:text-indigo-900 mb-2">Invite</a>
                 <a @click="showDeleteModal(project.id)" class="text-indigo-600 hover:text-indigo-900">Delete</a>
               </td>
             </tr>
