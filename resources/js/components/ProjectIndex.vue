@@ -47,7 +47,11 @@
           </thead>
           <tbody class="text-sm font-normal text-gray-700">
 
-            <tr class="hover:bg-gray-100 border-b border-gray-200 py-10" v-for="project in projects" :key="project.id">
+            <tr 
+              class="hover:bg-gray-200 border-b border-gray-200 py-10 cursor-pointer" 
+              v-for="project in projects" :key="project.id" 
+              @click="navigateToProject(project.id)"
+            >
               <td class="px-4 py-4">{{project.name}}</td>
               <td class="px-4 py-4 hidden md:table-cell">{{project.description}}</td>
               <td class="px-6 py-4 text-right text-sm font-medium flex flex-col flex-end">
@@ -100,6 +104,7 @@ import DeleteModal from './DeleteModal.vue';
       showDeleteModal: function(id){
         this.projectIdToDelete = id;
         this.deleteModal = true;
+        return false;
       },
 
       closeDeleteModal: function(){
@@ -116,6 +121,10 @@ import DeleteModal from './DeleteModal.vue';
         }catch(e){
           Vue.$toast.error(e);
         }
+      },
+
+      navigateToProject: function(projectId){
+        window.location.href = '/projects/' + projectId;
       }
     }
   }

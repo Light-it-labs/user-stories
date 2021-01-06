@@ -18,7 +18,11 @@ class ProjectController
 
     public function show(Project $project)
     {
-        
+        return view('Projects.id', [
+            'project' => $project,
+            'epics' => $project->epics,
+            
+        ]);
     }
 
     public function create()

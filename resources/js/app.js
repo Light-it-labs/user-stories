@@ -9,7 +9,8 @@ import UserAuthForm from './components/UserAuthForm.vue';
 import ForgotPassword from './components/ForgotPassword.vue';
 import ProjectForm from './components/ProjectForm.vue';
 import ProjectIndex from './components/ProjectIndex.vue';
-import DeleteModal from './components/DeleteModal.vue';
+import Project from './components/Project.vue';
+
 
 const {default: Axios} = require('axios');
 
@@ -43,6 +44,6 @@ const app = new Vue({
         }
     },
 
-    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, DeleteModal},
+    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, Project},
 
 });

@@ -18,9 +18,11 @@ Route::get('/', function () {
 });
 
 Route::get('/projects', 'ProjectController@index');
-Route::get('projects/{project}/edit', 'ProjectController@edit');
-
 Route::get('/projects/create', 'ProjectController@create');
+Route::get('projects/{project}/edit', 'ProjectController@edit');
+Route::get('projects/{project}', 'ProjectController@show');
+
+
 Route::get('/signup', function(){
     return view('auth.signup');
 });

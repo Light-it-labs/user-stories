@@ -16,11 +16,8 @@ class CreateEpicsTable extends Migration
         Schema::create('epics', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('project_id');
-            $table->string('name');
             $table->text('description');
             $table->timestamps();
-
-            $table->unique('name');
 
             $table->foreign('project_id')
                 ->references('id')

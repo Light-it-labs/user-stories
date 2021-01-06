@@ -19,6 +19,7 @@
         <div id="app" class="container mx-auto py-4">
             @yield('content')
         </div>
+        <script src="https://use.fontawesome.com/76a7da1dec.js"></script>
         <script src="/js/app.js"></script>
     </body>
 </html>
