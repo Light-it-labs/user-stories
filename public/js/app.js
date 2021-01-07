@@ -3144,7 +3144,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/auth/signup', _this2.userInfo);
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/auth/signup', _this2.userInfo);
 
               case 3:
                 response = _context.sent;
@@ -3177,7 +3177,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/auth/login', _this3.userInfo);
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/auth/login', _this3.userInfo);
 
               case 3:
                 response = _context2.sent;
