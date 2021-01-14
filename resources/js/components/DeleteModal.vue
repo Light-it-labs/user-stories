@@ -16,7 +16,7 @@
 
             <div class="modal-footer flex justify-around">
                 <button @click="$emit('close-delete-modal')" class="basicButton">{{leftButton}}</button>
-                <button @click="$emit('delete-project')" class="basicButton">{{rightButton}}</button>
+                <button @click="$emit('delete-confirm')" class="basicButton">{{rightButton}}</button>
             </div>
           
         </div>

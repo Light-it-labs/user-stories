@@ -77,8 +77,6 @@
               </div>
             </div>
 
-            
-
             <div class="text-center my-4">
               <button type="submit" class="basicButton">Save</button>
             </div>
@@ -125,6 +123,7 @@ export default {
           const response = await axios.put('/api/epics/' + this.epic.id, this.epic);
           if(response.status === 200 && response.data.success === true){
             Vue.$toast.success(response.data.message);
+            this.$router.push({name: 'Project', params:{id: this.epic.project_id}});
           }
         }catch(e){
           Vue.$toast.error(e);
@@ -133,10 +132,10 @@ export default {
 
     async saveEpic(){
       try{
-        const response = await axios.post('/api/epics', epic);
+        const response = await axios.post('/api/epics', this.epic);
         if(response.status === 200 && response.data.success === true){
           Vue.$toast.success(response.data.message);
-          
+          this.$router.push({name: 'Project', params:{id: this.epic.project_id}});
         }
       }catch(e){
         Vue.$toast.error(e);
@@ -195,7 +194,7 @@ export default {
   
 
   mounted(){
-    this.epic.project_id = this.projectIdProp;
+    this.epic.project_id = this.$route.params.projectId;
 
     if('epic' in this.$route.params){
         this.epic = this.$route.params.epic;

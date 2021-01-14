@@ -17,10 +17,10 @@ Route::get('/', function () {
     return view('layouts.layout');
 });
 
-Route::get('/projects', 'ProjectController@index');
-Route::get('/projects/create', 'ProjectController@create');
-Route::get('projects/{project}/edit', 'ProjectController@edit');
-Route::get('projects/{project}', 'ProjectController@show');
+Route::get('/projects{any}', function(){
+    return view('projects.index');
+})->where('any', '.*');
+
 
 
 Route::get('/signup', function(){

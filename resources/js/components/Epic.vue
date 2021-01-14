@@ -7,7 +7,7 @@
         <h3 class="font-bold">{{epic.description}}</h3>
         <div v-if="showUserStories" class="ml-2">
           <button @click="editEpic(epic.id)" type="button"><i class="fa fa-edit"></i></button>
-          <button type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          <button @click="deleteEpic(epic.id)" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
         </div>
       </div>
       
@@ -16,8 +16,6 @@
         class="fa fa-chevron-circle-down text-2xl hover:pointer"
       ></i>
       <div v-if="showUserStories">
-        <!-- <button type="button"><i class="fa fa-edit"></i></button>
-        <button type="button"><i class="fa fa-trash" aria-hidden="true"></i></button> -->
         <i class="fa fa-chevron-circle-up text-2xl hover:pointer"></i>
       </div>
       
@@ -39,9 +37,9 @@
           class="less-shadow-div flex justify-between items-center"
           
         >
-          <p>{{userStory.description}}</p>
+          <p @click="navigateToUserStoryEdit(userStory)" class="hover:cursor-pointer">{{userStory.description}}</p>
           <div>
-            <button @click="$router.push({name:'UserStory', params:{objectUserStory: userStory}})" type="button"><i class="fa fa-edit"></i></button>
+            <button @click="navigateToUserStoryEdit(userStory)" type="button"><i class="fa fa-edit"></i></button>
             <button @click="deleteUserStory({userStoryId:userStory.id, userStoryIndex: index})" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </div>
         </div>
@@ -80,8 +78,24 @@
     }, 
 
     methods:{
+      navigateToUserStoryEdit: function(userStory){
+        this.$router.push({
+                  name:'UserStory', 
+                  params:{
+                    projectId: this.epic.project_id, 
+                    epicId: this.epic.id, 
+                    id: userStory.id, 
+                    objectUserStory: userStory
+                  }
+        })
+      },
+
       editEpic: function(epicId){
         this.$router.push({name:'Epic', params:{projectId:this.epic.project_id,id: this.epic.id, epic:this.epic}});
+      },
+
+      deleteEpic: function(epicId){
+        this.$emit('delete-epic', epicId);
       },
 
       deleteUserStory: function(userStory){

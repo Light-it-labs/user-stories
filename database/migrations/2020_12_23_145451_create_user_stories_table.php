@@ -29,7 +29,8 @@ class CreateUserStoriesTable extends Migration
 
             $table->foreign('epic_id')
                 ->references('id')
-                ->on('epics');
+                ->on('epics')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
                 ->references('id')

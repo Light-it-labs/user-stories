@@ -17,7 +17,10 @@ class EpicController
 
     public function show(Epic $epic)
     {
-        
+        return response()->json([
+            'success' => true,
+            'epic' => $epic->load(['user_stories'])
+       ]);
     }
 
     public function create()
@@ -27,6 +30,9 @@ class EpicController
 
     public function store(EpicRequest $request)
     {
+        //Ahora esta harcodeado el usuario xq no tengo merge con la rama con auth:api. Una vez que haga el merge,
+        //obtengo el usuario de la request y se lo asigno a la user_story dinamico. Falta la logica para que calcucle
+        //solo la category de la user_story (formula de excel).
         // $user = $request->user();
 
         $epic = new Epic($request->all());
@@ -42,7 +48,6 @@ class EpicController
             $user_story->category = "Strategic";
             $user_story->save();
             $user_story->epic()->associate($epic);
-            // $user_story->user()->associate($user->id);
         }
 
         return response()->json([
@@ -60,6 +65,21 @@ class EpicController
     public function update(EpicRequest $request, Epic $epic){
 
         $epic->update($request->all());
+
+        foreach($request->user_stories as $user_story){
+
+            if (array_key_exists('id', $user_story)) {
+                $user_story_model = UserStory::findOrFail($user_story['id']);
+                $user_story_model->update($user_story);
+            }else{
+                $user_story_model = new UserStory($user_story);
+                $user_story_model->epic_id = $epic->id;
+                $user_story_model->user_id = 1;
+                $user_story_model->category = "Strategic";
+                $user_story_model->save();
+                $user_story_model->epic()->associate($epic);
+            }
+        }
         
         return response()->json([
             'success' => true,

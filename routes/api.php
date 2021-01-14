@@ -19,7 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // ---------------- Project ----------------
+Route::get('projects', 'ProjectController@index');
+Route::get('projects/{project}', 'ProjectController@show');
 Route::post('projects', 'ProjectController@store');
+Route::get('projects/{project}/edit', 'ProjectController@edit');
 Route::put('projects/{project}', 'ProjectController@update');
 Route::get('projects/{project}/delete', 'ProjectController@delete');
 
@@ -27,9 +30,16 @@ Route::get('projects/{project}/delete', 'ProjectController@delete');
 
 
 // ---------------- Epic ----------------
-
 Route::post('epics', 'EpicController@store');
+Route::get('epics/{epic}', 'EpicController@show');
+Route::put('epics/{epic}', 'EpicController@update');
+Route::get('epics/{epic}/delete', 'EpicController@delete');
+// ----------------        ----------------
 
+// ---------------- User-Stories ----------------
+ROute::get('user-stories/{userStory}', 'UserStoryController@show');
+Route::put('user-stories/{userStory}', 'UserStoryController@update');
+Route::get('user-stories/{userStory}/delete', 'UserStoryController@delete');
 // ----------------        ----------------
 
 Route::group(['prefix' => 'auth'], function () {

@@ -234,31 +234,60 @@
     props:{
       userStoryToEditProp: Object,
       index: Number,
+      epicExists:Boolean
     },
 
     methods:{
 
+    async editUserStoryFromExistingEpic(){
+      try{
+        const response = await axios.put('/api/user-stories/' + this.userStory.id, this.userStory);
+        if(response.status === 200 && response.data.success === true){
+          this.userStory = response.data.userStory;
+          Vue.$toast.success(response.data.message);
+          this.$router.push({name:'Project', params:{id: this.$route.params.projectId}});
+        }
+      }catch(e){
+        Vue.$toast.error(e);
+      }
+    },
+
+      async getUserStory(userStoryId){
+      try{
+        const response = await axios.get('/api/user-stories/' + userStoryId);
+        if(response.status === 200 && response.data.success === true){
+          this.userStory = response.data.userStory;
+        }
+      }catch(e){
+        Vue.$toast.error(e);
+      }
+    },
+
       cancelNewUserStory: function(){
+        if(this.epicExists === true){
+          this.$router.push({name:'Project', params:{id: this.$route.params.projectId}});
+        }else{
+          this.$emit('cancel-new-user-story');
 
-        this.$emit('cancel-new-user-story');
-
-        this.userStory = {
-          description: "",
-          priority: 1,
-          value: 1,
-          risk: 1,
-          estimate: -1,
-          acceptance: "",
-          notes: "",
-          category: "",
-        } 
+          this.userStory = {
+            description: "",
+            priority: 1,
+            value: 1,
+            risk: 1,
+            estimate: -1,
+            acceptance: "",
+            notes: "",
+            category: "",
+          } 
+        }
       },
 
       checkForm: function(e){
-        if(this.userStoryIndex === null){
-          this.$emit('save-user-story', this.userStory);
+        if(this.epicExists === true){
+          this.editUserStoryFromExistingEpic();
+        }else if(this.userStoryIndex === null){
+            this.$emit('save-user-story', this.userStory);
         }else{
-
           let object = {
             userStory: this.userStory,
             index:this.userStoryIndex
@@ -304,13 +333,15 @@
     },
 
     mounted(){
-      if (Object.keys(this.userStoryToEditProp).length != 0){
-        this.userStory = this.userStoryToEditProp;
-        this.userStoryIndex = this.index;
+      if(this.epicExists === true){
+        console.log('hola')
+        this.getUserStory(this.$route.params.id);
+      }else{
+        if (Object.keys(this.userStoryToEditProp).length != 0){
+          this.userStory = this.userStoryToEditProp;
+          this.userStoryIndex = this.index;
        }
-      //  else if(Object.keys(this.$route.params.length != 0)){
-      //    this.userStory = this.$route.params.objectUserStory;
-      //  }
+      }
       
     },
   }
