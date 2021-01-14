@@ -196,7 +196,7 @@ export default {
 
     async signUp(){
       try{
-        const response = await axios.post('/auth/signup',this.userInfo);
+        const response = await axios.post('api/auth/signup',this.userInfo);
         Vue.$toast.success(response.data.message);
         window.location.href = '/';
 
@@ -208,7 +208,7 @@ export default {
 
     async logIn(){
       try{
-        const response = await axios.post('/auth/login', this.userInfo);
+        const response = await axios.post('api/auth/login', this.userInfo);
         
         if(response.status === 200 && response.data.success === true){
           Vue.$toast.success("Successfully authenticated");

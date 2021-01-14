@@ -14,13 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::post('projects', 'ProjectController@store');
-Route::put('projects/{project}', 'ProjectController@update');
-Route::get('projects/{project}/delete', 'ProjectController@delete');
+//    Route::middleware('auth:api')->get('/user', function (Request $request) {
+//        return $request->user();
+//    });
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Auth\AuthController@login');
@@ -29,12 +25,15 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('password/reset', 'Auth\ForgotPasswordController@passwordReset');
     Route::post('invite', 'Auth\InviteController@sendInvitationLink');
     Route::post('users/signup/invitation', 'Auth\InviteController@signUpInvitedUser');
-
-    
   
     Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('user', 'Auth\AuthController@user');
+        Route::post('/projects', 'ProjectController@store');
+        Route::get('/projects', 'ProjectController@index');
+        Route::put('projects/{project}', 'ProjectController@update');
+        Route::get('projects/{project}/delete', 'ProjectController@delete');   
         Route::get('logout', 'Auth\AuthController@logout');
-        // Route::get('user', 'Auth\AuthController@user');
+        
         
         
     });
