@@ -9,11 +9,17 @@ use App\Http\Requests\ProjectRequest;
 class ProjectController
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        return view('projects.index', [
-            'projects' => Project::all()
-        ]);
+        // dd($request->user());
+        // return view('projects.index', [
+        //     'projects' => Project::all()
+        // ]);
+
+         return response()->json([
+             'success' => true,
+             'projects' => Project::all()
+         ]);
     }
 
     public function show(Project $project)

@@ -86,16 +86,17 @@ import DeleteModal from './DeleteModal.vue';
     data(){
       return{
         deleteModal: false,
-        projectIdToDelete: null
+        projectIdToDelete: null,
+        projects:[]
 
       }
     },
 
     components: {DeleteModal},
 
-    props:{
-      projects: Array
-    },
+    // props:{
+    //   projects: Array
+    // },
 
     methods:{
       showDeleteModal: function(id){
@@ -117,7 +118,26 @@ import DeleteModal from './DeleteModal.vue';
         }catch(e){
           Vue.$toast.error(e);
         }
+      },
+
+      async getProjects(){
+        try{
+          let access_token = JSON.parse(localStorage.access_token);
+          const response = await axios.get('/api/auth/projects', {
+            headers:{
+              Authorization: ('Bearer ' + access_token),
+              'Accept': 'application/json',
+            }
+          });
+          this.projects = response.data.projects;
+        }catch(e){
+          Vue.$toast.error(e);
+        }
       }
+    },
+
+    mounted(){
+      this.getProjects();
     }
   }
 </script>
