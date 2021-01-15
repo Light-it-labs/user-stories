@@ -11,10 +11,6 @@ class ProjectController
     //
     public function index(Request $request)
     {
-        // dd($request->user());
-        // return view('projects.index', [
-        //     'projects' => Project::all()
-        // ]);
 
          return response()->json([
              'success' => true,

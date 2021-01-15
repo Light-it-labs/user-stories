@@ -2659,7 +2659,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios.post('/api/projects', _this.project);
+                return axios.post('/api/auth/projects', _this.project);
 
               case 3:
                 response = _context.sent;
@@ -2692,7 +2692,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return axios.put('/api/projects/' + _this2.projectToEdit.id, _this2.project);
+                return axios.put('/api/auth/projects/' + _this2.projectToEdit.id, _this2.project);
 
               case 3:
                 response = _context2.sent;
@@ -2843,15 +2843,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       deleteModal: false,
-      projectIdToDelete: null
+      projectIdToDelete: null,
+      projects: []
     };
   },
   components: {
     DeleteModal: _DeleteModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: {
-    projects: Array
-  },
+  // props:{
+  //   projects: Array
+  // },
   methods: {
     showDeleteModal: function showDeleteModal(id) {
       this.projectIdToDelete = id;
@@ -2893,7 +2894,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee, null, [[0, 9]]);
       }))();
+    },
+    getProjects: function getProjects() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var access_token, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                access_token = JSON.parse(localStorage.access_token);
+                _context2.next = 4;
+                return axios.get('/api/auth/projects', {
+                  headers: {
+                    Authorization: 'Bearer ' + access_token,
+                    'Accept': 'application/json'
+                  }
+                });
+
+              case 4:
+                response = _context2.sent;
+                _this2.projects = response.data.projects;
+                _context2.next = 11;
+                break;
+
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](0);
+                Vue.$toast.error(_context2.t0);
+
+              case 11:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 8]]);
+      }))();
     }
+  },
+  mounted: function mounted() {
+    this.getProjects();
   }
 });
 
@@ -3144,7 +3186,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/auth/signup', _this2.userInfo);
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/auth/signup', _this2.userInfo);
 
               case 3:
                 response = _context.sent;
@@ -3177,7 +3219,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/auth/login', _this3.userInfo);
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/auth/login', _this3.userInfo);
 
               case 3:
                 response = _context2.sent;

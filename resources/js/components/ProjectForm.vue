@@ -100,7 +100,7 @@ import VueToast from 'vue-toast-notification';
       async crateProject(){
 
         try{
-          const response = await axios.post('/api/projects', this.project);
+          const response = await axios.post('/api/auth/projects', this.project);
           Vue.$toast.success(response.data.message);
           window.location.href = '/projects';
         }catch(e){
@@ -112,7 +112,7 @@ import VueToast from 'vue-toast-notification';
       async editProject(){
 
         try{
-          const response = await axios.put('/api/projects/' + this.projectToEdit.id, this.project);
+          const response = await axios.put('/api/auth/projects/' + this.projectToEdit.id, this.project);
           Vue.$toast.success(response.data.message);
           window.location.href = '/projects';
         }catch(e){

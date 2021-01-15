@@ -65,8 +65,6 @@ class AuthController
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
 
-         //Auth::login($user);
-
          if ($request->remember_me)
              $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
@@ -89,8 +87,8 @@ class AuthController
      */
     public function logout(Request $request)
     {
-        //$request->user()->token()->revoke();
-        //Auth::logout();
+        $request->user()->token()->revoke();
+        
         return response()->json([
             'success' => true,
             'message' => 'Successfully logged out'

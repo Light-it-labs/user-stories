@@ -21,28 +21,16 @@ Route::get('/projects', function () {
     return view('projects.index');
 });
 
-// Route::group(['middleware' => ['auth:web']], function() {
-//     Route::get('/projects', 'ProjectController@index');
-//     Route::get('logout', 'Auth\AuthController@logout');        
-// });
-
 Route::get('logout', 'Auth\AuthController@logout');        
 
 Route::group(['middleware' => ['auth:web', 'role:owner']], function() {
     Route::get('projects/{project}/edit', 'ProjectController@edit');        
 });
 
-
-
-
 Route::get('/projects/create', 'ProjectController@create');
 Route::get('/signup', function(){
     return view('auth.signup');
 });
-
-// Route::group(['prefix' => 'auth'], function () {
-//     Route::post('login', 'Auth\AuthController@login');
-// });
 
 Route::get('/login', function(){
     return view('auth.login');
