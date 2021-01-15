@@ -2048,7 +2048,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     navigateToUserStoryEdit: function navigateToUserStoryEdit(userStory) {
       this.$router.push({
-        name: 'UserStory',
+        name: 'user-story',
         params: {
           projectId: this.epic.project_id,
           epicId: this.epic.id,
@@ -2059,7 +2059,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     editEpic: function editEpic(epicId) {
       this.$router.push({
-        name: 'Epic',
+        name: 'epic',
         params: {
           projectId: this.epic.project_id,
           id: this.epic.id,
@@ -2234,7 +2234,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Vue.$toast.success(response.data.message);
 
                   _this.$router.push({
-                    name: 'Project',
+                    name: 'project',
                     params: {
                       id: _this.epic.project_id
                     }
@@ -2277,7 +2277,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Vue.$toast.success(response.data.message);
 
                   _this2.$router.push({
-                    name: 'Project',
+                    name: 'project',
                     params: {
                       id: _this2.epic.project_id
                     }
@@ -2363,6 +2363,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.saveEpic();
       }
+    },
+    evaluateUserStory: function evaluateUserStory(paramId) {
+      if (paramId != 'new') {
+        this.getEpic(paramId);
+        this.title = "Edit Epic";
+      } else {
+        this.title = "New Epic";
+      }
     }
   },
   mounted: function mounted() {
@@ -2372,12 +2380,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.epic = this.$route.params.epic;
       this.title = "Edit Epic";
     } else {
-      if (this.$route.params.id != 'new') {
-        this.getEpic(this.$route.params.id);
-        this.title = "Edit Epic";
-      } else {
-        this.title = "New Epic";
-      }
+      this.evaluateUserStory(this.$route.params.id);
     }
   }
 });
@@ -3185,7 +3188,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     navigateToProject: function navigateToProject(project) {
       this.$router.push({
-        name: 'Project',
+        name: 'project',
         params: {
           id: project.id,
           objectProject: project
@@ -3880,7 +3883,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Vue.$toast.success(response.data.message);
 
                   _this.$router.push({
-                    name: 'Project',
+                    name: 'project',
                     params: {
                       id: _this.$route.params.projectId
                     }
@@ -3942,7 +3945,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     cancelNewUserStory: function cancelNewUserStory() {
       if (this.epicExists === true) {
         this.$router.push({
-          name: 'Project',
+          name: 'project',
           params: {
             id: this.$route.params.projectId
           }
@@ -44863,7 +44866,7 @@ var render = function() {
             on: {
               click: function($event) {
                 return _vm.$router.push({
-                  name: "Epic",
+                  name: "epic",
                   params: { id: "new", projectId: _vm.project.id }
                 })
               }
@@ -45281,7 +45284,7 @@ var render = function() {
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
-                        return _vm.$router.push({ name: "Create-Project" })
+                        return _vm.$router.push({ name: "create-project" })
                       }
                     }
                   },
@@ -45352,7 +45355,7 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       return _vm.$router.push({
-                                        name: "Edit-Project",
+                                        name: "edit-project",
                                         params: {
                                           id: project.id,
                                           objectProject: project
@@ -63081,31 +63084,31 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   mode: "history",
   routes: [{
     path: '/projects/:projectId/epics/:id',
-    name: 'Epic',
+    name: 'epic',
     component: _components_EpicEditor_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
     props: true
   }, {
     path: '/projects',
-    name: 'Projects',
+    name: 'projects',
     component: _components_ProjectIndex_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     props: true
   }, {
     path: '/projects/:id',
-    name: 'Project',
+    name: 'project',
     component: _components_Project_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     props: true
   }, {
     path: '/projects/create',
-    name: 'Create-Project',
+    name: 'create-project',
     component: _components_ProjectForm_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
     props: {
       title: 'Create New Project',
-      buttonText: 'Create',
+      buttonText: 'create',
       isNew: true
     }
   }, {
     path: '/projects/:id/edit',
-    name: 'Edit-Project',
+    name: 'edit-project',
     component: _components_ProjectForm_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
     props: {
       title: 'Edit Project',
@@ -63114,7 +63117,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     }
   }, {
     path: '/projects/:projectId/epic/:epicId/user-story/:id',
-    name: 'UserStory',
+    name: 'user-story',
     component: _components_UserStoryForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     props: {
       epicExists: true

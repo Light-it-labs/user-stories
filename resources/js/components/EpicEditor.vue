@@ -123,7 +123,7 @@ export default {
           const response = await axios.put('/api/epics/' + this.epic.id, this.epic);
           if(response.status === 200 && response.data.success === true){
             Vue.$toast.success(response.data.message);
-            this.$router.push({name: 'Project', params:{id: this.epic.project_id}});
+            this.$router.push({name: 'project', params:{id: this.epic.project_id}});
           }
         }catch(e){
           Vue.$toast.error(e);
@@ -135,7 +135,7 @@ export default {
         const response = await axios.post('/api/epics', this.epic);
         if(response.status === 200 && response.data.success === true){
           Vue.$toast.success(response.data.message);
-          this.$router.push({name: 'Project', params:{id: this.epic.project_id}});
+          this.$router.push({name: 'project', params:{id: this.epic.project_id}});
         }
       }catch(e){
         Vue.$toast.error(e);
@@ -187,6 +187,15 @@ export default {
       }else{
         this.saveEpic();
       }
+    },
+
+    evaluateUserStory(paramId){
+      if(paramId != 'new'){
+        this.getEpic(paramId);
+        this.title = "Edit Epic"
+      }else{
+        this.title = "New Epic"
+      }
     }
   },
 
@@ -200,12 +209,7 @@ export default {
         this.epic = this.$route.params.epic;
         this.title = "Edit Epic"
     }else{
-      if(this.$route.params.id != 'new'){
-        this.getEpic(this.$route.params.id);
-        this.title = "Edit Epic"
-      }else{
-        this.title = "New Epic"
-      }
+      this.evaluateUserStory(this.$route.params.id);
     }
     
   }

@@ -19,7 +19,7 @@
     
 
     <div class="text-center">
-      <button @click="$router.push({name:'Epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
+      <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
     </div>
 
     <Delete-Modal v-if="deleteModal"

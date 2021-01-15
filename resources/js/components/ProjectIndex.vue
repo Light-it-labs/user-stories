@@ -29,7 +29,7 @@
             </h3>
           </div>
           <div class="ml-4 mt-2 flex-shrink-0">
-            <button @click="$router.push({name: 'Create-Project'})" type="button" class="basicButton">New Project</button>
+            <button @click="$router.push({name: 'create-project'})" type="button" class="basicButton">New Project</button>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
               <td @click="navigateToProject(project)" class="px-4 py-4">{{project.name}}</td>
               <td @click="navigateToProject(project)" class="px-4 py-4 hidden md:table-cell ">{{project.description}}</td>
               <td class="px-6 py-4 text-right text-sm font-medium flex flex-col flex-end">
-                <button @click="$router.push({name:'Edit-Project', params: {id:project.id, objectProject:project}})" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Edit</button>
+                <button @click="$router.push({name:'edit-project', params: {id:project.id, objectProject:project}})" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Edit</button>
                 <button @click="showDeleteModal(project.id)" type="button" class="text-indigo-600 hover:text-indigo-900">Delete</button>
               </td>
             </tr>
@@ -96,7 +96,7 @@ import DeleteModal from './DeleteModal.vue';
 
     methods:{
       navigateToProject: function(project){
-        this.$router.push({name:'Project', params: {id:project.id, objectProject: project}});
+        this.$router.push({name:'project', params: {id:project.id, objectProject: project}});
       },
 
       showDeleteModal: function(id){

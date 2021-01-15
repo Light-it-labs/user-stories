@@ -18,7 +18,9 @@ require('./bootstrap');
 
 
 window.Vue = require('vue');
+
 Vue.config.devtools = true;
+
 Vue.use(VueToast, {
     position: "bottom"
 });

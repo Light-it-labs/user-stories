@@ -80,7 +80,7 @@
     methods:{
       navigateToUserStoryEdit: function(userStory){
         this.$router.push({
-                  name:'UserStory', 
+                  name:'user-story', 
                   params:{
                     projectId: this.epic.project_id, 
                     epicId: this.epic.id, 
@@ -91,7 +91,7 @@
       },
 
       editEpic: function(epicId){
-        this.$router.push({name:'Epic', params:{projectId:this.epic.project_id,id: this.epic.id, epic:this.epic}});
+        this.$router.push({name:'epic', params:{projectId:this.epic.project_id,id: this.epic.id, epic:this.epic}});
       },
 
       deleteEpic: function(epicId){

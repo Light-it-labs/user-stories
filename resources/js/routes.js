@@ -15,39 +15,39 @@ export default new VueRouter({
 
         {
             path: '/projects/:projectId/epics/:id',
-            name: 'Epic',
+            name: 'epic',
             component: EpicEditor,
             props: true
         },
 
         {
           path:'/projects',
-          name: 'Projects',
+          name: 'projects',
           component: ProjectIndex,
           props:true  
         },
 
         {
             path:'/projects/:id',
-            name: 'Project',
+            name: 'project',
             component: Project,
             props:true
         },
 
         {
             path:'/projects/create',
-            name: 'Create-Project',
+            name: 'create-project',
             component: ProjectForm,
             props: {
                 title: 'Create New Project',
-                buttonText: 'Create',
+                buttonText: 'create',
                 isNew:true,
             },
         },
 
         {
             path:'/projects/:id/edit',
-            name:'Edit-Project',
+            name:'edit-project',
             component:ProjectForm,
             props:{
                 title: 'Edit Project',
@@ -58,7 +58,7 @@ export default new VueRouter({
 
         {
             path: '/projects/:projectId/epic/:epicId/user-story/:id',
-            name: 'UserStory',
+            name: 'user-story',
             component: UserStoryForm,
             props: {
                 epicExists: true

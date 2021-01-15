@@ -30,10 +30,9 @@ class EpicController
 
     public function store(EpicRequest $request)
     {
-        //Ahora esta harcodeado el usuario xq no tengo merge con la rama con auth:api. Una vez que haga el merge,
-        //obtengo el usuario de la request y se lo asigno a la user_story dinamico. Falta la logica para que calcucle
-        //solo la category de la user_story (formula de excel).
-        // $user = $request->user();
+        //Hardcoded userId until branch of user_invitation with auth:api being merge. Once the branch is updated we are
+        //gonna fetch user info with the request and get dynamically to assign it to user_story. Category is also harcoded
+        // until formulas from excel are apply.
 
         $epic = new Epic($request->all());
         $epic->save();

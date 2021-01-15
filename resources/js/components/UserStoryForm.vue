@@ -245,7 +245,7 @@
         if(response.status === 200 && response.data.success === true){
           this.userStory = response.data.userStory;
           Vue.$toast.success(response.data.message);
-          this.$router.push({name:'Project', params:{id: this.$route.params.projectId}});
+          this.$router.push({name:'project', params:{id: this.$route.params.projectId}});
         }
       }catch(e){
         Vue.$toast.error(e);
@@ -265,7 +265,7 @@
 
       cancelNewUserStory: function(){
         if(this.epicExists === true){
-          this.$router.push({name:'Project', params:{id: this.$route.params.projectId}});
+          this.$router.push({name:'project', params:{id: this.$route.params.projectId}});
         }else{
           this.$emit('cancel-new-user-story');
 
