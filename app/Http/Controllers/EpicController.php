@@ -30,10 +30,8 @@ class EpicController
 
     public function store(EpicRequest $request)
     {
-        //Hardcoded userId until branch of user_invitation with auth:api being merge. Once the branch is updated we are
-        //gonna fetch user info with the request and get dynamically to assign it to user_story. Category is also harcoded
-        // until formulas from excel are apply.
-
+        //Category is harcoded until excel formulas are applied.
+        $user = $request->user();
         $epic = new Epic($request->all());
         $epic->save();
 
@@ -43,7 +41,7 @@ class EpicController
 
             $user_story = new UserStory($user_story);
             $user_story->epic_id = $epic->id;
-            $user_story->user_id = 1;
+            $user_story->user_id = $user->id;
             $user_story->category = "Strategic";
             $user_story->save();
             $user_story->epic()->associate($epic);
@@ -62,7 +60,7 @@ class EpicController
     }
 
     public function update(EpicRequest $request, Epic $epic){
-
+        $user = $request->user();
         $epic->update($request->all());
 
         foreach($request->user_stories as $user_story){
@@ -73,7 +71,7 @@ class EpicController
             }else{
                 $user_story_model = new UserStory($user_story);
                 $user_story_model->epic_id = $epic->id;
-                $user_story_model->user_id = 1;
+                $user_story_model->user_id = $user->id;
                 $user_story_model->category = "Strategic";
                 $user_story_model->save();
                 $user_story_model->epic()->associate($epic);

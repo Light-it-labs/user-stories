@@ -97,30 +97,27 @@ import VueToast from 'vue-toast-notification';
     methods:{
 
       async crateProject(){
-
         try{
           const response = await axios.post('/api/auth/projects', this.project);
-          Vue.$toast.success(response.data.message);
-          this.$router.push('/projects'); 
+          if(response.status === 200 && response.data.success === true){
+            Vue.$toast.success(response.data.message);
+            this.$router.push('/projects'); 
+          }
         }catch(e){
           Vue.$toast.error(e);
         }
-
       },
 
       async editProject(){
-
         try{
-          const response = await axios.put('/api/projects/' + this.project.id, this.project);
+          const response = await axios.put('/api/auth/projects/' + this.project.id, this.project);
           if(response.status === 200 && response.data.success === true){
             Vue.$toast.success(response.data.message);
             this.$router.push('/projects');
           }
-          
         }catch(e){
           Vue.$toast.error(e);
         }
-
       },
 
       checkForm: function(e){
@@ -130,15 +127,13 @@ import VueToast from 'vue-toast-notification';
         }else{
           this.editProject();
         }
-        
         return true;
-        
         e.preventDefault();
       },
 
       async getProjectToEdit(projectId){
         try{
-          const response = await axios.get('/api/projects/' + projectId + '/edit');
+          const response = await axios.get('/api/auth/projects/' + projectId + '/edit');
           if(response.status === 200 && response.data.success === true){
             this.project = response.data.project;
           }
@@ -149,10 +144,14 @@ import VueToast from 'vue-toast-notification';
     },
 
     mounted(){
-       if(!this.isNew){
+      let access_token = JSON.parse(localStorage.access_token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+      const user = JSON.parse(localStorage.user);
+      this.project.userId = user.id;
+
+      if(!this.isNew){
         this.getProjectToEdit(this.$route.params.id);
       }
-
     }
   }
 </script>

@@ -55,7 +55,7 @@ import DeleteModal from './DeleteModal.vue';
 
       async deleteEpic(){
         try{
-          const response = await axios.get('/api/epics/' + this.epicIdToDelete + '/delete');
+          const response = await axios.get('/api/auth/epics/' + this.epicIdToDelete + '/delete');
           if(response.status === 200 && response.data.success === true){
             this.deleteModal = false;
             this.epicIdToDelete = null;
@@ -69,7 +69,7 @@ import DeleteModal from './DeleteModal.vue';
 
       async deleteUserStory(objectEpicIdUserStory){
         try{
-          const response = await axios.get('/api/user-stories/' + objectEpicIdUserStory.userStory.userStoryId + '/delete');
+          const response = await axios.get('/api/auth/user-stories/' + objectEpicIdUserStory.userStory.userStoryId + '/delete');
           if(response.status === 200 && response.data.success === true){
             Vue.$toast.success(response.data.message);
 
@@ -83,7 +83,7 @@ import DeleteModal from './DeleteModal.vue';
 
       async getProject(projectId){
         try{
-          const response = await axios.get('/api/projects/' + projectId);
+          const response = await axios.get('/api/auth/projects/' + projectId);
           if(response.status === 200 && response.data.success === true){
             this.project = response.data.project;
           }
@@ -104,12 +104,14 @@ import DeleteModal from './DeleteModal.vue';
     },
 
     mounted(){
+      let access_token = JSON.parse(localStorage.access_token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+
       if('objectProject' in this.$route.params){
         this.project = this.$route.params.objectProject;
       }else{
         this.getProject(this.$route.params.id);
-      }
-      
+      } 
     }
     
   }

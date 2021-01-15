@@ -47,6 +47,6 @@ const app = new Vue({
         }
     },
 
-    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, DeleteModal, InviteUserForm, Project},
+    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project},
 
 });

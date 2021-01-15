@@ -241,7 +241,7 @@
 
     async editUserStoryFromExistingEpic(){
       try{
-        const response = await axios.put('/api/user-stories/' + this.userStory.id, this.userStory);
+        const response = await axios.put('/api/auth/user-stories/' + this.userStory.id, this.userStory);
         if(response.status === 200 && response.data.success === true){
           this.userStory = response.data.userStory;
           Vue.$toast.success(response.data.message);
@@ -254,7 +254,7 @@
 
       async getUserStory(userStoryId){
       try{
-        const response = await axios.get('/api/user-stories/' + userStoryId);
+        const response = await axios.get('/api/auth/user-stories/' + userStoryId);
         if(response.status === 200 && response.data.success === true){
           this.userStory = response.data.userStory;
         }
@@ -333,8 +333,10 @@
     },
 
     mounted(){
+      let access_token = JSON.parse(localStorage.access_token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+
       if(this.epicExists === true){
-        console.log('hola')
         this.getUserStory(this.$route.params.id);
       }else{
         if (Object.keys(this.userStoryToEditProp).length != 0){

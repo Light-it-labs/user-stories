@@ -28,13 +28,6 @@ export default new VueRouter({
         },
 
         {
-            path:'/projects/:id',
-            name: 'project',
-            component: Project,
-            props:true
-        },
-
-        {
             path:'/projects/create',
             name: 'create-project',
             component: ProjectForm,
@@ -46,9 +39,16 @@ export default new VueRouter({
         },
 
         {
+            path:'/projects/:id',
+            name: 'project',
+            component: Project,
+            props:true
+        },
+
+        {
             path:'/projects/:id/edit',
             name:'edit-project',
-            component:ProjectForm,
+            component: ProjectForm,
             props:{
                 title: 'Edit Project',
                 buttonText: 'Save',

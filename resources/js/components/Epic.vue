@@ -102,7 +102,7 @@
         this.$emit('delete-user-story', { epicId: this.epic.id, userStory: userStory});
       },
 
-    }
+    },
 
 
   }

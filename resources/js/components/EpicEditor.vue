@@ -120,7 +120,7 @@ export default {
 
     async editEpic(){
         try{
-          const response = await axios.put('/api/epics/' + this.epic.id, this.epic);
+          const response = await axios.put('/api/auth/epics/' + this.epic.id, this.epic);
           if(response.status === 200 && response.data.success === true){
             Vue.$toast.success(response.data.message);
             this.$router.push({name: 'project', params:{id: this.epic.project_id}});
@@ -132,7 +132,7 @@ export default {
 
     async saveEpic(){
       try{
-        const response = await axios.post('/api/epics', this.epic);
+        const response = await axios.post('/api/auth/epics', this.epic);
         if(response.status === 200 && response.data.success === true){
           Vue.$toast.success(response.data.message);
           this.$router.push({name: 'project', params:{id: this.epic.project_id}});
@@ -144,7 +144,7 @@ export default {
 
     async getEpic(epicId){
       try{
-        const response = await axios.get('/api/epics/' + epicId);
+        const response = await axios.get('/api/auth/epics/' + epicId);
         if(response.status === 200 && response.data.success === true){
           this.epic = response.data.epic;
         }
@@ -203,6 +203,8 @@ export default {
   
 
   mounted(){
+    const access_token = JSON.parse(localStorage.access_token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
     this.epic.project_id = this.$route.params.projectId;
 
     if('epic' in this.$route.params){

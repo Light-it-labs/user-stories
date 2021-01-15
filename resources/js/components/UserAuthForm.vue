@@ -159,7 +159,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import VueToast from 'vue-toast-notification';
 
 export default {
@@ -214,7 +213,7 @@ export default {
           Vue.$toast.success("Successfully authenticated");
           localStorage.setItem('user', JSON.stringify(response.data.user));
           localStorage.setItem('access_token', JSON.stringify(response.data.access_token));
-          axios.defaults.headers.common.Authorization = `Bearer ${response.data.access_token}`;
+          axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
           window.location.href = '/';
         }
 

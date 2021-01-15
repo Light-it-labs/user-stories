@@ -51,7 +51,7 @@
             >
               <td @click="navigateToProject(project)" class="px-4 py-4">{{project.name}}</td>
               <td @click="navigateToProject(project)" class="px-4 py-4 hidden md:table-cell ">{{project.description}}</td>
-              <td class="px-6 py-4 text-right text-sm font-medium flex flex-col flex-end">
+              <td class="px-6 py-4 text-right text-sm font-medium flex flex-col flex-end items-end">
                 <button @click="$router.push({name:'edit-project', params: {id:project.id, objectProject:project}})" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Edit</button>
                 <a :href="'/users/invite/?project_id=' + project.id" class="text-indigo-600 hover:text-indigo-900 mb-2">Invite</a>
                 <button @click="showDeleteModal(project.id)" type="button" class="text-indigo-600 hover:text-indigo-900">Delete</button>
@@ -107,12 +107,13 @@ import DeleteModal from './DeleteModal.vue';
       },
 
       closeDeleteModal: function(){
+        this.projectIdToDelete = null;
         this.deleteModal = false;
       },
 
       async deleteProject(){
         try{
-          const response = await axios.get('/api/projects/' + this.projectIdToDelete + '/delete');
+          const response = await axios.get('api/auth/projects/' + this.projectIdToDelete + '/delete');
           if(response.status === 200 && response.data.success === true){
             this.deleteModal = false;
             this.projectIdToDelete = null;
@@ -126,7 +127,7 @@ import DeleteModal from './DeleteModal.vue';
 
       async getProjects(){
         try{
-          const response = await axios.get('/api/projects');
+          const response = await axios.get('/api/auth/projects');
           if(response.status === 200 && response.data.success === true){
             this.projects = response.data.projects;
           }
@@ -134,24 +135,11 @@ import DeleteModal from './DeleteModal.vue';
           Vue.$toast.error(e);
         }
       },
-
-      async getProjects(){
-        try{
-          let access_token = JSON.parse(localStorage.access_token);
-          const response = await axios.get('/api/auth/projects', {
-            headers:{
-              Authorization: ('Bearer ' + access_token),
-              'Accept': 'application/json',
-            }
-          });
-          this.projects = response.data.projects;
-        }catch(e){
-          Vue.$toast.error(e);
-        }
-      }
     },
 
     mounted(){
+      const access_token = JSON.parse(localStorage.access_token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
       this.getProjects();
     }
   }

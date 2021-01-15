@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models;
 use App\Http\Requests\ProjectRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 
 class ProjectController
 {
@@ -55,7 +56,7 @@ class ProjectController
         ]);
     }
 
-    public function update(ProjectRequest $request, Project $project){
+    public function update(ProjectUpdateRequest $request, Project $project){
 
         $project->update($request->all());
         
