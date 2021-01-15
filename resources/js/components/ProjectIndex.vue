@@ -134,6 +134,21 @@ import DeleteModal from './DeleteModal.vue';
           Vue.$toast.error(e);
         }
       },
+
+      async getProjects(){
+        try{
+          let access_token = JSON.parse(localStorage.access_token);
+          const response = await axios.get('/api/auth/projects', {
+            headers:{
+              Authorization: ('Bearer ' + access_token),
+              'Accept': 'application/json',
+            }
+          });
+          this.projects = response.data.projects;
+        }catch(e){
+          Vue.$toast.error(e);
+        }
+      }
     },
 
     mounted(){
