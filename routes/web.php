@@ -29,10 +29,16 @@ Route::get('/signup', function(){
 
 Route::get('/login', function(){
     return view('auth.login');
-});
+})->name('login');
 
 Route::get('/password/reset', function(){
     return view('auth.passwords.forgotPassword');
 });
+
+Route::get('/users/invite/', function(){
+    return view('auth.invitations.inviteUser');
+});
+
+Route::view('users/signup/invitation/', 'auth.invitations.signupInvitedUser')->name('invitation');
 
 Route::view('forgot_password', 'auth.passwords.resetPassword')->name('password.reset');

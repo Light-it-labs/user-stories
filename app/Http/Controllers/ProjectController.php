@@ -10,7 +10,7 @@ use App\Http\Requests\ProjectRequest;
 class ProjectController
 {
     //
-    public function index()
+    public function index(Request $request)
     {
         return response()->json([
              'success' => true,
@@ -28,13 +28,16 @@ class ProjectController
 
     public function create()
     {
-        //return view('projects.create');
+        
     }
 
     public function store(ProjectRequest $request)
     {
         $project = new Project($request->all());
         $project->save();
+
+        
+        $project->users()->attach($request->userId , array('role_id' => 1));
 
         return response()->json([
             'success' => true,
@@ -45,9 +48,6 @@ class ProjectController
 
     public function edit(Project $project)
     {
-        // return view('projects.edit', [
-        //     'project' => $project
-        // ]);
         
         return response()->json([
             'success' => true,

@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
 
-class ProjectRequest extends FormRequest
+class InvitedUserSignUpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +25,11 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('projects', 'name')->ignore($this->id)],
-            'description' => 'required',
-            'userId' => 'required|exists:users,id'
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string',
+            'image' => 'required|string',
+            'project_id' => 'required|exists:projects,id'
         ];
     }
 

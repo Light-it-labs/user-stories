@@ -7,6 +7,7 @@ import en from 'vee-validate/dist/locale/en.json';
 import * as rules from 'vee-validate/dist/rules';
 import UserAuthForm from './components/UserAuthForm.vue';
 import ForgotPassword from './components/ForgotPassword.vue';
+import InviteUserForm from './components/InviteUserForm.vue';
 import ProjectForm from './components/ProjectForm.vue';
 import ProjectIndex from './components/ProjectIndex.vue';
 import Project from './components/Project.vue';
@@ -46,6 +47,6 @@ const app = new Vue({
         }
     },
 
-    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, Project},
+    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, DeleteModal, InviteUserForm, Project},
 
 });

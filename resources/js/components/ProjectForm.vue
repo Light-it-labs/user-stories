@@ -81,7 +81,8 @@ import VueToast from 'vue-toast-notification';
         project:{
           id: null,
           name: "",
-          description: ""
+          description: "",
+          userId: null
         },
 
       }
@@ -98,7 +99,7 @@ import VueToast from 'vue-toast-notification';
       async crateProject(){
 
         try{
-          const response = await axios.post('/api/projects', this.project);
+          const response = await axios.post('/api/auth/projects', this.project);
           Vue.$toast.success(response.data.message);
           this.$router.push('/projects'); 
         }catch(e){

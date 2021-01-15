@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
+use App\Models\Invite;
 
-class ProjectRequest extends FormRequest
+class InvitationLinkRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,20 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('projects', 'name')->ignore($this->id)],
-            'description' => 'required',
-            'userId' => 'required|exists:users,id'
+            'email' => 'required|email|unique:users,email',
+            'project_id' => 'required|exists:projects,id',
         ];
+    }
+
+    protected function withValidator(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $validator->after(function ($validator)
+        {
+            if(Invite::where('email', $this->email)->exists())
+            {
+                $validator->errors()->add('email', 'A invitation for this email already exists!');
+            }
+        });
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $val)

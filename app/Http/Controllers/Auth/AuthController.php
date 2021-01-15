@@ -34,6 +34,7 @@ class AuthController
         ]);
         $user->setImageAttribute($request->image);
         $user->save();
+        
         return response()->json([
             'success' => true,
             'message' => 'Successfully created user!'
@@ -67,6 +68,7 @@ class AuthController
          if ($request->remember_me)
              $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
+
         return response()->json([
             'success' => true,
             'access_token' => $tokenResult->accessToken,
@@ -86,6 +88,7 @@ class AuthController
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
+        
         return response()->json([
             'success' => true,
             'message' => 'Successfully logged out'

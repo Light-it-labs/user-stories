@@ -11,10 +11,12 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
+use Spatie\Permission\Traits\HasRoles;
+use App\Models\Project;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasRoles, HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -50,6 +52,17 @@ class User extends Authenticatable
     */
 
     
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+     public function projects()
+     {
+         return $this->belongsToMany(Project::class, 'user_project_role')->withPivot('role_id')->withTimestamps();
+     }
 
     /*
     |--------------------------------------------------------------------------

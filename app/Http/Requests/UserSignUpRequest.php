@@ -30,4 +30,14 @@ class UserSignUpRequest extends FormRequest
             'image' => 'required|string',
         ];
     }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $val)
+    {
+        $response = new JsonResponse([
+            'success' => false,
+            'errors' => $val->errors()
+        ], 422);
+
+        throw new \Illuminate\Validation\ValidationException($val, $response);
+    }
 }
