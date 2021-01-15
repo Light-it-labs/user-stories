@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models;
 use App\Http\Requests\ProjectRequest;
 
 class ProjectController
@@ -11,19 +12,23 @@ class ProjectController
     //
     public function index()
     {
-        return view('projects.index', [
-            'projects' => Project::all()
+        return response()->json([
+             'success' => true,
+             'projects' => Project::with(['epics', 'epics.user_stories'])->get()
         ]);
     }
 
     public function show(Project $project)
     {
-        
+        return response()->json([
+            'success' => true,
+            'project' => $project->load(['epics', 'epics.user_stories'])
+       ]);
     }
 
     public function create()
     {
-        return view('projects.create');
+        //return view('projects.create');
     }
 
     public function store(ProjectRequest $request)
@@ -40,7 +45,12 @@ class ProjectController
 
     public function edit(Project $project)
     {
-        return view('projects.edit', [
+        // return view('projects.edit', [
+        //     'project' => $project
+        // ]);
+        
+        return response()->json([
+            'success' => true,
             'project' => $project
         ]);
     }

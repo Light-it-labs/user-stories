@@ -15,28 +15,22 @@ class CreateUserStoriesTable extends Migration
     {
         Schema::create('user_stories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('epic_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
             $table->text('description');
             $table->integer('priority');
             $table->integer('value');
             $table->integer('risk');
             $table->char('estimate',3);
-            $table->longText('acceptance');
-            $table->text('notes');
+            $table->longText('acceptance')->nullable();
+            $table->text('notes')->nullable();
             $table->char('category',10);
             $table->timestamps();
 
-
-            $table->foreign('project_id')
-                ->references('id')
-                ->on('projects');
-
             $table->foreign('epic_id')
                 ->references('id')
-                ->on('epics');
+                ->on('epics')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
                 ->references('id')
