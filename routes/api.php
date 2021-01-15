@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Auth\AuthController@login');
     Route::post('signup', 'Auth\AuthController@signup');
@@ -24,11 +28,31 @@ Route::group(['prefix' => 'auth'], function () {
   
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('user', 'Auth\AuthController@user');
-        Route::post('/projects', 'ProjectController@store');
+        
+        Route::get('logout', 'Auth\AuthController@logout');
+
+        // ---------------- Project ----------------
         Route::get('/projects', 'ProjectController@index');
+        Route::get('projects/{project}', 'ProjectController@show');
+        Route::post('/projects', 'ProjectController@store');
+        Route::get('projects/{project}/edit', 'ProjectController@edit');
         Route::put('projects/{project}', 'ProjectController@update');
         Route::get('projects/{project}/delete', 'ProjectController@delete');   
-        Route::get('logout', 'Auth\AuthController@logout');
+        
+        // ----------------        ----------------
+
+        // ---------------- Epic ----------------
+        Route::post('epics', 'EpicController@store');
+        Route::get('epics/{epic}', 'EpicController@show');
+        Route::put('epics/{epic}', 'EpicController@update');
+        Route::get('epics/{epic}/delete', 'EpicController@delete');
+        // ----------------        ----------------
+
+        // ---------------- User-Stories ----------------
+        Route::get('user-stories/{userStory}', 'UserStoryController@show');
+        Route::put('user-stories/{userStory}', 'UserStoryController@update');
+        Route::get('user-stories/{userStory}/delete', 'UserStoryController@delete');
+        // ----------------        ----------------
         
         
         

@@ -17,17 +17,12 @@ Route::get('/', function () {
     return view('layouts.layout');
 });
 
-Route::get('/projects', function () {
+Route::get('/projects{any}', function(){
     return view('projects.index');
-});
+})->where('any', '.*');
 
-Route::get('logout', 'Auth\AuthController@logout');        
 
-Route::group(['middleware' => ['auth:web', 'role:owner']], function() {
-    Route::get('projects/{project}/edit', 'ProjectController@edit');        
-});
 
-Route::get('/projects/create', 'ProjectController@create');
 Route::get('/signup', function(){
     return view('auth.signup');
 });

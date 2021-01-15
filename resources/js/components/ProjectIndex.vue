@@ -29,9 +29,7 @@
             </h3>
           </div>
           <div class="ml-4 mt-2 flex-shrink-0">
-            <a href="/projects/create" class="basicButton">
-              New Project
-            </a>
+            <button @click="$router.push({name: 'create-project'})" type="button" class="basicButton">New Project</button>
           </div>
         </div>
 
@@ -47,13 +45,16 @@
           </thead>
           <tbody class="text-sm font-normal text-gray-700">
 
-            <tr class="hover:bg-gray-100 border-b border-gray-200 py-10" v-for="project in projects" :key="project.id">
-              <td class="px-4 py-4">{{project.name}}</td>
-              <td class="px-4 py-4 hidden md:table-cell">{{project.description}}</td>
+            <tr 
+              class="border-b border-gray-200 py-10 hover:bg-gray-200 cursor-pointer" 
+              v-for="project in projects" :key="project.id" 
+            >
+              <td @click="navigateToProject(project)" class="px-4 py-4">{{project.name}}</td>
+              <td @click="navigateToProject(project)" class="px-4 py-4 hidden md:table-cell ">{{project.description}}</td>
               <td class="px-6 py-4 text-right text-sm font-medium flex flex-col flex-end">
-                <a :href="'/projects/' + project.id + '/edit'" class="text-indigo-600 hover:text-indigo-900 mb-2">Edit</a>
+                <button @click="$router.push({name:'edit-project', params: {id:project.id, objectProject:project}})" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Edit</button>
                 <a :href="'/users/invite/?project_id=' + project.id" class="text-indigo-600 hover:text-indigo-900 mb-2">Invite</a>
-                <a @click="showDeleteModal(project.id)" class="text-indigo-600 hover:text-indigo-900">Delete</a>
+                <button @click="showDeleteModal(project.id)" type="button" class="text-indigo-600 hover:text-indigo-900">Delete</button>
               </td>
             </tr>
 
@@ -71,7 +72,7 @@
         left-button="Cancel"
         right-button="Confirm"
         @close-delete-modal="closeDeleteModal()"
-        @delete-project="deleteProject()"
+        @delete-confirm="deleteProject()"
       >
       </Delete-Modal>
     
@@ -94,14 +95,15 @@ import DeleteModal from './DeleteModal.vue';
 
     components: {DeleteModal},
 
-    // props:{
-    //   projects: Array
-    // },
-
     methods:{
+      navigateToProject: function(project){
+        this.$router.push({name:'project', params: {id:project.id, objectProject: project}});
+      },
+
       showDeleteModal: function(id){
         this.projectIdToDelete = id;
         this.deleteModal = true;
+        return false;
       },
 
       closeDeleteModal: function(){
@@ -111,10 +113,12 @@ import DeleteModal from './DeleteModal.vue';
       async deleteProject(){
         try{
           const response = await axios.get('/api/projects/' + this.projectIdToDelete + '/delete');
-          this.deleteModal = false;
-          Vue.$toast.success(response.data.message);
-          location.reload();
-
+          if(response.status === 200 && response.data.success === true){
+            this.deleteModal = false;
+            this.projectIdToDelete = null;
+            Vue.$toast.success(response.data.message);
+            this.$router.go();
+          }
         }catch(e){
           Vue.$toast.error(e);
         }
@@ -122,18 +126,14 @@ import DeleteModal from './DeleteModal.vue';
 
       async getProjects(){
         try{
-          let access_token = JSON.parse(localStorage.access_token);
-          const response = await axios.get('/api/auth/projects', {
-            headers:{
-              Authorization: ('Bearer ' + access_token),
-              'Accept': 'application/json',
-            }
-          });
-          this.projects = response.data.projects;
+          const response = await axios.get('/api/projects');
+          if(response.status === 200 && response.data.success === true){
+            this.projects = response.data.projects;
+          }
         }catch(e){
           Vue.$toast.error(e);
         }
-      }
+      },
     },
 
     mounted(){

@@ -23,11 +23,6 @@ class UserStory extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
-
     public function epic()
     {
         return $this->belongsTo(Epic::class);

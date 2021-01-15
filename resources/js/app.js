@@ -10,7 +10,8 @@ import ForgotPassword from './components/ForgotPassword.vue';
 import InviteUserForm from './components/InviteUserForm.vue';
 import ProjectForm from './components/ProjectForm.vue';
 import ProjectIndex from './components/ProjectIndex.vue';
-import DeleteModal from './components/DeleteModal.vue';
+import Project from './components/Project.vue';
+
 
 const {default: Axios} = require('axios');
 
@@ -18,7 +19,9 @@ require('./bootstrap');
 
 
 window.Vue = require('vue');
+
 Vue.config.devtools = true;
+
 Vue.use(VueToast, {
     position: "bottom"
 });
@@ -44,6 +47,6 @@ const app = new Vue({
         }
     },
 
-    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, DeleteModal, InviteUserForm},
+    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, DeleteModal, InviteUserForm, Project},
 
 });

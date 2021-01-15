@@ -28,7 +28,7 @@ class Epic extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function userStories()
+    public function user_stories()
     {
         return $this->hasMany(UserStory::class);
     }
