@@ -21,6 +21,13 @@ class InviteController
     {
         try
         {
+            if(!$request->user()->can_invite_new_users_to_project($request->project_id)){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Not authorized'
+                 ], 403);
+            }
+
             $token = Str::random(32);
     
             Invite::create([

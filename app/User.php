@@ -70,6 +70,33 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
+    public function has_basic_permissions_to_project(Project $project){
+        $project_users_allowed = $project->users()->pluck('user_id')->toArray();
+
+        if(!in_array($this->id, $project_users_allowed)){
+            return false;
+        }
+        return true;
+    }
+
+    public function has_full_permissions_to_project(Project $project){
+        $project_users_full_permissions = $project->users()->where('role_id', 1)->pluck('user_id')->toArray();
+
+        if(!in_array($this->id, $project_users_full_permissions)){
+            return false;
+        }
+        return true;
+    }
+
+    public function can_invite_new_users_to_project($project_id){
+        $project = Project::where('id', $project_id)->firstOrFail();
+
+        if(!$this->has_full_permissions_to_project($project)){
+            return false;
+        }
+        return true;
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
