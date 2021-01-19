@@ -8,16 +8,34 @@ use App\Http\Requests\UserStoryRequest;
 
 class UserStoryController
 {
-  public function show(UserStory $userStory)
+  public function show(Request $request, UserStory $userStory)
   {
+    $project = $userStory->get_project_of_user_story();
+
+    if(!$request->user()->has_basic_permissions_to_project($project)){
       return response()->json([
-          'success' => true,
-          'userStory' => $userStory
-      ]);
+          'success' => false,
+          'message' => 'Not authorized'
+       ], 403);
+    }
+
+    return response()->json([
+        'success' => true,
+        'userStory' => $userStory
+    ]);
   }
 
   public function update(UserStoryRequest $request, UserStory $userStory)
   {
+    $project = $userStory->get_project_of_user_story();
+
+    if(!$request->user()->has_basic_permissions_to_project($project)){
+      return response()->json([
+          'success' => false,
+          'message' => 'Not authorized'
+       ], 403);
+    }
+
     $userStory->update($request->all());
   
     return response()->json([
@@ -26,8 +44,17 @@ class UserStoryController
     ]);
   }
 
-  public function delete(UserStory $userStory)
+  public function delete(Request $request, UserStory $userStory)
   {
+    $project = $userStory->get_project_of_user_story();
+
+    if(!$request->user()->has_basic_permissions_to_project($project)){
+      return response()->json([
+          'success' => false,
+          'message' => 'Not authorized'
+       ], 403);
+    }
+
     $userStory->delete();
 
     return response()->json([

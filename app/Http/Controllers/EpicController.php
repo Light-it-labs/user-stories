@@ -15,8 +15,15 @@ class EpicController
         
     }
 
-    public function show(Epic $epic)
+    public function show(Request $request, Epic $epic)
     {
+        if(!$request->user()->has_basic_permissions_to_project($epic->project()->first())){
+            return response()->json([
+                'success' => false,
+                'message' => 'Not authorized'
+             ], 403);
+        }
+
         return response()->json([
             'success' => true,
             'epic' => $epic->load(['user_stories'])
@@ -61,6 +68,14 @@ class EpicController
 
     public function update(EpicRequest $request, Epic $epic){
         $user = $request->user();
+
+        if(!$user->has_basic_permissions_to_project($epic->project()->first())){
+            return response()->json([
+                'success' => false,
+                'message' => 'Not authorized'
+             ], 403);
+        }
+        
         $epic->update($request->all());
 
         foreach($request->user_stories as $user_story){
@@ -84,8 +99,15 @@ class EpicController
         ]);
     }
 
-    public function delete(Epic $epic)
+    public function delete(Request $request, Epic $epic)
     {
+        if(!$request->user()->has_basic_permissions_to_project($epic->project()->first())){
+            return response()->json([
+                'success' => false,
+                'message' => 'Not authorized'
+             ], 403);
+        }
+
         $epic->delete();
 
         return response()->json([

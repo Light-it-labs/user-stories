@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 
+
 class UserStory extends Model
 {
     /*
@@ -44,4 +45,11 @@ class UserStory extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+    public function get_project_of_user_story(){
+        $project = Project::where('id', $this->epic()->first()->project_id)->firstOrFail();
+        
+        return $project;
+        
+    }
 }

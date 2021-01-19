@@ -250,6 +250,11 @@ import VueToast from 'vue-toast-notification';
         e.preventDefault();
       }
     },
+
+    mounted(){
+      const access_token = JSON.parse(localStorage.access_token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+    }
     
   }
 </script>
