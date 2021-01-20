@@ -52,6 +52,16 @@ Route::group(['prefix' => 'auth'], function () {
         Route::put('user-stories/{userStory}', 'UserStoryController@update');
         Route::get('user-stories/{userStory}/delete', 'UserStoryController@delete');
         // ----------------        ----------------
+
+        // ---------------- Project-Dashboard ----------------
+        Route::get('/projects/{project}/dashboard/user-story-priority', 'DashboardController@getPriorityChartData');
+        Route::get('/projects/{project}/dashboard/user-story-value', 'DashboardController@getValueChartData');
+        Route::get('/projects/{project}/dashboard/user-story-risk', 'DashboardController@getRiskChartData');
+        Route::get('/projects/{project}/dashboard/strategic-user-stories', 'DashboardController@getStrategicUserStoriesDescription');
+        Route::get('/projects/{project}/dashboard/user-stories-count', 'DashboardController@getProjectUserStoriesCount');
+        
+        
+        
         
         
         
