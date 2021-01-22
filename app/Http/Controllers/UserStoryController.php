@@ -35,8 +35,11 @@ class UserStoryController
           'message' => 'Not authorized'
        ], 403);
     }
-
+    
+    //Search how to update with the DB only one time and not updating and then calculating category and save on DB.
     $userStory->update($request->all());
+    $userStory->calculateCategory();
+    $userStory->save();
   
     return response()->json([
         'success' => true,
