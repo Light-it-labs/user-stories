@@ -199,13 +199,6 @@ export default {
       }
     },
 
-    async resetEpicStatus(epicId){
-      try{
-        const response = await axios.get('/api/auth/epics/' + epicId + '/reset-status');
-      }catch(e){
-        Vue.$toast.error(e.response.data.message);
-      }
-    }
   },
 
   mounted(){
@@ -213,7 +206,16 @@ export default {
     axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
     this.epic.project_id = this.$route.params.projectId;
     this.evaluateUserStory(this.$route.params.id);
-    //window.addEventListener('onbeforeunload', this.resetEpicStatus(this.$route.params.id));
+    window.onunload = () => {
+      fetch('/api/auth/epics/' + this.$route.params.id + '/reset-status', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+          },
+          keepalive: true
+      });
+    }
   
   },
 

@@ -98,7 +98,7 @@ class UserStoryController
     if(!$userStory->isAvailableToEdit()){
       return response()->json([
           'success' => false,
-          'message' => 'Not available to edit now. Try later'
+          'message' => 'Not available to delete now. Try later'
        ], 422);
     };
 

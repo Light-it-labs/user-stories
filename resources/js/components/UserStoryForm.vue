@@ -339,6 +339,16 @@
 
       if(this.epicExists === true){
         this.getUserStoryToEdit(this.$route.params.id);
+        window.onunload = () => {
+          fetch('/api/auth/epics/' + this.$route.params.epicId + '/reset-status', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+              },
+              keepalive: true
+          });
+        }
       }else{
         if (Object.keys(this.userStoryToEditProp).length != 0){
           this.userStory = this.userStoryToEditProp;
