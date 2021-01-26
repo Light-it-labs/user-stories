@@ -1,7 +1,13 @@
 <template>
   <div class="bg-white pb-4 px-4 rounded-md w-full">
-    <div class="w-full pt-6 ">
-      <h2 class="ml-3 text-center">{{project.name}}</h2>
+    <div class="w-full pt-6 flex justify-center items-center relative">
+      <BackButton></BackButton>
+      <h2 class="m-0 text-center">{{project.name}}</h2>
+
+      <div class="text-center absolute right-0">
+        <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
+      </div>
+
     </div>
   <!-- v-if="project.epics.length > 0" -->
     <div >
@@ -18,9 +24,7 @@
     </div>
     
 
-    <div class="text-center">
-      <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
-    </div>
+    
 
     <Delete-Modal v-if="deleteModal"
         title="Delete Epic" 
@@ -39,6 +43,7 @@
 import EpicEditor from './EpicEditor.vue';
 import Epic from './Epic.vue';
 import DeleteModal from './DeleteModal.vue';
+import BackButton from './BackButton.vue';
 
   export default {
     data(){
@@ -49,7 +54,7 @@ import DeleteModal from './DeleteModal.vue';
       }
     },
 
-    components:{EpicEditor, Epic, DeleteModal},
+    components:{EpicEditor, Epic, DeleteModal, BackButton},
 
     methods:{
 

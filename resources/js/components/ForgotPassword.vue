@@ -1,5 +1,12 @@
 <template>
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+  <div class="min-h-screen flex flex-col py-2 sm:px-2 lg:px-8">
+
+    <div v-if="!hasToken" class="w-full pt-6 mb-2 flex justify-center items-center relative">
+      <BackButton></BackButton>
+      <h2 class="m-0 text-center text-3xl font-extrabold text-gray-600">Forgot Your Password?</h2>
+    </div>
+    
+    <div class="mt-8 sm:w-full bg-white shadow sm:rounded-lg">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <ValidationObserver v-slot="{ handleSubmit }">
           <form
@@ -11,9 +18,7 @@
           
 
             <div v-if="!hasToken">
-              <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-600">
-                Forgot Your Password?
-              </h2>
+              
               <p class="mt-2 font-medium text-center text-sm text-gray-700 max-w">
                 Just enter your email address below and we'll send you a link to reset your password!
               </p>
@@ -102,7 +107,7 @@
             <div>
               <button
                 type="submit"
-                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="basicButton w-full flex justify-center"
               >
                 {{buttonText}}
               </button>
@@ -110,12 +115,12 @@
           </form>
         </ValidationObserver>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import VueToast from 'vue-toast-notification';
+import BackButton from './BackButton.vue';
 
   export default {
     data(){
@@ -129,6 +134,8 @@ import VueToast from 'vue-toast-notification';
         rePassword: "",
       }
     },
+
+    components:{BackButton},
 
     props: ["buttonText", "hasToken"],
 
