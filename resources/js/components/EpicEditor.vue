@@ -142,14 +142,15 @@ export default {
       }
     },
 
-    async getEpic(epicId){
+    async getEpicToEdit(epicId){
       try{
-        const response = await axios.get('/api/auth/epics/' + epicId);
+        const response = await axios.get('/api/auth/epics/' + epicId + '/edit');
         if(response.status === 200 && response.data.success === true){
           this.epic = response.data.epic;
         }
       }catch(e){
-        Vue.$toast.error(e);
+        Vue.$toast.error(e.response.data.message);
+        this.$router.push({name: 'project', params: {id: this.$route.params.projectId}});
       }
     },
 
@@ -191,30 +192,36 @@ export default {
 
     evaluateUserStory(paramId){
       if(paramId != 'new'){
-        this.getEpic(paramId);
+        this.getEpicToEdit(paramId);
         this.title = "Edit Epic"
       }else{
         this.title = "New Epic"
       }
+    },
+
+    async resetEpicStatus(epicId){
+      try{
+        const response = await axios.get('/api/auth/epics/' + epicId + '/reset-status');
+      }catch(e){
+        Vue.$toast.error(e.response.data.message);
+      }
     }
   },
-
-
-  
 
   mounted(){
     const access_token = JSON.parse(localStorage.access_token);
     axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
     this.epic.project_id = this.$route.params.projectId;
+    this.evaluateUserStory(this.$route.params.id);
+    //window.addEventListener('onbeforeunload', this.resetEpicStatus(this.$route.params.id));
+  
+  },
 
-    if('epic' in this.$route.params){
-        this.epic = this.$route.params.epic;
-        this.title = "Edit Epic"
-    }else{
-      this.evaluateUserStory(this.$route.params.id);
+  created() {
+    window.onbeforeunload = function (){
+      this.resetEpicStatus(this.$route.params.id);
     }
-    
-  }
+  },
 }
 </script>
 
