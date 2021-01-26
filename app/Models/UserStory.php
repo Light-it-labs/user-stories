@@ -52,4 +52,13 @@ class UserStory extends Model
         return $project;
         
     }
+
+    public function isAvailableToEdit()
+    {
+        if($this->epic()->first()->user_id_editing != null)
+        {
+            return false;
+        }
+        return true;
+    }
 }

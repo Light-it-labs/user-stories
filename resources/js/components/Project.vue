@@ -77,7 +77,7 @@ import DeleteModal from './DeleteModal.vue';
             epic.user_stories.splice(objectEpicIdUserStory.userStory.userStoryIndex, 1);
           }
         }catch(e){
-          Vue.$toast.error(e);
+          Vue.$toast.error(e.response.data.message);
         }
       },
 
