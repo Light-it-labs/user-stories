@@ -112,7 +112,18 @@ import DeleteModal from './DeleteModal.vue';
       }else{
         this.getProject(this.$route.params.id);
       } 
-    }
+    },
+
+     created(){
+      Echo.private('project-channel.' + this.$route.params.id)
+      .listen('ProjectUpdateEvent', (e) => {
+        //Which is more accurate? Sending Project id from router or from the event?
+        //From router
+        //this.getProject(this.$route.params.id);
+        //From event
+        this.getProject(e.project.id);
+      });
+     }
     
   }
 </script>

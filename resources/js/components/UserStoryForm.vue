@@ -237,6 +237,16 @@
       epicExists:Boolean
     },
 
+    watch:{
+      userStory:{
+        handler: function(newUserStory, oldUserStory){
+        this.debouncedGetChange();
+        },
+
+        deep:true
+      },
+  },
+
     methods:{
 
     async editUserStoryFromExistingEpic(){
@@ -308,6 +318,11 @@
         } 
       },
 
+      getChange: function(){
+        console.log('Something');
+        return;
+      },
+
       increasePriority: function(){
        this.userStory.priority++;
       },
@@ -357,6 +372,10 @@
       }
       
     },
+
+    created(){
+      this.debouncedGetChange = _.debounce(this.getChange, 4000);
+    }
   }
 </script>
 

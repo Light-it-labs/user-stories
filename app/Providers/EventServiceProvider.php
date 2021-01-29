@@ -18,6 +18,14 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        'App\Events\EpicUpdateEvent' => [
+            'App\Listeners\EpicUpdateNotification',
+        ],
+
+        'App\Events\ProjectUpdateEvent' => [
+            'App\Listeners\ProjectUpdateNotification',
+        ],
     ];
 
     /**

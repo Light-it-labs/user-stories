@@ -4,7 +4,7 @@
     <h2>{{title}}</h2>
 
      <div class="mt-2 sm:w-full bg-white shadow sm:rounded-lg">
-       <ValidationObserver v-slot="{ handleSubmit }">
+       <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
         <form 
           action="" 
           method="POST"
@@ -88,6 +88,7 @@
 
 <script>
 import UserStoryForm from './UserStoryForm.vue';
+import _ from 'lodash';
 
 export default {
   data(){
@@ -116,6 +117,16 @@ export default {
     }
   },
 
+  watch:{
+    epic:{
+      handler: function(newEpic, oldEpic){
+      this.saveChanges();
+      },
+      immediate:false,
+      deep:true
+    },
+  },
+
   methods:{
 
     async editEpic(){
@@ -123,7 +134,7 @@ export default {
           const response = await axios.put('/api/auth/epics/' + this.epic.id, this.epic);
           if(response.status === 200 && response.data.success === true){
             Vue.$toast.success(response.data.message);
-            this.$router.push({name: 'project', params:{id: this.epic.project_id}});
+            //this.$router.push({name: 'project', params:{id: this.epic.project_id}});
           }
         }catch(e){
           Vue.$toast.error(e);
@@ -135,7 +146,8 @@ export default {
         const response = await axios.post('/api/auth/epics', this.epic);
         if(response.status === 200 && response.data.success === true){
           Vue.$toast.success(response.data.message);
-          this.$router.push({name: 'project', params:{id: this.epic.project_id}});
+          console.log(response.data.epic);
+          //this.$router.push({name: 'project', params:{id: this.epic.project_id}});
         }
       }catch(e){
         Vue.$toast.error(e);
@@ -199,6 +211,15 @@ export default {
       }
     },
 
+     saveChanges: _.debounce(function(){
+      if (!this.$refs.observer.flags.invalid){
+        this.checkForm();
+      }else{
+        console.log('errors')
+      }
+      
+     },2000)
+
   },
 
   mounted(){
@@ -206,6 +227,7 @@ export default {
     axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
     this.epic.project_id = this.$route.params.projectId;
     this.evaluateUserStory(this.$route.params.id);
+
     window.onunload = () => {
       fetch('/api/auth/epics/' + this.$route.params.id + '/reset-status', {
           method: 'GET',
@@ -220,9 +242,23 @@ export default {
   },
 
   created() {
-    window.onbeforeunload = function (){
-      this.resetEpicStatus(this.$route.params.id);
-    }
+    //this.debouncedGetChange = _.debounce(this.getChange, 4000);
+
+    
+      // Echo.channel('epic-channel')
+      // .listen('EpicUpdateEvent', (e) => {
+      //   console.log(e.epic);
+      //   console.log(e);
+      // });
+
+      //Private channel
+      if(this.$route.params.id != 'new'){
+       Echo.private('epic-channel.' + this.$route.params.id)
+       .listen('.EpicUpdateEvent', (e) => {
+         console.log(e.epic);
+       });
+      }
+    
   },
 }
 </script>

@@ -8,6 +8,8 @@ use App\Models\UserStory;
 use App\Http\Requests\EpicRequest;
 use App\Http\Requests\UserStoryRequest;
 use Illuminate\Support\Facades\DB;
+use App\Events\EpicUpdateEvent;
+use App\Events\ProjectUpdateEvent;
 
 class EpicController
 {
@@ -55,8 +57,12 @@ class EpicController
             $user_story->epic()->associate($epic);
         }
 
+        broadcast(new EpicUpdateEvent($epic));
+        broadcast(new ProjectUpdateEvent($epic->project()->first()));
+
         return response()->json([
             'success' => true,
+            'epic' => $epic,
             'message' => 'Epic created successfully'
         ]);
         
@@ -80,6 +86,9 @@ class EpicController
 
         $epic->user_id_editing = $request->user()->id;
         $epic->save();
+
+        broadcast(new ProjectUpdateEvent($epic->project()->first()));
+        broadcast(new EpicUpdateEvent($epic));
 
         return response()->json([
             'success' => true,
@@ -116,8 +125,8 @@ class EpicController
         };
         
         $epic->update($request->all());
-        $epic->user_id_editing = null;
-        $epic->save();
+        // $epic->user_id_editing = null;
+        // $epic->save();
 
         foreach($request->user_stories as $user_story){
 
