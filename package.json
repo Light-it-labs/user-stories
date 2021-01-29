@@ -25,7 +25,9 @@
     },
     "dependencies": {
         "autoprefixer": "^10.1.0",
+        "laravel-echo": "^1.10.0",
         "postcss": "^8.2.1",
+        "pusher-js": "^7.0.3",
         "tailwindcss": "^2.0.2",
         "vee-validate": "^3.4.5",
         "vue-router": "^3.4.9",
