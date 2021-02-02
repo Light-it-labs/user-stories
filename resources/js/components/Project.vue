@@ -59,8 +59,6 @@ import DeleteModal from './DeleteModal.vue';
           if(response.status === 200 && response.data.success === true){
             this.deleteModal = false;
             this.epicIdToDelete = null;
-            Vue.$toast.success(response.data.message);
-            this.$router.go();
           }
         }catch(e){
           Vue.$toast.error(e);
@@ -72,7 +70,6 @@ import DeleteModal from './DeleteModal.vue';
           const response = await axios.get('/api/auth/user-stories/' + objectEpicIdUserStory.userStory.userStoryId + '/delete');
           if(response.status === 200 && response.data.success === true){
             Vue.$toast.success(response.data.message);
-
             const epic = this.project.epics.find(item => item.id === objectEpicIdUserStory.epicId);
             epic.user_stories.splice(objectEpicIdUserStory.userStory.userStoryIndex, 1);
           }

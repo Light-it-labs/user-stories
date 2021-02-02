@@ -2,6 +2,11 @@
   <div class="min-h-screen flex flex-col py-2 sm:px-2 lg:px-8">
 
     <h2>{{title}}</h2>
+    <LastSaved 
+      ref="lastSaved"
+      v-bind:savingStatus="savingEpic"
+    >
+    </LastSaved>
 
      <div class="mt-2 sm:w-full bg-white shadow sm:rounded-lg">
        <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
@@ -33,9 +38,7 @@
                     </div>
                   </ValidationProvider>
                 </div>
-                
             
-
               <div class="bg-gray-600 p-4 border-t-2 bg-opacity-5 border-indigo-400 rounded-t mt-4">
                 <div class="flex justify-between items-center md:w-full md:mx-0">
                   <h2 class="font-medium text-gray-700">User Stories</h2>
@@ -57,21 +60,21 @@
                     <span>{{userStory.description}}</span>
                     <div>
                       <button @click="editUserStory(userStory, index)" type="button"><i class="fa fa-edit"></i></button>
-                      <button @click="epic.user_stories.splice(index, 1)" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                      <button @click="deleteUserStory(userStory, index)" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                     
                   </li>
                   <hr>
                 </ul>
 
-
                 <User-Story-Form 
-                  v-if="userStoryForm"
+                  v-if="showUserStoryForm"
                   v-bind:userStoryToEditProp="userStoryToEdit"
                   v-bind:index="userStoryIndex"
                   @save-user-story="saveNewUserStory($event)"
                   @edit-user-story="saveEditedUserStory($event)"
-                  @cancel-new-user-story="cancelNewUserStory()"
+                  @cancel-new-user-story="closeUserStoryForm()"
+                  @close-user-story-form="closeUserStoryForm()"
                 >
               </User-Story-Form> 
               </div>
@@ -88,6 +91,7 @@
 
 <script>
 import UserStoryForm from './UserStoryForm.vue';
+import LastSaved from './LastSaved.vue';
 import _ from 'lodash';
 
 export default {
@@ -102,26 +106,27 @@ export default {
       userStoryToEdit: {},
       userStoryIndex: null,
       title:"",
+      watchInPause: true,
+      savingEpic: false,
     }
   },
 
-  components:{UserStoryForm},
+  components:{UserStoryForm, LastSaved},
 
   props:{
     projectIdProp:Number,
   },
 
-  computed:{
-    userStoryForm: function(){
-      return this.showUserStoryForm;
-    }
-  },
-
   watch:{
     epic:{
-      handler: function(newEpic, oldEpic){
-      this.saveChanges();
+      handler: function(){
+        if(!this.watchInPause){
+          this.savingEpic = true;
+          this.saveChanges();
+        }
+        this.watchInPause = false;
       },
+
       immediate:false,
       deep:true
     },
@@ -133,24 +138,35 @@ export default {
         try{
           const response = await axios.put('/api/auth/epics/' + this.epic.id, this.epic);
           if(response.status === 200 && response.data.success === true){
-            Vue.$toast.success(response.data.message);
-            //this.$router.push({name: 'project', params:{id: this.epic.project_id}});
+            this.$refs.lastSaved.updateTime();
+            this.epic = response.data.epic;
           }
         }catch(e){
           Vue.$toast.error(e);
-        }   
+          
+        }finally{
+          this.savingEpic = false;
+          this.watchInPause = true;
+        }
     },
 
     async saveEpic(){
       try{
         const response = await axios.post('/api/auth/epics', this.epic);
         if(response.status === 200 && response.data.success === true){
-          Vue.$toast.success(response.data.message);
-          console.log(response.data.epic);
-          //this.$router.push({name: 'project', params:{id: this.epic.project_id}});
+          this.$refs.lastSaved.updateTime();
+          this.epic = response.data.epic;
+          //I'am supposed to change the route with the id of the new epic? The route params is already change
+          // but the route path displayed for the user is not.
+          // this.$route.path = `/projects/${this.$route.params.projectId}/${this.epic.id}`;
+          this.$route.params.id = this.epic.id;
         }
       }catch(e){
         Vue.$toast.error(e);
+        
+      }finally{
+        this.savingEpic = false;
+        this.watchInPause = true;
       }
     },
 
@@ -158,6 +174,7 @@ export default {
       try{
         const response = await axios.get('/api/auth/epics/' + epicId + '/edit');
         if(response.status === 200 && response.data.success === true){
+          this.watchInPause = true;
           this.epic = response.data.epic;
         }
       }catch(e){
@@ -166,9 +183,22 @@ export default {
       }
     },
 
-    cancelNewUserStory: function(){
+    async deleteUserStory(userStory, index){
+      const response = await axios.get('/api/auth/user-stories/' + userStory.id + '/delete');
+      if(response.status === 200 && response.data.success === true){
+        this.epic.user_stories.splice(index, 1);
+        if(this.userStoryIndex === index){
+          this.showUserStoryForm = false;
+          this.userStoryToEdit = {};
+          this.userStoryIndex = null;    
+        }
+      }
+    },
+
+    closeUserStoryForm: function(){
       this.showUserStoryForm = false;
       this.userStoryToEdit = {};
+      this.userStoryIndex = null;
     },
 
     editUserStory: function(userStory, index){
@@ -179,20 +209,18 @@ export default {
 
     saveEditedUserStory: function(userStoryWithIndex){
       this.epic.user_stories[userStoryWithIndex.index] = userStoryWithIndex.userStory;
-      this.userStoryToEdit = {};
-      this.showUserStoryForm = false;
+      this.editEpic();
     },
 
     saveNewUserStory: function(userStory){
       this.epic.user_stories.unshift(userStory);
       this.showUserStoryForm = false;
+      this.userStoryIndex = null;
     },
 
     addUserStory: function(){
       this.showUserStoryForm = true;
     },
-
-
 
     checkForm: function(e){
       if(this.$route.params.id != 'new'){
@@ -215,9 +243,8 @@ export default {
       if (!this.$refs.observer.flags.invalid){
         this.checkForm();
       }else{
-        console.log('errors')
+        this.savingEpic = false;
       }
-      
      },2000)
 
   },
@@ -239,26 +266,6 @@ export default {
       });
     }
   
-  },
-
-  created() {
-    //this.debouncedGetChange = _.debounce(this.getChange, 4000);
-
-    
-      // Echo.channel('epic-channel')
-      // .listen('EpicUpdateEvent', (e) => {
-      //   console.log(e.epic);
-      //   console.log(e);
-      // });
-
-      //Private channel
-      if(this.$route.params.id != 'new'){
-       Echo.private('epic-channel.' + this.$route.params.id)
-       .listen('.EpicUpdateEvent', (e) => {
-         console.log(e.epic);
-       });
-      }
-    
   },
 }
 </script>
