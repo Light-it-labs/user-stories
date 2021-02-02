@@ -35,6 +35,11 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'user_project_role')->withPivot('role_id')->withTimestamps();
     }
 
+    public function user_stories()
+    {
+        return $this->hasManyThrough(UserStory::class, Epic::class, 'project_id', 'epic_id', 'id', 'id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
