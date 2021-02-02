@@ -12,10 +12,10 @@
 
     <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
       <form 
-          action="" 
-          method="POST"
-          @submit.prevent="handleSubmit(checkForm)"
-        >
+        action="" 
+        method="POST"
+        @submit.prevent="handleSubmit(checkForm)"
+      >
             <div class="pt-6 px-4 sm:px-10">
               <div v-if="userStoryIndex != null">
                 <button class="button absolute inset-x-3/4" @click="$emit('close-user-story-form')">X</button>
@@ -43,108 +43,137 @@
                 </ValidationProvider>
               </div>
 
-              <div class="grid grid-cols-3 gap-2 mb-2">
-                <div>
-                  <ValidationProvider name="Priority" rules="required|between:1,4" v-slot="{errors}">
-                    <label for="priority" class="block text-sm font-medium text-gray-700">
-                      Priority
-                    </label>  
-                    <div class="flex flex-wrap">
-                      <div class="flex w-8/12">
-                        <input 
-                          type="number" 
-                          id="priority"
-                          v-model="userStory.priority"
-                          class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
-                        >
+              <!-- <div class="grid grid-cols-3 gap-2 mb-2"> -->
+              
+                <div class="grid grid-cols-3 gap-2 mb-2">
+                  <div>
+                    <ValidationProvider name="Priority" rules="required|between:1,4" v-slot="{errors}">
+                      <label for="priority" class="block text-sm font-medium text-gray-700">
+                        Priority
+                      </label>  
+                      <div class="flex flex-wrap">
+                        <div class="flex w-8/12">
+                          <select 
+                            name="priority" 
+                            id="priority"
+                            v-model="userStory.priority"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          >
+                            <option value="-1">Select priority...</option>
+                            <option value="1">1 High</option>
+                            <option value="2">2 Med</option>
+                            <option value="3">3 Med</option>
+                            <option value="4">4 Low</option>
+                          </select>
+                          </div>
+                        <div class="flex flex-col w-4/12">
+                          <button
+                            :disabled="increaseButtonisDisable('priority')"
+                            type="button"
+                            @click="increasePriority"
+                            class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                          +
+                          </button>
+                          <button
+                            :disabled="decreaseButtonisDisable('priority')"
+                            type="button"
+                            @click="decreasePriority"
+                            class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                          -
+                          </button>
                         </div>
-                      <div class="flex flex-col w-4/12">
-                        <button
-                          type="button"
-                          @click="increasePriority"
-                          class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                        +
-                        </button>
-                        <button
-                          type="button"
-                          @click="decreasePriority"
-                          class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                        -
-                        </button>
-                      </div>
-                      <div v-if="errors[0]" class="my-1">
-                        <span class="error-text">{{errors[0]}}</span>
-                      </div>
-                    </div>
-                  </ValidationProvider>
-                </div>
-
-                <div>
-                  <ValidationProvider name="Risk" rules="required|between:1,4" v-slot="{errors}">
-                    <label for="risk" class="block text-sm font-medium text-gray-700">
-                      Risk
-                    </label>  
-                    <div class="flex flex-wrap">
-                      <div class="flex w-8/12">
-                        <input 
-                          type="number" 
-                          id="risk"
-                          v-model="userStory.risk"
-                          class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
-                        >
-                        </div>
-                      <div class="flex flex-col w-4/12">
-                        <button
-                          type="button"
-                          @click="increaseRisk"
-                          class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                        +
-                        </button>
-                        <button
-                          type="button"
-                          @click="decreaseRisk"
-                          class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                        -
-                        </button>
-                      </div>
-                      <div v-if="errors[0]" class="my-1">
-                        <span class="error-text">{{errors[0]}}</span>
-                      </div>
-                    </div>
-                  </ValidationProvider>
-                </div>
-
-                <div>
-                  <ValidationProvider name="Value" rules="required|between:1,4" v-slot="{errors}">
-                    <label for="value" class="block text-sm font-medium text-gray-700">
-                      Value
-                    </label>  
-                    <div class="flex flex-wrap">
-                      <div class="flex w-8/12">
-                        <input 
-                          type="number" 
-                          id="value"
-                          v-model="userStory.value"
-                          class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
-                        >
-                        </div>
-                      <div class="flex flex-col w-4/12">
-                        <button
-                          type="button"
-                          @click="increaseValue"
-                          class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                        +
-                        </button>
-                        <button
-                          type="button"
-                          @click="decreaseValue"
-                          class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                        -
-                        </button>
-                      </div>
-                      <div v-if="errors[0]" class="my-1">
+                        <div v-if="errors[0]" class="my-1">
                           <span class="error-text">{{errors[0]}}</span>
+                        </div>
                       </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div>
+                    <ValidationProvider name="Risk" rules="required|between:1,4" v-slot="{errors}">
+                      <label for="risk" class="block text-sm font-medium text-gray-700">
+                        Risk
+                      </label>  
+                      <div class="flex flex-wrap">
+                        <div class="flex w-8/12">
+                          <select 
+                            name="risk" 
+                            id="risk"
+                            v-model="userStory.risk"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          >
+                            <option value="-1">Select risk...</option>
+                            <option value="1">1 High</option>
+                            <option value="2">2 Med</option>
+                            <option value="3">3 Med</option>
+                            <option value="4">4 Low</option>
+                          </select>
+                          </div>
+                        <div class="flex flex-col w-4/12">
+                          <button
+                            :disabled="increaseButtonisDisable('risk')"
+                            type="button"
+                            @click="increaseRisk"
+                            class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                          +
+                          </button>
+                          <button
+                            :disabled="decreaseButtonisDisable('risk')"
+                            type="button"
+                            @click="decreaseRisk"
+                            class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                          -
+                          </button>
+                        </div>
+                        <div v-if="errors[0]" class="my-1">
+                          <span class="error-text">{{errors[0]}}</span>
+                        </div>
+                      </div>
+                  </ValidationProvider>
+                </div>
+
+                  <div>
+                    <ValidationProvider name="Value" rules="required|between:1,4" v-slot="{errors}">
+                      <label for="value" class="block text-sm font-medium text-gray-700">
+                        Value
+                      </label>  
+                      <div class="flex flex-wrap">
+                        <div class="flex w-8/12">
+                          <select 
+                            name="value" 
+                            id="value"
+                            v-model="userStory.value"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          >
+                            <option value="-1">Select value...</option>
+                            <option value="1">1 High</option>
+                            <option value="2">2 Med</option>
+                            <option value="3">3 Med</option>
+                            <option value="4">4 Low</option>
+                          </select>
+                          </div>
+                        <div class="flex flex-col w-4/12">
+                          <button
+                          :disabled="increaseButtonisDisable('value')"
+                            type="button"
+                            @click="increaseValue"
+                            class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                          +
+                          </button>
+                          <button
+                            :disabled="decreaseButtonisDisable('value')"
+                            type="button"
+                            @click="decreaseValue"
+                            class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                          -
+                          </button>
+                        </div>
+                        <div v-if="errors[0]" class="my-1">
+                            <span class="error-text">{{errors[0]}}</span>
+                        </div>
+                        <div v-if="errors[0]" class="my-1">
+                            <span class="error-text">{{errors[0]}}</span>
+                        </div>
                     </div>
                   </ValidationProvider>
                 </div>
@@ -341,6 +370,14 @@ import _ from 'lodash';
           this.checkForm();
         }
       },2000),
+
+      increaseButtonisDisable:function(property){
+        return(this.userStory[property] >= 4);
+      },
+
+      decreaseButtonisDisable:function(property){
+        return(this.userStory[property] <= 1);
+      },
 
       increasePriority: function(){
        this.userStory.priority++;
