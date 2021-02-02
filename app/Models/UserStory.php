@@ -53,9 +53,9 @@ class UserStory extends Model
         
     }
 
-    public function isAvailableToEdit()
+    public function isAvailableToEdit($user_id)
     {
-        if($this->epic()->first()->user_id_editing != null)
+        if($this->epic()->first()->user_id_editing != null && $this->epic()->first()->user_id_editing != $user_id)
         {
             return false;
         }

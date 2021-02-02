@@ -62,7 +62,7 @@ class EpicController
 
         return response()->json([
             'success' => true,
-            'epic' => $epic,
+            'epic' => $epic->load(['user_stories']),
             'message' => 'Epic created successfully'
         ]);
         
@@ -77,7 +77,7 @@ class EpicController
              ], 403);
         };
 
-        if(!$epic->isAvailableToEdit()){
+        if(!$epic->isAvailableToEdit($request->user()->id)){
             return response()->json([
                 'success' => false,
                 'message' => 'Not available to edit now. Try later'
@@ -86,9 +86,6 @@ class EpicController
 
         $epic->user_id_editing = $request->user()->id;
         $epic->save();
-
-        broadcast(new ProjectUpdateEvent($epic->project()->first()));
-        broadcast(new EpicUpdateEvent($epic));
 
         return response()->json([
             'success' => true,
@@ -117,7 +114,7 @@ class EpicController
              ], 403);
         }
 
-        if($epic->user_id_editing != $request->user()->id){
+        if(!$epic->isAvailableToEdit($request->user()->id)){
             return response()->json([
                 'success' => false,
                 'message' => 'Not available to edit now. Try later'
@@ -125,8 +122,6 @@ class EpicController
         };
         
         $epic->update($request->all());
-        // $epic->user_id_editing = null;
-        // $epic->save();
 
         foreach($request->user_stories as $user_story){
 
@@ -142,9 +137,13 @@ class EpicController
                 $user_story_model->epic()->associate($epic);
             }
         }
+
+        broadcast(new EpicUpdateEvent($epic));
+        broadcast(new ProjectUpdateEvent($epic->project()->first()));
         
         return response()->json([
             'success' => true,
+            'epic' => $epic->load(['user_stories']),
             'message' => 'Epic updated successfully'
         ]);
     }
@@ -158,13 +157,14 @@ class EpicController
              ], 403);
         }
 
-        if(!$epic->isAvailableToEdit()){
+        if(!$epic->isAvailableToEdit($request->user()->id)){
             return response()->json([
                 'success' => false,
                 'message' => 'Not available to delete now. Try later'
              ], 422);
         }
-
+        
+        broadcast(new ProjectUpdateEvent($epic->project()->first()));
         $epic->delete();
 
         return response()->json([

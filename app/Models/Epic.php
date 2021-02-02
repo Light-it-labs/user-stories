@@ -40,9 +40,9 @@ class Epic extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function isAvailableToEdit()
+    public function isAvailableToEdit($user_id)
     {
-        if($this->user_id_editing != null)
+        if($this->user_id_editing != null && $this->user_id_editing != $user_id)
         {
             return false;
         }
