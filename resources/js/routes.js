@@ -5,6 +5,7 @@ import Project from './components/Project.vue';
 import ProjectIndex from './components/ProjectIndex.vue';
 import EpicEditor from './components/EpicEditor.vue';
 import ProjectForm from './components/ProjectForm.vue';
+import ProjectDashboard from './components/ProjectDashboard.vue';
 
 Vue.use(VueRouter);
 
@@ -54,6 +55,13 @@ export default new VueRouter({
                 buttonText: 'Save',
                 isNew: false,
             }
+        },
+
+        {
+            path:'/projects/:id/dashboard',
+            name:'project-dashboard',
+            component: ProjectDashboard,
+            props: true,
         },
 
         {

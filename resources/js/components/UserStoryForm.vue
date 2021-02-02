@@ -263,14 +263,15 @@ import BackButton from './BackButton.vue';
       }
     },
 
-      async getUserStory(userStoryId){
+      async getUserStoryToEdit(userStoryId){
       try{
-        const response = await axios.get('/api/auth/user-stories/' + userStoryId);
+        const response = await axios.get('/api/auth/user-stories/' + userStoryId + '/edit');
         if(response.status === 200 && response.data.success === true){
           this.userStory = response.data.userStory;
         }
       }catch(e){
-        Vue.$toast.error(e);
+        Vue.$toast.error(e.response.data.message);
+        this.$router.push({name: 'project', params:{id: this.$route.params.projectId}});
       }
     },
 
@@ -345,7 +346,17 @@ import BackButton from './BackButton.vue';
 
     mounted(){
       if(this.epicExists === true){
-        this.getUserStory(this.$route.params.id);
+        this.getUserStoryToEdit(this.$route.params.id);
+        window.onunload = () => {
+          fetch('/api/auth/epics/' + this.$route.params.epicId + '/reset-status', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+              },
+              keepalive: true
+          });
+        }
       }else{
         if (Object.keys(this.userStoryToEditProp).length != 0){
           this.userStory = this.userStoryToEditProp;

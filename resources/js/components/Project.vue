@@ -6,11 +6,12 @@
 
       <div class="text-center absolute right-0">
         <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
+        <button @click="$router.push({name:'project-dashboard', props:{id: project.id}})" class="basicButton">Dashboard</button>
       </div>
 
     </div>
-  <!-- v-if="project.epics.length > 0" -->
-    <div >
+    
+    <div v-if="projectLoaded && project.epics.length > 0">
       <Epic
         v-for="(epic, index) in project.epics" :key="index" 
         v-bind:epic="epic"
@@ -18,8 +19,8 @@
         @delete-epic="showDeleteModal($event)"
       ></Epic>
     </div>
-    <!-- v-else -->
-    <div>
+    
+    <div v-else>
       <p class="text-center my-2">No Epics at the moment</p>
     </div>
     
@@ -51,6 +52,7 @@ import BackButton from './BackButton.vue';
         project:{},
         epicIdToDelete: null,
         deleteModal: false,
+        projectLoaded:false
       }
     },
 
@@ -82,7 +84,7 @@ import BackButton from './BackButton.vue';
             epic.user_stories.splice(objectEpicIdUserStory.userStory.userStoryIndex, 1);
           }
         }catch(e){
-          Vue.$toast.error(e);
+          Vue.$toast.error(e.response.data.message);
         }
       },
 
@@ -91,6 +93,7 @@ import BackButton from './BackButton.vue';
           const response = await axios.get('/api/auth/projects/' + projectId);
           if(response.status === 200 && response.data.success === true){
             this.project = response.data.project;
+            this.projectLoaded = true;
           }
         }catch(e){
           Vue.$toast.error(e);
