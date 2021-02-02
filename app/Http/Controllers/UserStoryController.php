@@ -74,7 +74,8 @@ class UserStoryController
     };
 
     $userStory->update($request->all());
-    
+    $userStory->calculateCategory();
+    $userStory->save();
     $epic->user_id_editing = null;
     $epic->save();
   

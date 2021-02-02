@@ -46,6 +46,22 @@ class UserStory extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function calculateCategory()
+    {
+        if(($this->value === 1 or $this->value === 2) and ($this->risk === 1 or $this->risk === 2) ){
+            $this->category = "Strategic";
+        }else if (($this->value === 1 or $this->value === 2) and ($this->risk === 3 or $this->risk === 4)){
+            $this->category = "Leveraged";
+        }else if (($this->value === 3 or $this->value === 4) and ($this->risk === 1 or $this->risk === 2)){
+            $this->category = "Focused";
+        }else if(($this->value === 3 or $this->value === 4) and ($this->risk === 3 or $this->risk === 4)){
+            $this->category = "Routine";
+        }else{
+            $this->category = "";
+        }
+
+    }
+
     public function get_project_of_user_story(){
         $project = Project::where('id', $this->epic()->first()->project_id)->firstOrFail();
         
