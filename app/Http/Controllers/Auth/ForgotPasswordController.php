@@ -25,7 +25,7 @@ class ForgotPasswordController
                 return response()->json([
                     'success' => false,
                     'errors' => $credentials->errors()
-                ]);
+                ], 422);
             }
 
             Password::sendResetLink($request->only('email'));
