@@ -25,7 +25,7 @@ class UserStoryController
     ]);
   }
 
-  public function update(UserStoryRequest $request, UserStory $userStory)
+  public function edit(Request $request, UserStory $userStory)
   {
     $project = $userStory->get_project_of_user_story();
 
@@ -36,10 +36,48 @@ class UserStoryController
        ], 403);
     }
     
-    //Search how to update with the DB only one time and not updating and then calculating category and save on DB.
+    if(!$userStory->isAvailableToEdit()){
+      return response()->json([
+          'success' => false,
+          'message' => 'Not available to edit now. Try later'
+       ], 422);
+    };
+
+    $epic = $userStory->epic()->first();
+    $epic->user_id_editing = $request->user()->id;
+    $epic->save();
+
+    return response()->json([
+        'success' => true,
+        'userStory' => $userStory
+    ]);
+  }
+
+  public function update(UserStoryRequest $request, UserStory $userStory)
+  {
+    $project = $userStory->get_project_of_user_story();
+
+    if(!$request->user()->has_basic_permissions_to_project($project)){
+      return response()->json([
+          'success' => false,
+          'message' => 'Not authorized'
+       ], 403);
+    }
+
+    $epic = $userStory->epic()->first();
+
+    if($epic->user_id_editing != $request->user()->id){
+      return response()->json([
+        'success' => false,
+        'message' => 'Not available to edit now. Try later'
+     ], 422);
+    };
+
     $userStory->update($request->all());
     $userStory->calculateCategory();
     $userStory->save();
+    $epic->user_id_editing = null;
+    $epic->save();
   
     return response()->json([
         'success' => true,
@@ -57,6 +95,13 @@ class UserStoryController
           'message' => 'Not authorized'
        ], 403);
     }
+
+    if(!$userStory->isAvailableToEdit()){
+      return response()->json([
+          'success' => false,
+          'message' => 'Not available to delete now. Try later'
+       ], 422);
+    };
 
     $userStory->delete();
 

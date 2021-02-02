@@ -1,10 +1,11 @@
 <template>
   <div class="bg-white pb-4 px-4 rounded-md w-full">
-    <div class="w-full pt-6 ">
+    <div class="w-full pt-6 flex justify-evenly">
       <h2 class="ml-3 text-center">{{project.name}}</h2>
+      <button @click="$router.push({name:'project-dashboard', props:{id: project.id}})" class="basicButton">Dashboard</button>
     </div>
-  <!-- v-if="project.epics.length > 0" -->
-    <div >
+    
+    <div v-if="projectLoaded && project.epics.length > 0">
       <Epic
         v-for="(epic, index) in project.epics" :key="index" 
         v-bind:epic="epic"
@@ -12,8 +13,8 @@
         @delete-epic="showDeleteModal($event)"
       ></Epic>
     </div>
-    <!-- v-else -->
-    <div>
+    
+    <div v-else>
       <p class="text-center my-2">No Epics at the moment</p>
     </div>
     
@@ -46,6 +47,7 @@ import DeleteModal from './DeleteModal.vue';
         project:{},
         epicIdToDelete: null,
         deleteModal: false,
+        projectLoaded:false
       }
     },
 
@@ -77,7 +79,7 @@ import DeleteModal from './DeleteModal.vue';
             epic.user_stories.splice(objectEpicIdUserStory.userStory.userStoryIndex, 1);
           }
         }catch(e){
-          Vue.$toast.error(e);
+          Vue.$toast.error(e.response.data.message);
         }
       },
 
@@ -86,6 +88,7 @@ import DeleteModal from './DeleteModal.vue';
           const response = await axios.get('/api/auth/projects/' + projectId);
           if(response.status === 200 && response.data.success === true){
             this.project = response.data.project;
+            this.projectLoaded = true;
           }
         }catch(e){
           Vue.$toast.error(e);

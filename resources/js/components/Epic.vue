@@ -91,7 +91,7 @@
       },
 
       editEpic: function(epicId){
-        this.$router.push({name:'epic', params:{projectId:this.epic.project_id,id: this.epic.id, epic:this.epic}});
+        this.$router.push({name:'epic', params:{projectId:this.epic.project_id,id: this.epic.id}});
       },
 
       deleteEpic: function(epicId){

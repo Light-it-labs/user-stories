@@ -7,6 +7,7 @@ use App\Models\Epic;
 use App\Models\UserStory;
 use App\Http\Requests\EpicRequest;
 use App\Http\Requests\UserStoryRequest;
+use Illuminate\Support\Facades\DB;
 
 class EpicController
 {
@@ -60,9 +61,40 @@ class EpicController
         
     }
 
-    public function edit(Epic $epic)
+    public function edit(Request $request, Epic $epic)
     {
-        
+        if(!$request->user()->has_basic_permissions_to_project($epic->project()->first())){
+            return response()->json([
+                'success' => false,
+                'message' => 'Not authorized'
+             ], 403);
+        };
+
+        if(!$epic->isAvailableToEdit()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Not available to edit now. Try later'
+             ], 422);
+        }
+
+        $epic->user_id_editing = $request->user()->id;
+        $epic->save();
+
+        return response()->json([
+            'success' => true,
+            'epic' => $epic->load(['user_stories'])
+        ]);
+    }
+
+    public function resetStatus(Epic $epic)
+    {
+        $epic->user_id_editing = null;
+        $epic->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Epic status reset successfully'
+        ]);
     }
 
     public function update(EpicRequest $request, Epic $epic){
@@ -74,8 +106,17 @@ class EpicController
                 'message' => 'Not authorized'
              ], 403);
         }
+
+        if($epic->user_id_editing != $request->user()->id){
+            return response()->json([
+                'success' => false,
+                'message' => 'Not available to edit now. Try later'
+             ], 422);
+        };
         
         $epic->update($request->all());
+        $epic->user_id_editing = null;
+        $epic->save();
 
         //Maybe change all this logic to updateOrCreate laravel method which update if model exists
         // or create a new model if none exists. How to know if the model is updated or created,
@@ -111,6 +152,13 @@ class EpicController
                 'success' => false,
                 'message' => 'Not authorized'
              ], 403);
+        }
+
+        if(!$epic->isAvailableToEdit()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Not available to delete now. Try later'
+             ], 422);
         }
 
         $epic->delete();

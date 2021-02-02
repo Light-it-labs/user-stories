@@ -43,15 +43,28 @@ Route::group(['prefix' => 'auth'], function () {
         // ---------------- Epic ----------------
         Route::post('epics', 'EpicController@store');
         Route::get('epics/{epic}', 'EpicController@show');
+        Route::get('epics/{epic}/edit', 'EpicController@edit');
+        Route::get('epics/{epic}/reset-status', 'EpicController@resetStatus');
         Route::put('epics/{epic}', 'EpicController@update');
         Route::get('epics/{epic}/delete', 'EpicController@delete');
         // ----------------        ----------------
 
         // ---------------- User-Stories ----------------
         Route::get('user-stories/{userStory}', 'UserStoryController@show');
+        Route::get('user-stories/{userStory}/edit', 'UserStoryController@edit');
         Route::put('user-stories/{userStory}', 'UserStoryController@update');
         Route::get('user-stories/{userStory}/delete', 'UserStoryController@delete');
         // ----------------        ----------------
+
+        // ---------------- Project-Dashboard ----------------
+        Route::get('/projects/{project}/dashboard/user-story-priority', 'DashboardController@getPriorityChartData');
+        Route::get('/projects/{project}/dashboard/user-story-value', 'DashboardController@getValueChartData');
+        Route::get('/projects/{project}/dashboard/user-story-risk', 'DashboardController@getRiskChartData');
+        Route::get('/projects/{project}/dashboard/strategic-user-stories', 'DashboardController@getStrategicUserStoriesDescription');
+        Route::get('/projects/{project}/dashboard/user-stories-count', 'DashboardController@getProjectUserStoriesCount');
+        
+        
+        
         
         
         
