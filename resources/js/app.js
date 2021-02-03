@@ -3,6 +3,7 @@ import router from './routes';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 import { ValidationObserver, ValidationProvider, extend, localize } from 'vee-validate';
+import { setInteractionMode } from 'vee-validate';
 import en from 'vee-validate/dist/locale/en.json';
 import * as rules from 'vee-validate/dist/rules';
 import UserAuthForm from './components/UserAuthForm.vue';
@@ -12,6 +13,7 @@ import ProjectForm from './components/ProjectForm.vue';
 import ProjectIndex from './components/ProjectIndex.vue';
 import Project from './components/Project.vue';
 import NavBar from './components/NavBar.vue';
+
 
 
 const {default: Axios} = require('axios');
@@ -32,6 +34,10 @@ Object.keys(rules).forEach(rule => {
 });
   
 localize('en', en);
+
+
+
+setInteractionMode('aggressive');
 
 Vue.component('VueToast', require('vue-toast-notification').default);
 Vue.component('ValidationObserver', ValidationObserver).default;

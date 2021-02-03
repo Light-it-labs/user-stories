@@ -182,22 +182,31 @@ import moment from 'moment';
         }
       },
 
+      setUpDashboard: function(projectId){
+        this.getProject(projectId);
+        this.getPriorityChartData(projectId);
+        this.getValueChartData(projectId);
+        this.getRiskChartData(projectId);
+        this.getStrategicUserStoriesDescription(projectId);
+        this.getProjectUserStoriesCount(projectId);
+      },
+
       parseDate: function(date){
         return moment(date).format('DD-MMM-YYYY');
       }
     },
 
     mounted(){
-      const access_token = JSON.parse(localStorage.access_token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-      this.getProject(this.$route.params.id);
-      this.getPriorityChartData(this.$route.params.id);
-      this.getValueChartData(this.$route.params.id);
-      this.getRiskChartData(this.$route.params.id);
-      this.getStrategicUserStoriesDescription(this.$route.params.id);
-      this.getProjectUserStoriesCount(this.$route.params.id);
+      this.setUpDashboard(this.$route.params.id);
       
-      
+      Echo.private('project-channel.' + this.$route.params.id)
+      .listen('ProjectUpdateEvent', (e) => {
+        //Which is more accurate? Sending Project id from router or from the event?
+        //From router
+        //this.getProject(this.$route.params.id);
+        //From event
+        this.setUpDashboard(this.$route.params.id);
+      });
 
     }
   }

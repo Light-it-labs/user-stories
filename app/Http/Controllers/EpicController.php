@@ -8,6 +8,8 @@ use App\Models\UserStory;
 use App\Http\Requests\EpicRequest;
 use App\Http\Requests\UserStoryRequest;
 use Illuminate\Support\Facades\DB;
+use App\Events\EpicUpdateEvent;
+use App\Events\ProjectUpdateEvent;
 
 class EpicController
 {
@@ -54,8 +56,12 @@ class EpicController
             $user_story->epic()->associate($epic);
         }
 
+        broadcast(new EpicUpdateEvent($epic));
+        broadcast(new ProjectUpdateEvent($epic->project()->first()));
+
         return response()->json([
             'success' => true,
+            'epic' => $epic->load(['user_stories']),
             'message' => 'Epic created successfully'
         ]);
         
@@ -70,7 +76,7 @@ class EpicController
              ], 403);
         };
 
-        if(!$epic->isAvailableToEdit()){
+        if(!$epic->isAvailableToEdit($request->user()->id)){
             return response()->json([
                 'success' => false,
                 'message' => 'Not available to edit now. Try later'
@@ -107,7 +113,7 @@ class EpicController
              ], 403);
         }
 
-        if($epic->user_id_editing != $request->user()->id){
+        if(!$epic->isAvailableToEdit($request->user()->id)){
             return response()->json([
                 'success' => false,
                 'message' => 'Not available to edit now. Try later'
@@ -115,12 +121,7 @@ class EpicController
         };
         
         $epic->update($request->all());
-        $epic->user_id_editing = null;
-        $epic->save();
-
-        //Maybe change all this logic to updateOrCreate laravel method which update if model exists
-        // or create a new model if none exists. How to know if the model is updated or created,
-        //some attributes are set only when the model is new. i.e epic_id, user_id.
+        
         foreach($request->user_stories as $user_story){
 
             if (array_key_exists('id', $user_story)) {
@@ -138,9 +139,13 @@ class EpicController
                 $user_story_model->epic()->associate($epic);
             }
         }
+
+        broadcast(new EpicUpdateEvent($epic));
+        broadcast(new ProjectUpdateEvent($epic->project()->first()));
         
         return response()->json([
             'success' => true,
+            'epic' => $epic->load(['user_stories']),
             'message' => 'Epic updated successfully'
         ]);
     }
@@ -154,13 +159,14 @@ class EpicController
              ], 403);
         }
 
-        if(!$epic->isAvailableToEdit()){
+        if(!$epic->isAvailableToEdit($request->user()->id)){
             return response()->json([
                 'success' => false,
                 'message' => 'Not available to delete now. Try later'
              ], 422);
         }
-
+        
+        broadcast(new ProjectUpdateEvent($epic->project()->first()));
         $epic->delete();
 
         return response()->json([

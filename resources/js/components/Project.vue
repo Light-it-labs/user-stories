@@ -66,8 +66,6 @@ import BackButton from './BackButton.vue';
           if(response.status === 200 && response.data.success === true){
             this.deleteModal = false;
             this.epicIdToDelete = null;
-            Vue.$toast.success(response.data.message);
-            this.$router.go();
           }
         }catch(e){
           Vue.$toast.error(e);
@@ -79,7 +77,6 @@ import BackButton from './BackButton.vue';
           const response = await axios.get('/api/auth/user-stories/' + objectEpicIdUserStory.userStory.userStoryId + '/delete');
           if(response.status === 200 && response.data.success === true){
             Vue.$toast.success(response.data.message);
-
             const epic = this.project.epics.find(item => item.id === objectEpicIdUserStory.epicId);
             epic.user_stories.splice(objectEpicIdUserStory.userStory.userStoryIndex, 1);
           }
@@ -114,10 +111,22 @@ import BackButton from './BackButton.vue';
     mounted(){
       if('objectProject' in this.$route.params){
         this.project = this.$route.params.objectProject;
+        this.projectLoaded = true;
       }else{
         this.getProject(this.$route.params.id);
       } 
-    }
+    },
+
+     created(){
+      Echo.private('project-channel.' + this.$route.params.id)
+      .listen('ProjectUpdateEvent', (e) => {
+        //Which is more accurate? Sending Project id from router or from the event?
+        //From router
+        //this.getProject(this.$route.params.id);
+        //From event
+        this.getProject(e.project.id);
+      });
+     }
     
   }
 </script>

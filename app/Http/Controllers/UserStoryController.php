@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserStory;
 use App\Http\Requests\UserStoryRequest;
+use App\Events\ProjectUpdateEvent;
 
 class UserStoryController
 {
@@ -36,7 +37,7 @@ class UserStoryController
        ], 403);
     }
     
-    if(!$userStory->isAvailableToEdit()){
+    if(!$userStory->isAvailableToEdit($request->user()->id)){
       return response()->json([
           'success' => false,
           'message' => 'Not available to edit now. Try later'
@@ -65,8 +66,8 @@ class UserStoryController
     }
 
     $epic = $userStory->epic()->first();
-
-    if($epic->user_id_editing != $request->user()->id){
+    
+    if(!$userStory->isAvailableToEdit($request->user()->id)){
       return response()->json([
         'success' => false,
         'message' => 'Not available to edit now. Try later'
@@ -76,8 +77,8 @@ class UserStoryController
     $userStory->update($request->all());
     $userStory->calculateCategory();
     $userStory->save();
-    $epic->user_id_editing = null;
-    $epic->save();
+
+    broadcast(new ProjectUpdateEvent($userStory->get_project_of_user_story()));
   
     return response()->json([
         'success' => true,
@@ -96,13 +97,14 @@ class UserStoryController
        ], 403);
     }
 
-    if(!$userStory->isAvailableToEdit()){
+    if(!$userStory->isAvailableToEdit($request->user()->id)){
       return response()->json([
           'success' => false,
           'message' => 'Not available to delete now. Try later'
        ], 422);
     };
 
+    broadcast(new ProjectUpdateEvent($userStory->get_project_of_user_story()));
     $userStory->delete();
 
     return response()->json([
