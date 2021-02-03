@@ -1,5 +1,19 @@
 <template>
-  <div>
+  <div class="min-h-screen flex flex-col py-2 sm:px-2 lg:px-8">
+    
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <img 
+      class="mx-auto h-12 w-auto" 
+      src="/storage/logos/lightit-logo.png" 
+      alt="LightIt-Logo">
+    <div v-if="isSignup" class="w-full pt-6 mb-2 flex justify-center items-center relative">
+      <h2 class="m-0 text-center text-3xl font-extrabold text-gray-900">Sign Up</h2>
+    </div>
+    <div v-else class="w-full pt-6 mb-2 flex justify-center items-center relative">
+      <h2 class="m-0 text-center text-3xl font-extrabold text-gray-900">Log In</h2>
+    </div>
+  </div>
+
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <ValidationObserver v-slot="{ handleSubmit }">
@@ -146,7 +160,7 @@
             <div>
               <button
                 type="submit"
-                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="basicButton w-full flex justify-center"
               >
                 {{ buttonText }}
               </button>
@@ -159,8 +173,6 @@
 </template>
 
 <script>
-import VueToast from 'vue-toast-notification';
-
 export default {
   data() {
     return {
@@ -214,7 +226,7 @@ export default {
           localStorage.setItem('user', JSON.stringify(response.data.user));
           localStorage.setItem('access_token', JSON.stringify(response.data.access_token));
           axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
-          window.location.href = '/';
+          window.location.href = '/projects';
         }
 
       }catch(e){

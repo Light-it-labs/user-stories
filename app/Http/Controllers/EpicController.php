@@ -121,10 +121,7 @@ class EpicController
         };
         
         $epic->update($request->all());
-
-        //Maybe change all this logic to updateOrCreate laravel method which update if model exists
-        // or create a new model if none exists. How to know if the model is updated or created,
-        //some attributes are set only when the model is new. i.e epic_id, user_id.
+        
         foreach($request->user_stories as $user_story){
 
             if (array_key_exists('id', $user_story)) {

@@ -1,12 +1,17 @@
 <template>
-  <div class="min-h-screen flex flex-col py-2 sm:px-2 lg:px-8">
+  <div class="min-h-screen flex flex-col pb-2 sm:px-2 lg:px-8">
+    
+    <div class="w-full mb-2 flex justify-center items-center relative">
+      <BackButton></BackButton>
+      <h2 class="m-0">{{title}}</h2>
+    </div>
 
-    <h2>{{title}}</h2>
     <LastSaved 
       ref="lastSaved"
       v-bind:savingStatus="savingEpic"
     >
     </LastSaved>
+    
 
      <div class="mt-2 sm:w-full bg-white shadow sm:rounded-lg">
        <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
@@ -39,7 +44,8 @@
                   </ValidationProvider>
                 </div>
             
-              <div class="bg-gray-600 p-4 border-t-2 bg-opacity-5 border-indigo-400 rounded-t mt-4">
+
+              <div class="bg-gray-600 p-4 border-t-2 bg-opacity-5 border-gray-400 rounded mt-4">
                 <div class="flex justify-between items-center md:w-full md:mx-0">
                   <h2 class="font-medium text-gray-700">User Stories</h2>
                   <button 
@@ -67,7 +73,7 @@
                   <hr>
                 </ul>
 
-                <User-Story-Form 
+                <UserStoryForm 
                   v-if="showUserStoryForm"
                   v-bind:userStoryToEditProp="userStoryToEdit"
                   v-bind:index="userStoryIndex"
@@ -76,11 +82,11 @@
                   @cancel-new-user-story="closeUserStoryForm()"
                   @close-user-story-form="closeUserStoryForm()"
                 >
-              </User-Story-Form> 
+              </UserStoryForm> 
               </div>
             </div>
 
-            <div class="text-center my-4">
+            <div class="text-center mb-4">
               <button type="submit" class="basicButton">Save</button>
             </div>
           </form>
@@ -93,6 +99,7 @@
 import UserStoryForm from './UserStoryForm.vue';
 import LastSaved from './LastSaved.vue';
 import _ from 'lodash';
+import BackButton from './BackButton.vue';
 
 export default {
   data(){
@@ -111,7 +118,7 @@ export default {
     }
   },
 
-  components:{UserStoryForm, LastSaved},
+  components:{UserStoryForm, BackButton, LastSaved},
 
   props:{
     projectIdProp:Number,
@@ -250,8 +257,6 @@ export default {
   },
 
   mounted(){
-    const access_token = JSON.parse(localStorage.access_token);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
     this.epic.project_id = this.$route.params.projectId;
     this.evaluateUserStory(this.$route.params.id);
 

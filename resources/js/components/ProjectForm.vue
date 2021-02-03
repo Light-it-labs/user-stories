@@ -1,79 +1,83 @@
 <template>
-  <div class="bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <img 
-      class="mx-auto h-12 w-auto" 
-      src="/storage/logos/lightit-logo.png" 
-      alt="LightIt-Logo">
-    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-      {{title}}
-    </h2>
-  </div>
-
-  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <ValidationObserver v-slot="{ handleSubmit }">
-        <form 
-          class="space-y-6" 
-          action="" 
-          method="POST"
-          @submit.prevent="handleSubmit(checkForm)"
-          >
-          <div>
-            <ValidationProvider name="Name" rules="required" v-slot="{errors}">
-              <label for="name" class="block text-sm font-medium text-gray-700">
-                Name
-              </label>
-              <div class="mt-1">
-                <input
-                  id="name" 
-                  name="name" 
-                  type="text"
-                  v-model="project.name"
-                  class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              </div>
-              <div v-if="errors[0]" class="mt-2">
-                    <span class="error-text">{{errors[0]}}</span>
-              </div>
-            </ValidationProvider>
-          </div>
-
-          <div>
-            <ValidationProvider name="Description" rules="required" v-slot="{errors}">
-              <label for="description" class="block text-sm font-medium text-gray-700">
-                Description
-              </label>
-              <div class="mt-1">
-                <textarea
-                  id="description" 
-                  name="description"  
-                  class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  rows="10"
-                  v-model="project.description"
-                  >
-                </textarea>
-              </div>
-              <div v-if="errors[0]" class="mt-2">
-                  <span class="error-text">{{errors[0]}}</span>
-              </div>
-            </ValidationProvider>
-          </div>
-
-          <div>
-            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              {{buttonText}}
-            </button>
-          </div>
-        </form>
-      </ValidationObserver>
-
+  <div class="bg-gray-50 flex flex-col justify-center pb-8 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+      <img 
+        class="mx-auto h-14 w-auto" 
+        src="/storage/logos/lightit-logo.png" 
+        alt="LightIt-Logo">
     </div>
+    <div class="w-full pt-6 mb-2 flex justify-center items-center relative">
+        <BackButton></BackButton>
+        <h2 class="m-0 text-center text-3xl font-extrabold text-gray-900">{{title}}</h2>
+    </div>
+
+    <div class="mt-8 sm:w-full bg-white shadow sm:rounded-lg">
+      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <form 
+            class="space-y-6" 
+            action="" 
+            method="POST"
+            @submit.prevent="handleSubmit(checkForm)"
+            >
+            <div>
+              <ValidationProvider name="Name" rules="required" v-slot="{errors}">
+                <label for="name" class="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
+                <div class="mt-1">
+                  <input
+                    id="name" 
+                    name="name" 
+                    type="text"
+                    v-model="project.name"
+                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+                <div v-if="errors[0]" class="mt-2">
+                      <span class="error-text">{{errors[0]}}</span>
+                </div>
+              </ValidationProvider>
+            </div>
+
+            <div>
+              <ValidationProvider name="Description" rules="required" v-slot="{errors}">
+                <label for="description" class="block text-sm font-medium text-gray-700">
+                  Description
+                </label>
+                <div class="mt-1">
+                  <textarea
+                    id="description" 
+                    name="description"  
+                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    rows="10"
+                    v-model="project.description"
+                    >
+                  </textarea>
+                </div>
+                <div v-if="errors[0]" class="mt-2">
+                    <span class="error-text">{{errors[0]}}</span>
+                </div>
+              </ValidationProvider>
+            </div>
+
+            <div>
+              <!-- <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {{buttonText}}
+              </button> -->
+              <button type="submit" class="basicButton w-full flex justify-center">
+                {{buttonText}}
+              </button>
+            </div>
+          </form>
+        </ValidationObserver>
+      </div>
   </div>
 </div>
 </template>
 
 <script>
-import VueToast from 'vue-toast-notification';
+import BackButton from './BackButton.vue';
+
   export default {
     data(){
       return{
@@ -93,6 +97,8 @@ import VueToast from 'vue-toast-notification';
       buttonText: String,
       isNew: Boolean,
     },
+
+    components:{BackButton},
 
     methods:{
 
@@ -144,8 +150,6 @@ import VueToast from 'vue-toast-notification';
     },
 
     mounted(){
-      let access_token = JSON.parse(localStorage.access_token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
       const user = JSON.parse(localStorage.user);
       this.project.userId = user.id;
 

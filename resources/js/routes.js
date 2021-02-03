@@ -34,7 +34,7 @@ export default new VueRouter({
             component: ProjectForm,
             props: {
                 title: 'Create New Project',
-                buttonText: 'create',
+                buttonText: 'Create',
                 isNew:true,
             },
         },

@@ -77,8 +77,6 @@ class UserStoryController
     $userStory->update($request->all());
     $userStory->calculateCategory();
     $userStory->save();
-    $epic->user_id_editing = null;
-    $epic->save();
 
     broadcast(new ProjectUpdateEvent($userStory->get_project_of_user_story()));
   

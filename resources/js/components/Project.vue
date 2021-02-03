@@ -1,8 +1,14 @@
 <template>
   <div class="bg-white pb-4 px-4 rounded-md w-full">
-    <div class="w-full pt-6 flex justify-evenly">
-      <h2 class="ml-3 text-center">{{project.name}}</h2>
-      <button @click="$router.push({name:'project-dashboard', props:{id: project.id}})" class="basicButton">Dashboard</button>
+    <div class="w-full pt-6 flex justify-center items-center relative">
+      <BackButton></BackButton>
+      <h2 class="m-0 text-center">{{project.name}}</h2>
+
+      <div class="text-center absolute right-0">
+        <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
+        <button @click="$router.push({name:'project-dashboard', props:{id: project.id}})" class="basicButton">Dashboard</button>
+      </div>
+
     </div>
     
     <div v-if="projectLoaded && project.epics.length > 0">
@@ -19,9 +25,7 @@
     </div>
     
 
-    <div class="text-center">
-      <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
-    </div>
+    
 
     <Delete-Modal v-if="deleteModal"
         title="Delete Epic" 
@@ -40,6 +44,7 @@
 import EpicEditor from './EpicEditor.vue';
 import Epic from './Epic.vue';
 import DeleteModal from './DeleteModal.vue';
+import BackButton from './BackButton.vue';
 
   export default {
     data(){
@@ -51,7 +56,7 @@ import DeleteModal from './DeleteModal.vue';
       }
     },
 
-    components:{EpicEditor, Epic, DeleteModal},
+    components:{EpicEditor, Epic, DeleteModal, BackButton},
 
     methods:{
 
@@ -104,11 +109,9 @@ import DeleteModal from './DeleteModal.vue';
     },
 
     mounted(){
-      let access_token = JSON.parse(localStorage.access_token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-
       if('objectProject' in this.$route.params){
         this.project = this.$route.params.objectProject;
+        this.projectLoaded = true;
       }else{
         this.getProject(this.$route.params.id);
       } 

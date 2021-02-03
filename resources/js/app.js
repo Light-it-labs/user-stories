@@ -12,6 +12,7 @@ import InviteUserForm from './components/InviteUserForm.vue';
 import ProjectForm from './components/ProjectForm.vue';
 import ProjectIndex from './components/ProjectIndex.vue';
 import Project from './components/Project.vue';
+import NavBar from './components/NavBar.vue';
 
 
 
@@ -53,6 +54,15 @@ const app = new Vue({
         }
     },
 
-    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project},
+    components:{NavBar, UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project},
+
+    created(){
+        const user = JSON.parse(localStorage.getItem("user"));
+        const acces_token = JSON.parse(localStorage.getItem("access_token"));
+
+        if(user && acces_token){
+            axios.defaults.headers.common.Authorization = `Bearer ${acces_token}`;
+        }
+    }
 
 });
