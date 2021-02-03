@@ -86,9 +86,6 @@
               </div>
             </div>
 
-            <div class="text-center mb-4">
-              <button type="submit" class="basicButton">Save</button>
-            </div>
           </form>
        </ValidationObserver>
       </div>
@@ -115,6 +112,7 @@ export default {
       title:"",
       watchInPause: true,
       savingEpic: false,
+      isUserAvailable: false,
     }
   },
 
@@ -183,6 +181,7 @@ export default {
         if(response.status === 200 && response.data.success === true){
           this.watchInPause = true;
           this.epic = response.data.epic;
+          this.isUserAvailable = true;
         }
       }catch(e){
         Vue.$toast.error(e.response.data.message);
@@ -272,6 +271,21 @@ export default {
     }
   
   },
+
+  beforeRouteLeave(to, from, next){
+    if(this.isUserAvailable){
+      axios.get('/api/auth/epics/' + this.$route.params.id + '/reset-status')
+      .then(response => {
+        next();
+      })
+      .catch(error => {
+        Vue.$toast.error(error);
+        next(false);
+      });
+    }else{
+      next();
+    }
+  }
 }
 </script>
 

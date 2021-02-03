@@ -1,15 +1,18 @@
 <template>
   <div>
 
-    <div v-if="epicExists" class="w-full pt-6 mb-2 flex justify-center items-center relative">
-      <BackButton></BackButton>
-      <h2 class="m-0">Edit User Story</h2>
+    <div v-if="epicExists">
+      <div class="w-full pt-6 mb-2 flex justify-center items-center relative">
+        <BackButton></BackButton>
+        <h2 class="m-0">Edit User Story</h2>
+      </div>
       <LastSaved 
         ref="lastSaved"
         v-bind:savingStatus="savingUserStory"
       >
       </LastSaved>
     </div>
+    
 
     <div class="mt-2 sm:w-full bg-white shadow sm:rounded-lg">
       <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
@@ -238,11 +241,6 @@
                       </textarea>
                     </div>
                   </div>
-
-                  <div v-if="userStoryIndex === null" class="text-center">
-                    <button @click="cancelNewUserStory()" type="button" class="basicButton mt-2">Cancel</button>
-                    <button type="submit" class="basicButton mt-2">Save</button>
-                  </div>
                   
                 </div>
               
@@ -273,6 +271,7 @@ import BackButton from './BackButton.vue';
         watchInPause: true,
         userStoryIndex: null,
         savingUserStory: false,
+        isUserAvailable: false,
       }
     },
 
@@ -325,6 +324,7 @@ import BackButton from './BackButton.vue';
           const response = await axios.get('/api/auth/user-stories/' + userStoryId + '/edit');
           if(response.status === 200 && response.data.success === true){
             this.userStory = response.data.userStory;
+            this.isUserAvailable = true;
           }
         }catch(e){
           Vue.$toast.error(e.response.data.message);
@@ -423,8 +423,22 @@ import BackButton from './BackButton.vue';
           this.userStoryIndex = this.index;
        }
       }
-      
     },
+
+    beforeRouteLeave(to, from, next){
+      if(this.isUserAvailable){
+        axios.get('/api/auth/epics/' + this.$route.params.epicId + '/reset-status')
+        .then(response => {
+          next();
+        })
+        .catch(error => {
+          Vue.$toast.error(error);
+          next(false);
+        });
+      }else{
+        next();
+      }
+    }
   }
 </script>
 
