@@ -1,5 +1,11 @@
 <template>
-  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+  <div class="min-h-screen flex flex-col py-2 sm:px-2 lg:px-8">
+    <div v-if="!hasToken" class="w-full pt-6 mb-2 flex justify-center items-center relative">
+      <BackButton></BackButton>
+      <h2 class="m-0 text-center text-3xl font-extrabold text-gray-600">Invite User</h2>
+    </div>
+    
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <ValidationObserver v-slot="{ handleSubmit }">
           <form
@@ -11,9 +17,6 @@
           
 
             <div v-if="!hasToken">
-              <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-600">
-                Invite User
-              </h2>
               <p class="mt-2 font-medium text-center text-sm text-gray-700 max-w">
                 Just enter an email address below and we'll send an invitation link to your friend!
               </p>
@@ -160,7 +163,7 @@
             <div>
               <button
                 type="submit"
-                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="basicButton w-full flex justify-center"
               >
                 {{buttonText}}
               </button>
@@ -168,12 +171,12 @@
           </form>
         </ValidationObserver>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import VueToast from 'vue-toast-notification';
+import BackButton from './BackButton.vue';
 
   export default {
     data(){
@@ -196,6 +199,8 @@ import VueToast from 'vue-toast-notification';
       buttonText: String,
       hasToken: String,
     },
+    
+    components:{BackButton},
 
     methods:{
 
@@ -250,11 +255,6 @@ import VueToast from 'vue-toast-notification';
         e.preventDefault();
       }
     },
-
-    mounted(){
-      const access_token = JSON.parse(localStorage.access_token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-    }
     
   }
 </script>

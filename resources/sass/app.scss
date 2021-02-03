@@ -131,19 +131,18 @@ li{
   border-color: transparent;
   border-radius: 9999px;
   --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  color: white;
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   font-size: 1rem;
   line-height: 1.25rem;
   font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
   --tw-bg-opacity: 1;
-  background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
+  background-color: rgba(55, 65, 81, var(--tw-bg-opacity));
 }
 
 .circleButton:hover{
   --tw-bg-opacity: 1;
-  background-color: rgba(67, 56, 202, var(--tw-bg-opacity));
+  background-color: rgba(75, 85, 99, var(--tw-bg-opacity));
 }
 
 .circleButton:focus{
@@ -158,6 +157,20 @@ li{
   --tw-ring-color: rgba(99, 102, 241, var(--tw-ring-opacity));
 }
 
+.navBarButton{
+  text-decoration: none;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+  font-size: 1rem;
+  padding-bottom: 1rem;
+}
+
+.navBarButton:hover{
+  text-decoration: none;
+  --tw-text-opacity: 1;
+  color: rgba(156, 163, 175, var(--tw-text-opacity));
+}
+
 .basicButton{
   position: relative;
   display: inline-flex;
@@ -166,22 +179,19 @@ li{
   border-width: 1px;
   border-color: transparent;
   border-radius: 0.375rem;
+  color: white;
   --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
   --tw-bg-opacity: 1;
-  background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
-
-
+  background-color: rgba(55, 65, 81, var(--tw-bg-opacity));
 }
 
 .basicButton:hover{
   --tw-bg-opacity: 1;
-  background-color: rgba(67, 56, 202, var(--tw-bg-opacity));
+  background-color: rgba(75, 85, 99, var(--tw-bg-opacity));
 }
 
 .basicButton:focus{
@@ -227,7 +237,7 @@ li{
 }
 
 .modal-header{
-  align-items: center;
+  align-items: baseline;
 }
 
 .modal-header h3 {
