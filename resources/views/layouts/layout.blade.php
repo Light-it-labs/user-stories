@@ -22,6 +22,11 @@
             <div class="container">
                 @yield('content')
                 <router-view></router-view>
+                <V-Offline
+                    online-class="online"
+                    offline-class="offline"
+                    @detected-condition="amIOnline">
+                </V-Offline>
             </div>
             
         </div>

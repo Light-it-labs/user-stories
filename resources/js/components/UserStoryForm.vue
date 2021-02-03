@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div :class="{
+    '': $root.onLine === true || $root.onLine === null,
+    'opacity-20 pointer-events-none': $root.onLine === false,
+    }">
 
     <div v-if="epicExists">
       <div class="w-full pt-6 mb-2 flex justify-center items-center relative">
@@ -155,7 +158,7 @@
                             <option value="3">3 Med</option>
                             <option value="4">4 Low</option>
                           </select>
-                          </div>
+                        </div>
                         <div class="flex flex-col w-4/12">
                           <button
                           :disabled="increaseButtonisDisable('value')"
@@ -176,78 +179,77 @@
                           <span class="error-text">{{errors[0]}}</span>
                         </div>
                       </div>
-                      </ValidationProvider>
-                  </div>
-                </div>
-
-                  <div class="mb-2">
-                    <ValidationProvider name="Estimate" :rules="{regex: /^(XXS|XS|S|M|L|XL|XXL)$/}" v-slot="{errors}">
-                      <label for="estimate" class="block text-sm font-medium text-gray-700">
-                        Estimate
-                      </label>
-                      <div class="mt-1">
-                        <select 
-                          name="estimate" 
-                          id="estimate"
-                          v-model="userStory.estimate"
-                          class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      >
-                          <option value="-1">Select size...</option>
-                          <option value="XXS">XXS</option>
-                          <option value="XS">XS</option>
-                          <option value="S">S</option>
-                          <option value="M">M</option>
-                          <option value="L">L</option>
-                          <option value="XL">XL</option>
-                          <option value="XXL">XXL</option>
-                        </select> 
-                      </div>
-                      <div v-if="errors[0]" class="my-1">
-                        <span class="error-text">{{errors[0]}}</span>
-                      </div>
                     </ValidationProvider>
                   </div>
-
-                  <div class="mb-2">
-                    <label for="acceptance" class="block text-sm font-medium text-gray-700">
-                      Acceptance
-                    </label>
-                    <div class="mt-1">
-                      <textarea 
-                        id="acceptance" 
-                        name="acceptance"
-                        v-model="userStory.acceptance" 
-                        placeholder="Enter acceptance..."
-                        rows="2"
-                        cols="8"
-                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      </textarea>
-                    </div>
-                  </div>
-
-                  <div class="mb-2">
-                    <label for="notes" class="block text-sm font-medium text-gray-700">
-                      Notes
-                    </label>
-                    <div class="mt-1">
-                      <textarea 
-                        id="notes" 
-                        name="notes"
-                        v-model="userStory.notes" 
-                        placeholder="Enter notes..."
-                        rows="2"
-                        cols="8"
-                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      </textarea>
-                    </div>
-                  </div>
-                  
                 </div>
-              
+
+                <div class="mb-2">
+                  <ValidationProvider name="Estimate" :rules="{regex: /^(XXS|XS|S|M|L|XL|XXL)$/}" v-slot="{errors}">
+                    <label for="estimate" class="block text-sm font-medium text-gray-700">
+                      Estimate
+                    </label>
+                    <div class="mt-1">
+                      <select 
+                        name="estimate" 
+                        id="estimate"
+                        v-model="userStory.estimate"
+                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    >
+                        <option value="-1">Select size...</option>
+                        <option value="XXS">XXS</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                      </select> 
+                    </div>
+                    <div v-if="errors[0]" class="my-1">
+                      <span class="error-text">{{errors[0]}}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+                <div class="mb-2">
+                  <label for="acceptance" class="block text-sm font-medium text-gray-700">
+                    Acceptance
+                  </label>
+                  <div class="mt-1">
+                    <textarea 
+                      id="acceptance" 
+                      name="acceptance"
+                      v-model="userStory.acceptance" 
+                      placeholder="Enter acceptance..."
+                      rows="2"
+                      cols="8"
+                      class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </textarea>
+                  </div>
+                </div>
+
+                <div class="mb-2">
+                  <label for="notes" class="block text-sm font-medium text-gray-700">
+                    Notes
+                  </label>
+                  <div class="mt-1">
+                    <textarea 
+                      id="notes" 
+                      name="notes"
+                      v-model="userStory.notes" 
+                      placeholder="Enter notes..."
+                      rows="2"
+                      cols="8"
+                      class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </textarea>
+                  </div>
+                </div>
+              </div>
         </form>
       </ValidationObserver>
     </div>
   </div>
+
 </template>
 
 <script>

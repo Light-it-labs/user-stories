@@ -12,6 +12,7 @@ import InviteUserForm from './components/InviteUserForm.vue';
 import ProjectForm from './components/ProjectForm.vue';
 import ProjectIndex from './components/ProjectIndex.vue';
 import Project from './components/Project.vue';
+import VOffline from 'v-offline';
 import NavBar from './components/NavBar.vue';
 
 
@@ -50,11 +51,27 @@ const app = new Vue({
     
     data(){
         return{
-
+            onLine: null,
+            onlineSlot: 'online',
+            offlineSlot: 'offline',
         }
     },
 
-    components:{NavBar, UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project},
+    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project, NavBar, VOffline},
+
+    methods:{
+        amIOnline(e){
+            if(this.onLine != null){
+              if(e === false){
+                Vue.$toast.error('Lost connection!');
+              }else{
+                Vue.$toast.success('Connected!');
+                this.$router.go();
+              }
+            }
+            this.onLine = e;
+          },
+    },
 
     created(){
         const user = JSON.parse(localStorage.getItem("user"));

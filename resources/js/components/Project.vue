@@ -1,5 +1,9 @@
 <template>
-  <div class="bg-white pb-4 px-4 rounded-md w-full">
+  <div :class="{
+    'bg-white pb-4 px-4 rounded-md w-full': $root.onLine === true || $root.onLine === null,
+    'bg-white pb-4 px-4 rounded-md w-full opacity-20 pointer-events-none': $root.onLine === false,
+    }"
+  >
     <div class="w-full pt-6 flex justify-center items-center relative">
       <BackButton></BackButton>
       <h2 class="m-0 text-center">{{project.name}}</h2>
@@ -23,9 +27,6 @@
     <div v-else>
       <p class="text-center my-2">No Epics at the moment</p>
     </div>
-    
-
-    
 
     <Delete-Modal v-if="deleteModal"
         title="Delete Epic" 
@@ -38,6 +39,7 @@
       </Delete-Modal>
     
   </div>
+
 </template>
 
 <script>
@@ -52,7 +54,7 @@ import BackButton from './BackButton.vue';
         project:{},
         epicIdToDelete: null,
         deleteModal: false,
-        projectLoaded:false
+        projectLoaded:false,
       }
     },
 
