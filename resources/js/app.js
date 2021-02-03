@@ -11,6 +11,7 @@ import InviteUserForm from './components/InviteUserForm.vue';
 import ProjectForm from './components/ProjectForm.vue';
 import ProjectIndex from './components/ProjectIndex.vue';
 import Project from './components/Project.vue';
+import VOffline from 'v-offline';
 
 
 const {default: Axios} = require('axios');
@@ -43,10 +44,26 @@ const app = new Vue({
     
     data(){
         return{
-
+            onLine: null,
+            onlineSlot: 'online',
+            offlineSlot: 'offline',
         }
     },
 
-    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project},
+    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project, VOffline},
+
+    methods:{
+        amIOnline(e){
+            if(this.onLine != null){
+              if(e === false){
+                Vue.$toast.error('Lost connection!');
+              }else{
+                Vue.$toast.success('Connected!');
+                this.$router.go();
+              }
+            }
+            this.onLine = e;
+          },
+    }
 
 });

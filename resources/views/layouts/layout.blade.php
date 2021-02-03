@@ -19,6 +19,11 @@
         <div id="app" class="container mx-auto py-4">
             @yield('content')
             <router-view></router-view>
+            <V-Offline
+                online-class="online"
+                offline-class="offline"
+                @detected-condition="amIOnline">
+            </V-Offline>
         </div>
         <script src="https://use.fontawesome.com/76a7da1dec.js"></script>
         <script src="/js/app.js"></script>

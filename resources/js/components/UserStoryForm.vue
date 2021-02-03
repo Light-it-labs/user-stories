@@ -1,215 +1,223 @@
 <template>
-  <div>
-    <ValidationObserver v-slot="{ handleSubmit }">
-      <form 
-          action="" 
-          method="POST"
-          @submit.prevent="handleSubmit(checkForm)"
-        >
-            <div class="pt-6 px-4 sm:px-10">
+  <div :class="{
+    'bg-white pb-4 px-4 rounded-md w-full': $root.onLine === true || $root.onLine === null,
+    'bg-white pb-4 px-4 rounded-md w-full opacity-20 pointer-events-none': $root.onLine === false,
+    }"
+  >
 
-                <div class="mb-2">
-                  <ValidationProvider name="Description" rules="required" v-slot="{errors}">
-                    <label for="description" class="block text-sm font-medium text-gray-700">
-                      Description
+    <div>
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <form 
+            action="" 
+            method="POST"
+            @submit.prevent="handleSubmit(checkForm)"
+          >
+              <div class="pt-6 px-4 sm:px-10">
+
+                  <div class="mb-2">
+                    <ValidationProvider name="Description" rules="required" v-slot="{errors}">
+                      <label for="description" class="block text-sm font-medium text-gray-700">
+                        Description
+                      </label>
+                      <div class="mt-1">
+                        <textarea 
+                          id="description" 
+                          name="description"
+                          v-model="userStory.description" 
+                          placeholder="Enter description"
+                          rows="2"
+                          cols="8"
+                          class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </textarea>
+                      </div>
+                      <div v-if="errors[0]" class="my-1">
+                          <span class="error-text">{{errors[0]}}</span>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="grid grid-cols-3 gap-2 mb-2">
+                    <div>
+                      <ValidationProvider name="Priority" rules="required|between:1,4" v-slot="{errors}">
+                        <label for="priority" class="block text-sm font-medium text-gray-700">
+                          Priority
+                        </label>  
+                        <div class="flex flex-wrap">
+                          <div class="flex w-8/12">
+                            <input 
+                              type="number" 
+                              id="priority"
+                              v-model="userStory.priority"
+                              class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
+                            >
+                            </div>
+                          <div class="flex flex-col w-4/12">
+                            <button
+                              type="button"
+                              @click="increasePriority"
+                              class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                            +
+                            </button>
+                            <button
+                              type="button"
+                              @click="decreasePriority"
+                              class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                            -
+                            </button>
+                          </div>
+                          <div v-if="errors[0]" class="my-1">
+                            <span class="error-text">{{errors[0]}}</span>
+                          </div>
+                        </div>
+                      </ValidationProvider>
+                    </div>
+
+                    <div>
+                      <ValidationProvider name="Risk" rules="required|between:1,4" v-slot="{errors}">
+                        <label for="risk" class="block text-sm font-medium text-gray-700">
+                          Risk
+                        </label>  
+                        <div class="flex flex-wrap">
+                          <div class="flex w-8/12">
+                            <input 
+                              type="number" 
+                              id="risk"
+                              v-model="userStory.risk"
+                              class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
+                            >
+                            </div>
+                          <div class="flex flex-col w-4/12">
+                            <button
+                              type="button"
+                              @click="increaseRisk"
+                              class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                            +
+                            </button>
+                            <button
+                              type="button"
+                              @click="decreaseRisk"
+                              class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                            -
+                            </button>
+                          </div>
+                          <div v-if="errors[0]" class="my-1">
+                            <span class="error-text">{{errors[0]}}</span>
+                          </div>
+                        </div>
+                      </ValidationProvider>
+                    </div>
+
+                    <div>
+                      <ValidationProvider name="Value" rules="required|between:1,4" v-slot="{errors}">
+                        <label for="value" class="block text-sm font-medium text-gray-700">
+                          Value
+                        </label>  
+                        <div class="flex flex-wrap">
+                          <div class="flex w-8/12">
+                            <input 
+                              type="number" 
+                              id="value"
+                              v-model="userStory.value"
+                              class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
+                            >
+                            </div>
+                          <div class="flex flex-col w-4/12">
+                            <button
+                              type="button"
+                              @click="increaseValue"
+                              class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                            +
+                            </button>
+                            <button
+                              type="button"
+                              @click="decreaseValue"
+                              class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
+                            -
+                            </button>
+                          </div>
+                          <div v-if="errors[0]" class="my-1">
+                              <span class="error-text">{{errors[0]}}</span>
+                          </div>
+                        </div>
+                      </ValidationProvider>
+                    </div>
+                  
+                  </div>
+
+                  <div class="mb-2">
+                    <ValidationProvider name="Estimate" :rules="{regex: /^(XXS|XS|S|M|L|XL|XXL)$/}" v-slot="{errors}">
+                      <label for="estimate" class="block text-sm font-medium text-gray-700">
+                        Estimate
+                      </label>
+                      <div class="mt-1">
+                        <select 
+                          name="estimate" 
+                          id="estimate"
+                          v-model="userStory.estimate"
+                          class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                          <option value="-1">Select size...</option>
+                          <option value="XXS">XXS</option>
+                          <option value="XS">XS</option>
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="L">L</option>
+                          <option value="XL">XL</option>
+                          <option value="XXL">XXL</option>
+                        </select> 
+                      </div>
+                      <div v-if="errors[0]" class="my-1">
+                              <span class="error-text">{{errors[0]}}</span>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="mb-2">
+                    <label for="acceptance" class="block text-sm font-medium text-gray-700">
+                      Acceptance
                     </label>
                     <div class="mt-1">
                       <textarea 
-                        id="description" 
-                        name="description"
-                        v-model="userStory.description" 
-                        placeholder="Enter description"
+                        id="acceptance" 
+                        name="acceptance"
+                        v-model="userStory.acceptance" 
+                        placeholder="Enter acceptance..."
                         rows="2"
                         cols="8"
                         class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       </textarea>
                     </div>
-                    <div v-if="errors[0]" class="my-1">
-                        <span class="error-text">{{errors[0]}}</span>
-                    </div>
-                  </ValidationProvider>
-                </div>
-
-                <div class="grid grid-cols-3 gap-2 mb-2">
-                  <div>
-                    <ValidationProvider name="Priority" rules="required|between:1,4" v-slot="{errors}">
-                      <label for="priority" class="block text-sm font-medium text-gray-700">
-                        Priority
-                      </label>  
-                      <div class="flex flex-wrap">
-                        <div class="flex w-8/12">
-                          <input 
-                            type="number" 
-                            id="priority"
-                            v-model="userStory.priority"
-                            class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
-                          >
-                          </div>
-                        <div class="flex flex-col w-4/12">
-                          <button
-                            type="button"
-                            @click="increasePriority"
-                            class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                          +
-                          </button>
-                          <button
-                            type="button"
-                            @click="decreasePriority"
-                            class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                          -
-                          </button>
-                        </div>
-                        <div v-if="errors[0]" class="my-1">
-                          <span class="error-text">{{errors[0]}}</span>
-                        </div>
-                      </div>
-                    </ValidationProvider>
                   </div>
 
-                  <div>
-                    <ValidationProvider name="Risk" rules="required|between:1,4" v-slot="{errors}">
-                      <label for="risk" class="block text-sm font-medium text-gray-700">
-                        Risk
-                      </label>  
-                      <div class="flex flex-wrap">
-                        <div class="flex w-8/12">
-                          <input 
-                            type="number" 
-                            id="risk"
-                            v-model="userStory.risk"
-                            class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
-                          >
-                          </div>
-                        <div class="flex flex-col w-4/12">
-                          <button
-                            type="button"
-                            @click="increaseRisk"
-                            class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                          +
-                          </button>
-                          <button
-                            type="button"
-                            @click="decreaseRisk"
-                            class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                          -
-                          </button>
-                        </div>
-                        <div v-if="errors[0]" class="my-1">
-                          <span class="error-text">{{errors[0]}}</span>
-                        </div>
-                      </div>
-                    </ValidationProvider>
-                  </div>
-
-                  <div>
-                    <ValidationProvider name="Value" rules="required|between:1,4" v-slot="{errors}">
-                      <label for="value" class="block text-sm font-medium text-gray-700">
-                        Value
-                      </label>  
-                      <div class="flex flex-wrap">
-                        <div class="flex w-8/12">
-                          <input 
-                            type="number" 
-                            id="value"
-                            v-model="userStory.value"
-                            class="bg-white text-sm text-gray-900 text-center focus:outline-none border border-gray-800 focus:border-gray-600 rounded-l-md w-full"
-                          >
-                          </div>
-                        <div class="flex flex-col w-4/12">
-                          <button
-                            type="button"
-                            @click="increaseValue"
-                            class="text-white text-center text-md font-semibold rounded-tr-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                          +
-                          </button>
-                          <button
-                            type="button"
-                            @click="decreaseValue"
-                            class="text-white text-center text-md font-semibold rounded-br-md px-1 bg-gray-800 focus:bg-gray-600 focus:outline-none border border-gray-800 focus:border-gray-600">
-                          -
-                          </button>
-                        </div>
-                        <div v-if="errors[0]" class="my-1">
-                            <span class="error-text">{{errors[0]}}</span>
-                        </div>
-                      </div>
-                    </ValidationProvider>
-                  </div>
-                
-                </div>
-
-                <div class="mb-2">
-                  <ValidationProvider name="Estimate" :rules="{regex: /^(XXS|XS|S|M|L|XL|XXL)$/}" v-slot="{errors}">
-                    <label for="estimate" class="block text-sm font-medium text-gray-700">
-                      Estimate
+                  <div class="mb-2">
+                    <label for="notes" class="block text-sm font-medium text-gray-700">
+                      Notes
                     </label>
                     <div class="mt-1">
-                      <select 
-                        name="estimate" 
-                        id="estimate"
-                        v-model="userStory.estimate"
-                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      >
-                        <option value="-1">Select size...</option>
-                        <option value="XXS">XXS</option>
-                        <option value="XS">XS</option>
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                        <option value="XXL">XXL</option>
-                      </select> 
+                      <textarea 
+                        id="notes" 
+                        name="notes"
+                        v-model="userStory.notes" 
+                        placeholder="Enter notes..."
+                        rows="2"
+                        cols="8"
+                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      </textarea>
                     </div>
-                    <div v-if="errors[0]" class="my-1">
-                            <span class="error-text">{{errors[0]}}</span>
-                    </div>
-                  </ValidationProvider>
-                </div>
-
-                <div class="mb-2">
-                  <label for="acceptance" class="block text-sm font-medium text-gray-700">
-                    Acceptance
-                  </label>
-                  <div class="mt-1">
-                    <textarea 
-                      id="acceptance" 
-                      name="acceptance"
-                      v-model="userStory.acceptance" 
-                      placeholder="Enter acceptance..."
-                      rows="2"
-                      cols="8"
-                      class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </textarea>
                   </div>
-                </div>
 
-                <div class="mb-2">
-                  <label for="notes" class="block text-sm font-medium text-gray-700">
-                    Notes
-                  </label>
-                  <div class="mt-1">
-                    <textarea 
-                      id="notes" 
-                      name="notes"
-                      v-model="userStory.notes" 
-                      placeholder="Enter notes..."
-                      rows="2"
-                      cols="8"
-                      class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </textarea>
+                  <div class="text-center">
+                    <button @click="cancelNewUserStory()" type="button" class="basicButton mt-2">Cancel</button>
+                    <button type="submit" class="basicButton mt-2">Save</button>
                   </div>
-                </div>
-
-                <div class="text-center">
-                  <button @click="cancelNewUserStory()" type="button" class="basicButton mt-2">Cancel</button>
-                  <button type="submit" class="basicButton mt-2">Save</button>
-                </div>
-                
-                
-            </div>
-      </form>
-    </ValidationObserver>
+                  
+                  
+              </div>
+        </form>
+      </ValidationObserver>
+    </div>
   </div>
+
 </template>
 
 <script>

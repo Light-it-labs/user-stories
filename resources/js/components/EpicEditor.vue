@@ -1,5 +1,9 @@
 <template>
-  <div class="min-h-screen flex flex-col py-2 sm:px-2 lg:px-8">
+  <div :class="{
+    'bg-white pb-4 px-4 rounded-md w-full': $root.onLine === true || $root.onLine === null,
+    'bg-white pb-4 px-4 rounded-md w-full opacity-20 pointer-events-none': $root.onLine === false,
+    }"
+  >
 
     <h2>{{title}}</h2>
 

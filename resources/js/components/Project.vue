@@ -1,39 +1,46 @@
 <template>
-  <div class="bg-white pb-4 px-4 rounded-md w-full">
-    <div class="w-full pt-6 flex justify-evenly">
-      <h2 class="ml-3 text-center">{{project.name}}</h2>
-      <button @click="$router.push({name:'project-dashboard', props:{id: project.id}})" class="basicButton">Dashboard</button>
-    </div>
-    
-    <div v-if="projectLoaded && project.epics.length > 0">
-      <Epic
-        v-for="(epic, index) in project.epics" :key="index" 
-        v-bind:epic="epic"
-        @delete-user-story="deleteUserStory($event)"
-        @delete-epic="showDeleteModal($event)"
-      ></Epic>
-    </div>
-    
-    <div v-else>
-      <p class="text-center my-2">No Epics at the moment</p>
-    </div>
-    
+  <div :class="{
+    'bg-white pb-4 px-4 rounded-md w-full': $root.onLine === true || $root.onLine === null,
+    'bg-white pb-4 px-4 rounded-md w-full opacity-20 pointer-events-none': $root.onLine === false,
+    }"
+  >
+    <div class="bg-white pb-4 px-4 rounded-md w-full">
+      <div class="w-full pt-6 flex justify-evenly">
+        <h2 class="ml-3 text-center">{{project.name}}</h2>
+        <button @click="$router.push({name:'project-dashboard', props:{id: project.id}})" class="basicButton">Dashboard</button>
+      </div>
+      
+        <div v-if="projectLoaded && project.epics.length > 0">
+          <Epic
+            v-for="(epic, index) in project.epics" :key="index" 
+            v-bind:epic="epic"
+            @delete-user-story="deleteUserStory($event)"
+            @delete-epic="showDeleteModal($event)"
+          ></Epic>
+        </div>
+        
+        <div v-else>
+          <p class="text-center my-2">No Epics at the moment</p>
+        </div>
+        
 
-    <div class="text-center">
-      <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
-    </div>
+        <div class="text-center">
+          <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
+        </div> 
 
-    <Delete-Modal v-if="deleteModal"
-        title="Delete Epic" 
-        message="Are you sure you want to delete this epic"
-        left-button="Cancel"
-        right-button="Confirm"
-        @close-delete-modal="closeDeleteModal()"
-        @delete-confirm="deleteEpic()"
-      >
-      </Delete-Modal>
-    
+      <Delete-Modal v-if="deleteModal"
+          title="Delete Epic" 
+          message="Are you sure you want to delete this epic"
+          left-button="Cancel"
+          right-button="Confirm"
+          @close-delete-modal="closeDeleteModal()"
+          @delete-confirm="deleteEpic()"
+        >
+        </Delete-Modal>
+      
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -47,7 +54,7 @@ import DeleteModal from './DeleteModal.vue';
         project:{},
         epicIdToDelete: null,
         deleteModal: false,
-        projectLoaded:false
+        projectLoaded:false,
       }
     },
 
