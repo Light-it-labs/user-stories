@@ -1,5 +1,5 @@
 <template>
-  <div :class="{
+  <div v-if="epicLoaded" :class="{
     'min-h-screen flex flex-col pb-2 sm:px-2 lg:px-8': $root.onLine === true || $root.onLine === null,
     'min-h-screen flex flex-col pb-2 sm:px-2 lg:px-8 opacity-20 pointer-events-none': $root.onLine === false,
   }">
@@ -12,6 +12,7 @@
     <LastSaved 
       ref="lastSaved"
       v-bind:savingStatus="savingEpic"
+      v-bind:timeInitialized="epic.updated_at"
     >
     </LastSaved>
     
@@ -116,6 +117,7 @@ export default {
       watchInPause: true,
       savingEpic: false,
       isUserAvailable: false,
+      epicLoaded: false,
     }
   },
 
@@ -146,7 +148,6 @@ export default {
         try{
           const response = await axios.put('/api/auth/epics/' + this.epic.id, this.epic);
           if(response.status === 200 && response.data.success === true){
-            this.$refs.lastSaved.updateTime();
             this.epic = response.data.epic;
           }
         }catch(e){
@@ -185,6 +186,7 @@ export default {
           this.watchInPause = true;
           this.epic = response.data.epic;
           this.isUserAvailable = true;
+          this.epicLoaded = true;
         }
       }catch(e){
         Vue.$toast.error(e.response.data.message);

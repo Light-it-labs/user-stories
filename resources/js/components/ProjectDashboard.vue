@@ -1,32 +1,37 @@
 <template>
   <div v-if="projectLoaded">
-    <h1>{{project.name}}</h1>
+    <div class="flex justify-center items-center relative mb-2">
+      <BackButton></BackButton>
+      <h1 class="m-0">{{project.name}}</h1>
+    </div>
 
     <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
-      <div class="col-span-6 md:col-span-2">
-        <div class="dashboard-info-box flex justify-between">
-          <h3>Total Epics: </h3>
-          <h3>{{project.epics.length}}</h3>
+      <div class="col-span-6 grid grid-cols-1 md:grid-cols-6 gap-4 max-h-96">
+        <div class="col-span-6 md:col-span-2">
+          <div class="dashboard-info-box flex justify-between">
+            <h3>Total Epics: </h3>
+            <h3>{{project.epics.length}}</h3>
+          </div>
+          <div class="dashboard-info-box flex justify-between">
+            <h3>Total User Stories: </h3>
+            <h3>{{userStoriesCount}}</h3>
+          </div>
+          <div class="dashboard-info-box flex justify-between">
+            <h3>Created: </h3>
+            <h3>{{parseDate(project.created_at)}}</h3>
+          </div>
+          <div class="dashboard-info-box flex justify-between">
+            <h3>Last Update: </h3>
+            <h3>{{parseDate(project.updated_at)}}</h3>
+          </div>
         </div>
-        <div class="dashboard-info-box flex justify-between">
-          <h3>Total User Stories: </h3>
-          <h3>{{userStoriesCount}}</h3>
-        </div>
-        <div class="dashboard-info-box flex justify-between">
-          <h3>Created: </h3>
-          <h3>{{parseDate(project.created_at)}}</h3>
-        </div>
-        <div class="dashboard-info-box flex justify-between">
-          <h3>Last Update: </h3>
-          <h3>{{parseDate(project.updated_at)}}</h3>
-        </div>
-      </div>
 
-      <div class="col-span-6 md:col-span-4 dashboard-box">
-        <h2 class="mb-1">Strategic User Stories</h2>
-        <ul>
-          <li class="text-sm" v-for="(description, index) in strategicUserStoriesDescription" :key="index">{{description}}</li>
-        </ul>
+        <div class="col-span-6 md:col-span-4 dashboard-box h-80 overflow-scroll">
+          <h2 class="mb-1">Strategic User Stories</h2>
+          <ul>
+            <li class="text-sm" v-for="(description, index) in strategicUserStoriesDescription" :key="index">{{description}}</li>
+          </ul>
+        </div>
       </div>
       
       <div class="col-span-6 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -77,6 +82,7 @@
 <script>
 import Chart from './projectCharts/Chart.vue';
 import moment from 'moment';
+import BackButton from './BackButton.vue';
 
   export default {
     data(){
@@ -108,7 +114,7 @@ import moment from 'moment';
       }
     },
 
-    components:{Chart},
+    components:{Chart, BackButton},
 
     methods:{
 

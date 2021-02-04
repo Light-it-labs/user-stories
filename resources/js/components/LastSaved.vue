@@ -6,18 +6,19 @@
 </template>
 
 <script>
+import moment from 'moment';
+
   export default {
     data(){
       return{
         saving: false,
-        hours: '',
-        minutes: '',
-        seconds: ''
+        time: '',
       }
     },
 
     props:{
       savingStatus: Boolean,
+      timeInitialized: String,
     },
 
     watch:{
@@ -26,30 +27,32 @@
           this.changeSavingStatus();
         },
       },
+
+      timeInitialized:{
+        handler: function(newTime){
+          this.time = newTime;
+        }
+      }
     },
 
     computed:{
       savedMessage(){
-        return `Last time saved: ${this.hours}:${this.minutes}:${this.seconds}`;
+        return `Saved: ${this.createdFromNow}`
       },
+
+      createdFromNow(){
+        return moment(this.time).fromNow();
+      }
     },
 
     methods:{
       changeSavingStatus(){
         this.saving = !this.saving;  
       },
+    },
 
-      formatDateTimeNumber(number){
-        const formatedNumber = ("00" + number).slice(-2);
-        return formatedNumber;
-      },
-
-      updateTime(){
-        const dateInstance = new Date();
-        this.minutes = this.formatDateTimeNumber(dateInstance.getMinutes());
-        this.hours = this.formatDateTimeNumber(dateInstance.getHours());
-        this.seconds = this.formatDateTimeNumber(dateInstance.getSeconds());
-      }
+    mounted(){
+      this.time = this.timeInitialized;
     }
   }
 </script>

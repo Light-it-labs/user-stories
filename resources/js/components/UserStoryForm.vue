@@ -4,7 +4,7 @@
     'opacity-20 pointer-events-none': $root.onLine === false,
     }">
 
-    <div v-if="epicExists">
+    <div v-if="epicExists && userStoryLoaded">
       <div class="w-full pt-6 mb-2 flex justify-center items-center relative">
         <BackButton></BackButton>
         <h2 class="m-0">Edit User Story</h2>
@@ -12,6 +12,7 @@
       <LastSaved 
         ref="lastSaved"
         v-bind:savingStatus="savingUserStory"
+        v-bind:timeInitialized="userStory.updated_at"
       >
       </LastSaved>
     </div>
@@ -25,7 +26,7 @@
             @submit.prevent="handleSubmit(checkForm)"
         >
               <div class="p-6 px-4 sm:px-10">
-                <div v-if="userStoryIndex != null">
+                <div>
                   <button class="button absolute inset-x-3/4" @click="$emit('close-user-story-form')">X</button>
                 </div>
 
@@ -274,6 +275,7 @@ import BackButton from './BackButton.vue';
         userStoryIndex: null,
         savingUserStory: false,
         isUserAvailable: false,
+        userStoryLoaded: false,
       }
     },
 
@@ -312,7 +314,8 @@ import BackButton from './BackButton.vue';
         try{
           const response = await axios.put('/api/auth/user-stories/' + this.userStory.id, this.userStory);
           if(response.status === 200 && response.data.success === true){
-            this.$refs.lastSaved.updateTime();
+            this.watchInPause = true;
+            this.userStory = response.data.userStory;
           }
         }catch(e){
           Vue.$toast.error(e);
@@ -327,6 +330,7 @@ import BackButton from './BackButton.vue';
           if(response.status === 200 && response.data.success === true){
             this.userStory = response.data.userStory;
             this.isUserAvailable = true;
+            this.userStoryLoaded = true;
           }
         }catch(e){
           Vue.$toast.error(e.response.data.message);

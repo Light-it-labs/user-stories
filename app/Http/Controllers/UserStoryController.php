@@ -46,6 +46,7 @@ class UserStoryController
 
     $epic = $userStory->epic()->first();
     $epic->user_id_editing = $request->user()->id;
+    $epic->timestamps = false;
     $epic->save();
 
     return response()->json([
@@ -70,7 +71,7 @@ class UserStoryController
     if(!$userStory->isAvailableToEdit($request->user()->id)){
       return response()->json([
         'success' => false,
-        'message' => 'Not available to edit now. Try later'
+        'message' => 'Not available to edit now. Try later',
      ], 422);
     };
 
@@ -82,7 +83,8 @@ class UserStoryController
   
     return response()->json([
         'success' => true,
-        'message' => 'UserStory updated successfully'
+        'userStory' => $userStory,
+        'message' => 'UserStory updated successfully',
     ]);
   }
 

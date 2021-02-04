@@ -66,11 +66,12 @@ import BackButton from './BackButton.vue';
         try{
           const response = await axios.get('/api/auth/epics/' + this.epicIdToDelete + '/delete');
           if(response.status === 200 && response.data.success === true){
-            this.deleteModal = false;
             this.epicIdToDelete = null;
           }
         }catch(e){
-          Vue.$toast.error(e);
+          Vue.$toast.error(e.response.data.message);
+        }finally{
+          this.deleteModal = false;
         }
       },
 

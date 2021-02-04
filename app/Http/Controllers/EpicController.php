@@ -84,6 +84,7 @@ class EpicController
         }
 
         $epic->user_id_editing = $request->user()->id;
+        $epic->timestamps = false;
         $epic->save();
 
         return response()->json([
@@ -95,6 +96,7 @@ class EpicController
     public function resetStatus(Epic $epic)
     {
         $epic->user_id_editing = null;
+        $epic->timestamps = false;
         $epic->save();
 
         return response()->json([

@@ -17,6 +17,7 @@ class UserStory extends Model
     protected $table = 'user_stories';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
+    protected $touches = ['epic'];
 
     /*
     |--------------------------------------------------------------------------
