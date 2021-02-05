@@ -9,7 +9,8 @@
       <h2 class="m-0">{{title}}</h2>
     </div>
 
-    <LastSaved 
+    <LastSaved
+      v-if="!hideTimeSaved"
       ref="lastSaved"
       v-bind:savingStatus="savingEpic"
       v-bind:timeInitialized="epic.updated_at"
@@ -118,6 +119,7 @@ export default {
       savingEpic: false,
       isUserAvailable: false,
       epicLoaded: false,
+      hideTimeSaved: false,
     }
   },
 
@@ -131,6 +133,7 @@ export default {
     epic:{
       handler: function(){
         if(!this.watchInPause){
+          this.hideTimeSaved = false;
           this.savingEpic = true;
           this.saveChanges();
         }
@@ -148,6 +151,7 @@ export default {
         try{
           const response = await axios.put('/api/auth/epics/' + this.epic.id, this.epic);
           if(response.status === 200 && response.data.success === true){
+            this.watchInPause = true;
             this.epic = response.data.epic;
           }
         }catch(e){
@@ -155,7 +159,7 @@ export default {
           
         }finally{
           this.savingEpic = false;
-          this.watchInPause = true;
+          this.epic.user_stories[this.userStoryIndex] = this.userStoryToEdit;
         }
     },
 
@@ -163,7 +167,6 @@ export default {
       try{
         const response = await axios.post('/api/auth/epics', this.epic);
         if(response.status === 200 && response.data.success === true){
-          this.$refs.lastSaved.updateTime();
           this.epic = response.data.epic;
           //I'am supposed to change the route with the id of the new epic? The route params is already change
           // but the route path displayed for the user is not.
@@ -175,7 +178,7 @@ export default {
         
       }finally{
         this.savingEpic = false;
-        this.watchInPause = true;
+        
       }
     },
 
@@ -247,6 +250,8 @@ export default {
         this.title = "Edit Epic"
       }else{
         this.title = "New Epic"
+        this.epicLoaded = true;
+        this.hideTimeSaved = true;
       }
     },
 

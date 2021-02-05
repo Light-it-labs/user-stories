@@ -24,7 +24,7 @@ import moment from 'moment';
     watch:{
       savingStatus:{
         handler: function(){
-          this.changeSavingStatus();
+          this.saving = this.savingStatus;
         },
       },
 
