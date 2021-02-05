@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Exports\ProjectExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Project;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +40,10 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('/projects', 'ProjectController@store');
         Route::get('projects/{project}/edit', 'ProjectController@edit');
         Route::put('projects/{project}', 'ProjectController@update');
-        Route::get('projects/{project}/delete', 'ProjectController@delete');   
+        Route::get('projects/{project}/delete', 'ProjectController@delete'); 
+        Route::get('projects/{project}/download', function(Project $project) {
+            return Excel::download(new ProjectExport($project), "$project->name.xlsx");
+        });
         
         // ----------------        ----------------
 
