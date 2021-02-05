@@ -26,7 +26,7 @@
             @submit.prevent="handleSubmit(checkForm)"
         >
               <div class="p-6 px-4 sm:px-10">
-                <div>
+                <div v-if="!epicExists">
                   <button class="button absolute inset-x-3/4" @click="$emit('close-user-story-form')">X</button>
                 </div>
 
