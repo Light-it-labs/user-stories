@@ -115,7 +115,6 @@ import DeleteModal from './DeleteModal.vue';
           link.click();
           URL.revokeObjectURL(blobUrl);
           Vue.$toast.success('Succesfully downloaded');
-          //Vue.$toast.success(response);
         }catch(e){
           Vue.$toast.error(e);
         }

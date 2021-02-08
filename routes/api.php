@@ -41,9 +41,10 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('projects/{project}/edit', 'ProjectController@edit');
         Route::put('projects/{project}', 'ProjectController@update');
         Route::get('projects/{project}/delete', 'ProjectController@delete'); 
-        Route::get('projects/{project}/download', function(Project $project) {
-            return Excel::download(new ProjectExport($project), "$project->name.xlsx");
-        });
+        Route::get('projects/{project}/download', 'ExportController@projectExport');
+        // Route::get('projects/{project}/download', function(Project $project) {
+        //     return Excel::download(new ProjectExport($project), "$project->name.xlsx");
+        // });
         
         // ----------------        ----------------
 
