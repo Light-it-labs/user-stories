@@ -55,8 +55,9 @@
                 <button @click="$router.push({name:'edit-project', params: {id:project.id, objectProject:project}})" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Edit</button>
                 <div v-if="project.pivot.role_id === 1" class="flex flex-col">
                   <a :href="'/users/invite/?project_id=' + project.id" class="text-indigo-600 hover:text-indigo-900 mb-2 no-underline hover:no-underline">Invite</a>
-                  <button @click="showDeleteModal(project.id)" type="button" class="text-indigo-600 hover:text-indigo-900">Delete</button>
+                  <button @click="showDeleteModal(project.id)" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Delete</button>
                 </div>
+                <button @click="downloadProject(project)" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Download</button>
                 
               </td>
             </tr>
@@ -99,6 +100,27 @@ import DeleteModal from './DeleteModal.vue';
     components: {DeleteModal},
 
     methods:{
+
+      async downloadProject(project){
+        try{
+          const response = await axios({
+            method: 'GET',
+            url: `api/auth/projects/${project.id}/download`,
+            responseType: 'blob'
+          });
+          const blobUrl = URL.createObjectURL(response.data);
+          const link = document.createElement("a");
+          link.href = blobUrl;
+          link.download = `${project.name}.xlsx`;
+          link.click();
+          URL.revokeObjectURL(blobUrl);
+          Vue.$toast.success('Succesfully downloaded');
+        }catch(e){
+          Vue.$toast.error(e);
+        }
+        
+      },
+
       navigateToProject: function(project){
         this.$router.push({name:'project', params: {id:project.id, objectProject: project}});
       },
