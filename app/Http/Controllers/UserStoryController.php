@@ -106,7 +106,7 @@ class UserStoryController
        ], 422);
     };
 
-    broadcast(new ProjectUpdateEvent($userStory->get_project_of_user_story()));
+    broadcast(new ProjectUpdateEvent($userStory->get_project_of_user_story()))->toOthers();
     $userStory->delete();
 
     return response()->json([
