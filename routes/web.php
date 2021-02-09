@@ -40,5 +40,6 @@ Route::get('/users/invite/', function(){
 });
 
 Route::view('users/signup/invitation/', 'auth.invitations.signupInvitedUser')->name('invitation');
+Route::view('users/invitation/', 'auth.invitations.acceptProjectInvitation')->name('existingUserInvitation');
 
 Route::view('forgot_password', 'auth.passwords.resetPassword')->name('password.reset');
