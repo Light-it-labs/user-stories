@@ -20,7 +20,7 @@
         v-for="(epic, index) in project.epics" :key="index" 
         v-bind:epic="epic"
         @delete-user-story="deleteUserStory($event)"
-        @delete-epic="showDeleteModal($event)"
+        @delete-epic="showDeleteModal($event, index)"
       ></Epic>
     </div>
     
@@ -53,6 +53,7 @@ import BackButton from './BackButton.vue';
       return{
         project:{},
         epicIdToDelete: null,
+        epicIndexToDelete: null,
         deleteModal: false,
         projectLoaded:false,
       }
@@ -66,7 +67,10 @@ import BackButton from './BackButton.vue';
         try{
           const response = await axios.get('/api/auth/epics/' + this.epicIdToDelete + '/delete');
           if(response.status === 200 && response.data.success === true){
+            Vue.$toast.success(response.data.message);
+            this.project.epics.splice(this.epicIndexToDelete, 1);
             this.epicIdToDelete = null;
+            this.epicIndexToDelete = null;
           }
         }catch(e){
           Vue.$toast.error(e.response.data.message);
@@ -102,10 +106,13 @@ import BackButton from './BackButton.vue';
 
       closeDeleteModal: function(){
         this.deleteModal = false;
+        this.epicIdToDelete = null;
+        this.epicIndexToDelete = null;
       },
 
-      showDeleteModal: function(epicId){
+      showDeleteModal: function(epicId, epicIndex){
         this.epicIdToDelete = epicId;
+        this.epicIndexToDelete = epicIndex;
         this.deleteModal = true;
       }
 
@@ -129,7 +136,11 @@ import BackButton from './BackButton.vue';
         //From event
         this.getProject(e.project.id);
       });
-     }
+     },
+
+    beforeDestroy(){
+      Echo.leaveChannel(`private-project-channel.${this.project.id}`);
+    },
     
   }
 </script>

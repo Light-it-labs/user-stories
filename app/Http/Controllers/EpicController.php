@@ -56,7 +56,6 @@ class EpicController
             $user_story->epic()->associate($epic);
         }
 
-        broadcast(new EpicUpdateEvent($epic));
         broadcast(new ProjectUpdateEvent($epic->project()->first()));
 
         return response()->json([
@@ -142,7 +141,6 @@ class EpicController
             }
         }
 
-        broadcast(new EpicUpdateEvent($epic));
         broadcast(new ProjectUpdateEvent($epic->project()->first()));
         
         return response()->json([
@@ -168,7 +166,7 @@ class EpicController
              ], 422);
         }
         
-        broadcast(new ProjectUpdateEvent($epic->project()->first()));
+        broadcast(new ProjectUpdateEvent($epic->project()->first()))->toOthers();
         $epic->delete();
 
         return response()->json([

@@ -214,6 +214,10 @@ import BackButton from './BackButton.vue';
         this.setUpDashboard(this.$route.params.id);
       });
 
+    },
+
+    beforeDestroy(){
+      Echo.leaveChannel(`private-project-channel.${this.project.id}`);
     }
   }
 </script>
