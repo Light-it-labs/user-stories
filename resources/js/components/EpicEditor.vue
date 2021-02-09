@@ -200,6 +200,7 @@ export default {
     async deleteUserStory(userStory, index){
       const response = await axios.get('/api/auth/user-stories/' + userStory.id + '/delete');
       if(response.status === 200 && response.data.success === true){
+        this.watchInPause = true;
         this.epic.user_stories.splice(index, 1);
         if(this.userStoryIndex === index){
           this.showUserStoryForm = false;
@@ -223,7 +224,6 @@ export default {
 
     saveEditedUserStory: function(userStoryWithIndex){
       this.epic.user_stories[userStoryWithIndex.index] = userStoryWithIndex.userStory;
-      this.editEpic();
     },
 
     saveNewUserStory: function(userStory){
