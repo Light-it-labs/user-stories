@@ -44,6 +44,8 @@ Vue.component('VueToast', require('vue-toast-notification').default);
 Vue.component('ValidationObserver', ValidationObserver).default;
 Vue.component('ValidationProvider', ValidationProvider).default;
 
+
+
 const app = new Vue({
     el: '#app',
 
@@ -54,6 +56,7 @@ const app = new Vue({
             onLine: null,
             onlineSlot: 'online',
             offlineSlot: 'offline',
+            isAuthenticated: false,
         }
     },
 
@@ -79,6 +82,7 @@ const app = new Vue({
 
         if(user && acces_token){
             axios.defaults.headers.common.Authorization = `Bearer ${acces_token}`;
+            this.isAuthenticated = true;
         }
     }
 
