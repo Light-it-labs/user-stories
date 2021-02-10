@@ -305,6 +305,12 @@ import BackButton from './BackButton.vue';
           this.userStory = this.userStoryToEditProp;
           this.watchInPause = true;
         }
+      },
+
+      index:{
+        handler: function(){
+          this.userStoryIndex = this.index;
+        }
       }
   },
 
