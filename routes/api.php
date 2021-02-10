@@ -28,6 +28,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('password/email', 'Auth\ForgotPasswordController@forgotPasswordSendToken');
     Route::post('password/reset', 'Auth\ForgotPasswordController@passwordReset');
     Route::post('users/signup/invitation', 'Auth\InviteController@signUpInvitedUser');
+    Route::post('users/invitation', 'Auth\InviteController@acceptProjectInvitation');
   
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('user', 'Auth\AuthController@user');
