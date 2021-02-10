@@ -238,7 +238,7 @@ import BackButton from './BackButton.vue';
           Vue.$toast.success(response.data.message);
 
         }catch(e){
-          Vue.$toast.error(e);
+          Vue.$toast.error(e.response.data.errors.email[0]);
         }
       },
 
