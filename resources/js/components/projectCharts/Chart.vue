@@ -52,6 +52,16 @@ export default {
     projectName: String
   },
 
+  watch:{
+     chartDataProp:{
+       handler: function(){
+         this.chartdata.datasets[0].data = this.setChartData(this.chartDataProp, this.chartInfo);
+         this.chartdata.labels = this.chartLabels;
+    this.renderChart(this.chartdata, this.options)
+       }
+     }
+  },
+
   methods:{
     setChartData: function(dataSets, chartInfo){
       let data = [0,0,0,0];

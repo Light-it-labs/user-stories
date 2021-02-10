@@ -124,10 +124,8 @@ import BackButton from './BackButton.vue';
         this.projectLoaded = true;
       }else{
         this.getProject(this.$route.params.id);
-      } 
-    },
+      }
 
-     created(){
       Echo.private('project-channel.' + this.$route.params.id)
       .listen('ProjectUpdateEvent', (e) => {
         //Which is more accurate? Sending Project id from router or from the event?
@@ -136,7 +134,7 @@ import BackButton from './BackButton.vue';
         //From event
         this.getProject(e.project.id);
       });
-     },
+    },
 
     beforeDestroy(){
       Echo.leaveChannel(`private-project-channel.${this.project.id}`);

@@ -120,6 +120,7 @@ export default {
       isUserAvailable: false,
       epicLoaded: false,
       hideTimeSaved: false,
+      newUserStory:{},
     }
   },
 
@@ -159,7 +160,14 @@ export default {
           
         }finally{
           this.savingEpic = false;
-          this.epic.user_stories[this.userStoryIndex] = this.userStoryToEdit;
+          if(this.newUserStory != null){
+            let newUserStoryPosition = (this.epic.user_stories.length - 1);
+            this.userStoryToEdit = this.epic.user_stories[newUserStoryPosition];
+            this.userStoryIndex = newUserStoryPosition;
+            this.newUserStory = null;
+          }else{
+            this.epic.user_stories[this.userStoryIndex] = this.userStoryToEdit;
+          }
         }
     },
 
@@ -202,10 +210,15 @@ export default {
       if(response.status === 200 && response.data.success === true){
         this.watchInPause = true;
         this.epic.user_stories.splice(index, 1);
+
         if(this.userStoryIndex === index){
           this.showUserStoryForm = false;
           this.userStoryToEdit = {};
           this.userStoryIndex = null;    
+        }
+
+        if(this.userStoryIndex != null && index < this.userStoryIndex){
+          this.userStoryIndex--;
         }
       }
     },
@@ -227,9 +240,8 @@ export default {
     },
 
     saveNewUserStory: function(userStory){
-      this.epic.user_stories.unshift(userStory);
-      this.showUserStoryForm = false;
-      this.userStoryIndex = null;
+      this.epic.user_stories.push(userStory);
+      this.newUserStory = userStory;
     },
 
     addUserStory: function(){

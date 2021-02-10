@@ -14,6 +14,7 @@ import ProjectIndex from './components/ProjectIndex.vue';
 import Project from './components/Project.vue';
 import VOffline from 'v-offline';
 import NavBar from './components/NavBar.vue';
+import ProjectInvitation from './components/ProjectInvitation.vue';
 
 
 
@@ -60,7 +61,7 @@ const app = new Vue({
         }
     },
 
-    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project, NavBar, VOffline},
+    components:{UserAuthForm, ForgotPassword, ProjectForm, ProjectIndex, InviteUserForm, Project, NavBar, VOffline, ProjectInvitation},
 
     methods:{
         amIOnline(e){
