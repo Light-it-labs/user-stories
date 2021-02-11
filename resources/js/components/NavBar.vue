@@ -15,7 +15,7 @@
         >
           <ul v-if="isUserLoggedIn" class="sidebar-panel-nav">
             <li @click="toggleNav"><a href="/projects" class="navBarButton">Projects</a></li>
-            <li @click="toggleNav"><button @click="$router.push({name:'create-project'})" class="navBarButton">Create Project</button></li>
+            <li @click="toggleNav"><a href="/projects/create" class="navBarButton">Create Project</a></li>
             <li @click="toggleNav"><a href="/password/reset" class="navBarButton">Change Password</a></li>
             <li @click="logOutUser()"><button class="navBarButton">LogOut</button></li>
           </ul>
