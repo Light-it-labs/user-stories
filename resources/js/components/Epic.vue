@@ -4,8 +4,8 @@
   >
     <div class="flex justify-between items-center  ">
       <div class="flex">
-        <h3 class="font-bold">{{epic.description}}</h3>
-        <div v-if="showUserStories" class="ml-2">
+        <h3 class="font-bold mr-2">{{epic.description}}</h3>
+        <div v-if="showUserStories">
           <button @click="editEpic(epic.id)" type="button"><i class="fa fa-edit"></i></button>
           <button @click="deleteEpic(epic.id)" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
         </div>
@@ -38,7 +38,7 @@
           
         >
           <p @click="navigateToUserStoryEdit(userStory)" class="hover:cursor-pointer">{{userStory.description}}</p>
-          <div>
+          <div class="ml-2">
             <button @click="navigateToUserStoryEdit(userStory)" type="button"><i class="fa fa-edit"></i></button>
             <button @click="deleteUserStory({userStoryId:userStory.id, userStoryIndex: index})" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </div>

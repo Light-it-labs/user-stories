@@ -1,5 +1,5 @@
 <template>
-  <div class="go-back">
+  <div class="go-back md:absolute">
     <span>
       <button @click="goBack"><i class="fa fa-arrow-circle-left back-icon"></i></button>
     </span>
@@ -18,7 +18,6 @@
 
 <style scoped>
   .go-back{
-    position: absolute;
     left: 0rem;
     margin-left: 24px;
     cursor: pointer;

@@ -54,7 +54,7 @@
 
                 <div class="grid grid-cols-3 gap-2 mb-2">
 
-                  <div>
+                  <div class="col-span-3 md:col-span-1">
                     <ValidationProvider name="Priority" rules="required|between:1,4" v-slot="{errors}">
                       <label for="priority" class="block text-sm font-medium text-gray-700">
                         Priority
@@ -97,7 +97,7 @@
                     </ValidationProvider>
                   </div>
 
-                  <div>
+                  <div class="col-span-3 md:col-span-1">
                     <ValidationProvider name="Risk" rules="required|between:1,4" v-slot="{errors}">
                       <label for="risk" class="block text-sm font-medium text-gray-700">
                         Risk
@@ -140,7 +140,7 @@
                     </ValidationProvider>
                   </div>
 
-                  <div>
+                  <div class="col-span-3 md:col-span-1">
                     <ValidationProvider name="Value" rules="required|between:1,4" v-slot="{errors}">
                       <label for="value" class="block text-sm font-medium text-gray-700">
                         Value
