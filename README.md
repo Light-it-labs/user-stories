@@ -32,9 +32,22 @@ Mailtrap is a fake SMTP server to test and view emails sent from the development
 -   Signup for a free account on [mailtrap.io](https://mailtrap.io)
 -   Set your `MAIL_USERNAME` and `MAIL_PASSWORD` in your `.env` file
 
+### Pusher
+
+Pusher is a hosted service that makes it easy to add real-time data and functionality to web and mobile applications
+
+-   Signup for a free account on [pusher.com](https://pusher.com)
+-   Set your `PUSHER_APP_ID`, `PUSHER_APP_KEY` and `PUSHER_APP_SECRET` in your `.env` file
+
 ## Workflows
 
 ### Compiling assets
+
+You can compile assets inside the workbench:
+
+```
+npm run dev
+```
 
 To continuously watch for file changes:
 
