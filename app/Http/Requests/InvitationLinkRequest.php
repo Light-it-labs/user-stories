@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use App\Models\Invite;
 use App\Models\Project;
+use App\User;
+use Illuminate\Support\Facades\DB;
 
 class InvitationLinkRequest extends FormRequest
 {
@@ -42,16 +44,14 @@ class InvitationLinkRequest extends FormRequest
 
                 $validator->errors()->add('email', 'A invitation for this project to this email already exists!');
             }    
-
-            $project = Project::findOrFail($this->project_id);
-
-            if($project->whereHas('users', function($user){
-                $user->where('email', $this->email);
-            })->exists()){
+            
+            if(Project::where('id', $this->project_id)
+                ->whereHas('users', function($user){
+                    $user->where('email', '=', $this->email);
+                })->exists()){
 
                 $validator->errors()->add('email', 'This user is already working on the project');
             }    
-        
         });
 
         

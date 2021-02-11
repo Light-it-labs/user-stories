@@ -16,14 +16,15 @@ use App\Http\Requests\InvitedUserSignUpRequest;
 use App\Http\Requests\InvitationLinkRequest;
 use App\Http\Requests\ExistingUserInvitatationRequest;
 use App\User;
+use App\Models\Project;
 
 class InviteController
 {
-    public function sendInvitationLink(InvitationLinkRequest $request)
+    public function sendInvitationLink(Project $project, InvitationLinkRequest $request)
     {
         try
         {
-            if(!$request->user()->can_invite_new_users_to_project($request->project_id)){
+            if(!$request->user()->has_full_permissions_to_project($project)){
                 return response()->json([
                     'success' => false,
                     'message' => 'Not authorized'
@@ -34,32 +35,23 @@ class InviteController
             Invite::create([
                 'token' => $token,
                 'email' => $request->input('email'),
-                'project_id' => $request->project_id,
+                'project_id' => $project->id,
             ]);
+            
+            $params = [
+                'token' => $token,
+                'email' => $request->email,
+                'project_id' => $project->id,
+                'project_name' => $project->name,
+                'invitation_owner' => $request->user()->email,
+            ];
 
             if (User::where('email', $request->input('email'))->exists()){
-
-                $url = URL::temporarySignedRoute(
-                    'existingUserInvitation', now()->addMinutes(300), [
-                        'token' => $token,
-                        'email' => $request->input('email'),
-                        'project_id' => $request->input('project_id'),
-                        'invitation_owner' => $request->user()->email,
-                    ]
-                );
-
-                Notification::route('mail', $request->email)->notify(new ExistingUserInvitationNotification($url));
+                $url = URL::temporarySignedRoute('existingUserInvitation', now()->addMinutes(300), $params);
+                Notification::route('mail', $request->email)->notify(new ExistingUserInvitationNotification($url, $params));
             }else{
-
-                $url = URL::temporarySignedRoute(
-                    'invitation', now()->addMinutes(300), [
-                        'token' => $token,
-                        'email' => $request->input('email'),
-                        'project_id' => $request->input('project_id'),
-                    ]
-                );
-
-                Notification::route('mail', $request->email)->notify(new InviteNotification($url));
+                $url = URL::temporarySignedRoute('invitation', now()->addMinutes(300), $params);
+                Notification::route('mail', $request->email)->notify(new InviteNotification($url, $params));
             }
     
             return response()->json([
@@ -140,6 +132,31 @@ class InviteController
 
         }catch(Exception $ex)
         {
+            return response()->json([
+                'success' => false,
+                'errors' => $ex->getMessage()
+            ], 500);
+        }
+        
+    }
+
+    /**
+     * Show the profile for the given user.
+     *
+     * @param  int  $project_id
+     * @return View
+     */
+    public function showInviteUserView(Project $project, Request $request)
+    {
+        try{
+            $isAllowed = $request->user()->has_full_permissions_to_project($project);
+
+            return response()->json([
+                'success' => true,
+                'isAllowed' => $isAllowed
+            ], 200);
+            
+        }catch(Exception $ex){
             return response()->json([
                 'success' => false,
                 'errors' => $ex->getMessage()

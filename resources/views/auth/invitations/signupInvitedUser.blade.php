@@ -2,6 +2,6 @@
 
 @section('content')
 
-<Invite-User-Form button-text="SignUp" has-token="True"></Invite-User-Form>
+<Invite-User-Form button-text="SignUp" has-token={{"true"}}></Invite-User-Form>
     
 @endsection

@@ -33,7 +33,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('user', 'Auth\AuthController@user');
         Route::get('logout', 'Auth\AuthController@logout');
-        Route::post('invite', 'Auth\InviteController@sendInvitationLink');
+        
 
         // ---------------- Project ----------------
         Route::get('/projects', 'ProjectController@index');
@@ -43,9 +43,8 @@ Route::group(['prefix' => 'auth'], function () {
         Route::put('projects/{project}', 'ProjectController@update');
         Route::get('projects/{project}/delete', 'ProjectController@delete'); 
         Route::get('projects/{project}/download', 'ExportController@projectExport');
-        // Route::get('projects/{project}/download', function(Project $project) {
-        //     return Excel::download(new ProjectExport($project), "$project->name.xlsx");
-        // });
+        Route::get('/projects/{project}/invite', 'Auth\InviteController@showInviteUserView');
+        Route::post('projects/{project}/invite', 'Auth\InviteController@sendInvitationLink');
         
         // ----------------        ----------------
 

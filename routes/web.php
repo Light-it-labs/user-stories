@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +36,7 @@ Route::get('/password/reset', function(){
     return view('auth.passwords.forgotPassword');
 });
 
-Route::get('/users/invite/', function(){
-    return view('auth.invitations.inviteUser');
-});
-
-Route::view('users/signup/invitation/', 'auth.invitations.signupInvitedUser')->name('invitation');
-Route::view('users/invitation/', 'auth.invitations.acceptProjectInvitation')->name('existingUserInvitation');
+Route::view('invitation/signup', 'auth.invitations.signupInvitedUser')->name('invitation');
+Route::view('invitation/accept', 'auth.invitations.acceptProjectInvitation')->name('existingUserInvitation');
 
 Route::view('forgot_password', 'auth.passwords.resetPassword')->name('password.reset');
