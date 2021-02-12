@@ -4,9 +4,9 @@
     'min-h-screen flex flex-col pb-2 sm:px-2 lg:px-8 opacity-20 pointer-events-none': $root.onLine === false,
   }">
     
-    <div class="w-full mb-2 flex justify-center items-center relative">
-      <BackButton></BackButton>
-      <h2 class="m-0">{{title}}</h2>
+    <div class="w-full grid grid-cols-6 mb-2 md:flex justify-center items-center md:relative">
+      <BackButton class="col-span-1"></BackButton>
+      <h2 class="m-0 col-span-4">{{title}}</h2>
     </div>
 
     <LastSaved
@@ -50,7 +50,7 @@
                 </div>
             
 
-              <div class="bg-gray-600 p-4 border-t-2 bg-opacity-5 border-gray-400 rounded mt-4">
+              <div class="bg-gray-600 p-2 md:p-4 border-t-2 bg-opacity-5 border-gray-400 rounded mt-4">
                 <div class="flex justify-between items-center md:w-full md:mx-0">
                   <h2 class="font-medium text-gray-700">User Stories</h2>
                   <button 

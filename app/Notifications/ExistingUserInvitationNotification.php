@@ -8,19 +8,22 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
-class ExistingUserInvitationNotification extends Notification
+class ExistingUserInvitationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $notification_url;
+    protected $params;
 
     /**
      * Create a new notification instance.
      *
      * @param $notification_url
      */
-    public function __construct($notification_url)
+    public function __construct($notification_url, $params)
     {
         $this->notification_url = $notification_url;
+        $this->params = $params;
+        
     }
 
     /**
@@ -44,7 +47,9 @@ class ExistingUserInvitationNotification extends Notification
     {
         return (new MailMessage)
             ->subject(Lang::get('Invitation to Project'))
-            ->line(Lang::get('You are receiving this email because someone invite you to contribute in a project'))
+            ->greeting("Hello {$this->params['email']}")
+            ->line(Lang::get("You are receiving this email because {$this->params['invitation_owner']} invite 
+            you to contribute in {$this->params['project_name']} project ")) 
             ->action(Lang::get('Accept Invitation'), $this->notification_url)
             ->line(Lang::get('Thank you!'));
     }

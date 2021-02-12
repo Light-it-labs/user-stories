@@ -188,7 +188,7 @@ import BackButton from './BackButton.vue';
             image: null,
             remember_me: false,
             token: this.$route.query.token,
-            project_id: this.$route.query.project_id,
+            project_id: this.$route.params.id,
         },
 
         rePassword: "",
@@ -231,7 +231,7 @@ import BackButton from './BackButton.vue';
 
       async sentInvitationLink(){
         try{
-          const response = await axios.post('/api/auth/invite', {
+          const response = await axios.post(`/api/auth/projects/${this.userInfo.project_id}/invite`, {
             email: this.userInfo.email,
             project_id: this.userInfo.project_id
           });
@@ -239,6 +239,18 @@ import BackButton from './BackButton.vue';
 
         }catch(e){
           Vue.$toast.error(e.response.data.errors.email[0]);
+        }
+      },
+
+      async fetchUserPermission(){
+        try{
+          const response = await axios.get(`/api/auth/projects/${this.userInfo.project_id}/invite`);
+          if(response.status === 200 && response.data.isAllowed === false){
+            this.$router.push({name: 'project', params: {id: this.userInfo.project_id}});
+          }
+        }catch(e){
+          Vue.$toast.error(e.response.message);
+          this.$router.push({name: 'project', params: {id: this.userInfo.project_id}});
         }
       },
 
@@ -255,6 +267,15 @@ import BackButton from './BackButton.vue';
         e.preventDefault();
       }
     },
+
+
+    mounted(){
+      if(this.hasToken){
+        this.userInfo.project_id = this.$route.query.project_id;
+      }else{
+        this.fetchUserPermission();
+      }
+    }
     
   }
 </script>

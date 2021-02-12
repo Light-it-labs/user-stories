@@ -54,7 +54,7 @@
               <td class="px-6 py-4 text-right text-sm font-medium flex flex-col flex-end items-end">
                 <button @click="$router.push({name:'edit-project', params: {id:project.id, objectProject:project}})" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Edit</button>
                 <div v-if="project.pivot.role_id === 1" class="flex flex-col">
-                  <a :href="'/users/invite/?project_id=' + project.id" class="text-indigo-600 hover:text-indigo-900 mb-2 no-underline hover:no-underline">Invite</a>
+                  <button @click="$router.push({name:'invite-to-project', params: {id:project.id}})" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Invite</button>
                   <button @click="showDeleteModal(project.id)" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Delete</button>
                 </div>
                 <button @click="downloadProject(project)" type="button" class="text-indigo-600 hover:text-indigo-900 mb-2">Download</button>

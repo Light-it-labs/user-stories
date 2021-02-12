@@ -1,14 +1,14 @@
 <template>
   <div :class="{
-    'bg-white pb-4 px-4 rounded-md w-full': $root.onLine === true || $root.onLine === null,
-    'bg-white pb-4 px-4 rounded-md w-full opacity-20 pointer-events-none': $root.onLine === false,
+    'bg-white pb-4 px-2 md:px-4 rounded-md w-full': $root.onLine === true || $root.onLine === null,
+    'bg-white pb-4 px-2 md:px-4 rounded-md w-full opacity-20 pointer-events-none': $root.onLine === false,
     }"
   >
-    <div class="w-full pt-6 flex justify-center items-center relative">
-      <BackButton></BackButton>
-      <h2 class="m-0 text-center">{{project.name}}</h2>
+    <div class="w-full pt-6 grid grid-cols-6 grid-rows-2 md:relative md:flex justify-center items-center ">
+      <BackButton class="col-span-1 row-start-1"></BackButton>
+      <h2 class="mb-2 md:m-0 text-center col-span-4 row-start-1 row-end-1">{{project.name}}</h2>
 
-      <div class="text-center absolute right-0">
+      <div class="text-center md:absolute md:right-0 col-span-6 row-start-2">
         <button @click="$router.push({name:'epic', params:{id:'new', projectId: project.id}})" type="button" class="basicButton">New Epic</button>
         <button @click="$router.push({name:'project-dashboard', props:{id: project.id}})" class="basicButton">Dashboard</button>
       </div>

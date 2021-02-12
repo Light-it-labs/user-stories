@@ -247,6 +247,16 @@ export default {
       e.preventDefault();
     },
   },
+
+  mounted(){
+    const user = JSON.parse(localStorage.getItem("user"));
+    const acces_token = JSON.parse(localStorage.getItem("access_token"));
+
+    if(user && acces_token){
+      window.location.href = '/projects';
+    }
+  },
+
 };
 </script>
 
