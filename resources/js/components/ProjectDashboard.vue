@@ -28,9 +28,14 @@
 
       <div class="col-span-1 md:col-span-4 dashboard-box h-80 overflow-scroll">
         <h2 class="mb-1">Strategic User Stories</h2>
-        <ul>
-          <li class="text-sm" v-for="(description, index) in strategicUserStoriesDescription" :key="index">{{description}}</li>
-        </ul>
+        <div v-if="strategicUserStoriesDescription.length > 0">
+          <ul>
+            <li class="text-sm" v-for="(description, index) in strategicUserStoriesDescription" :key="index">{{description}}</li>
+          </ul>
+        </div>
+        <div v-else>
+          <p class="text-center">No strategic User Stories at the moment!</p>
+        </div>
       </div>
       
       <div class="col-span-6 grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -16,6 +16,7 @@ class Epic extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
+    protected $touches = ['project'];
 
     /*
     |--------------------------------------------------------------------------

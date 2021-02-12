@@ -14,14 +14,14 @@
           :isNavOpenProp="isNavOpen"
         >
           <ul v-if="isUserLoggedIn" class="sidebar-panel-nav">
-            <li @click="toggleNav"><a href="/projects" class="navBarButton">Projects</a></li>
-            <li @click="toggleNav"><a href="/projects/create" class="navBarButton">Create Project</a></li>
-            <li @click="toggleNav"><a href="/password/reset" class="navBarButton">Change Password</a></li>
-            <li @click="logOutUser()"><button class="navBarButton">LogOut</button></li>
+            <li class="block" @click="toggleNav"><a href="/projects" class="navBarButton">Projects</a></li>
+            <li class="block" @click="toggleNav"><a href="/projects/create" class="navBarButton">Create Project</a></li>
+            <li class="block" @click="toggleNav"><a href="/password/reset" class="navBarButton">Change Password</a></li>
+            <li class="block" @click="logOutUser()"><button class="navBarButton">LogOut</button></li>
           </ul>
           <ul v-else class="sidebar-panel-nav">
-            <li @click="toggleNav"><a href="/login" class="navBarButton">LogIn</a></li>
-            <li @click="toggleNav"><a href="/signup" class="navBarButton">SignUp</a></li>
+            <li class="block" @click="toggleNav"><a href="/login" class="navBarButton">LogIn</a></li>
+            <li class="block" @click="toggleNav"><a href="/signup" class="navBarButton">SignUp</a></li>
           </ul>
         </SideBar>
 
