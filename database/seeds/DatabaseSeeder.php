@@ -13,5 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserSeeder::class);
         $this->call(RolesAndPermissionsSeeder::class);
+        $this->call(ProjectSeeder::class);
+        $this->call(Project_User_RoleSeeder::class);
+        $this->call(EpicSeeder::class);
+        $this->call(UserStorySeeder::class);
     }
 }
