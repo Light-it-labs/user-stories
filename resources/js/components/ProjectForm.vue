@@ -3,7 +3,7 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <img 
         class="mx-auto h-14 w-auto" 
-        src="/storage/logos/lightit-logo.png" 
+        src="/img/logos/lightit-logo.png" 
         alt="LightIt-Logo">
     </div>
     <div class="w-full pt-6 mb-2 grid grid-cols-6 md:flex justify-center items-center md:relative">

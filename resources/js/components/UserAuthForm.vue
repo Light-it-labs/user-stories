@@ -4,7 +4,7 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
     <img 
       class="mx-auto h-12 w-auto" 
-      src="/storage/logos/lightit-logo.png" 
+      src="/img/logos/lightit-logo.png" 
       alt="LightIt-Logo">
     <div v-if="isSignup" class="w-full pt-6 mb-2 flex justify-center items-center relative">
       <h2 class="m-0 text-center text-3xl font-extrabold text-gray-900">Sign Up</h2>
